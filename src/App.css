@@ -1,0 +1,62 @@
+/* Minecraft-specific decorative elements */
+.theme-minecraft .mc-block {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Floating particles for Lalilo theme */
+.theme-lalilo .particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Smooth page transitions */
+.page-enter {
+  animation: slideUp 0.4s ease-out;
+}
+
+/* Hover glow effect for Lalilo */
+.lal-glow:hover {
+  box-shadow: 0 0 20px rgba(155, 89, 182, 0.3),
+              0 0 40px rgba(255, 105, 180, 0.2);
+}
+
+/* Pixel border for Minecraft */
+.mc-border {
+  border: 4px solid #555;
+  box-shadow: inset 0 0 0 2px #333,
+              inset 0 0 0 4px #777;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(155, 89, 182, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(155, 89, 182, 0.5);
+}
+
+/* Selection color */
+::selection {
+  background: rgba(155, 89, 182, 0.3);
+  color: inherit;
+}
