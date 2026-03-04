@@ -52,6 +52,10 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
   const subjectNames = {
     math: isMinecraft ? 'MATHEMATIQUES' : 'Mathematiques',
     french: isMinecraft ? 'FRANCAIS' : 'Francais',
+    history: isMinecraft ? 'HISTOIRE' : 'Histoire',
+    geography: isMinecraft ? 'GEOGRAPHIE' : 'Geographie',
+    science: isMinecraft ? 'SCIENCES' : 'Sciences',
+    english: isMinecraft ? 'ANGLAIS' : 'Anglais',
   }
 
   if (selectedLevel) {
