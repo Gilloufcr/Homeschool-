@@ -1,13 +1,21 @@
 import { useState } from 'react'
 import LevelMap from '../components/LevelMap'
+import LessonView from '../components/LessonView'
 import ExerciseCard from '../components/ExerciseCard'
 import XPBar from '../components/XPBar'
 
 const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack }) => {
   const [selectedLevel, setSelectedLevel] = useState(null)
+  const [showLesson, setShowLesson] = useState(false)
   const [currentExIdx, setCurrentExIdx] = useState(0)
 
   const isMinecraft = profile.theme === 'minecraft'
+
+  const handleSelectLevel = (level) => {
+    setSelectedLevel(level)
+    setCurrentExIdx(0)
+    setShowLesson(!!level.lesson)
+  }
 
   const handleExerciseComplete = (exerciseId, xp) => {
     onComplete(exerciseId, xp, subject)
@@ -58,8 +66,8 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
     english: isMinecraft ? 'ANGLAIS' : 'Anglais',
   }
 
-  if (selectedLevel) {
-    const exercise = selectedLevel.exercises[currentExIdx]
+  // Lesson view (before exercises)
+  if (selectedLevel && showLesson && selectedLevel.lesson) {
     const levelName = isMinecraft ? selectedLevel.nameMinecraft : selectedLevel.nameLalilo
 
     return (
@@ -67,10 +75,54 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
         <div style={{ maxWidth: '700px', margin: '0 auto' }}>
           <button
             style={backBtnStyle}
-            onClick={() => { setSelectedLevel(null); setCurrentExIdx(0) }}
+            onClick={() => { setSelectedLevel(null); setShowLesson(false); setCurrentExIdx(0) }}
           >
             {isMinecraft ? '< RETOUR' : 'Retour aux niveaux'}
           </button>
+
+          <div style={{ ...titleStyle, marginTop: '15px' }}>
+            {isMinecraft ? `> ${levelName}` : levelName}
+          </div>
+
+          <LessonView
+            lesson={selectedLevel.lesson}
+            theme={profile.theme}
+            onStartExercises={() => setShowLesson(false)}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  // Exercise view
+  if (selectedLevel) {
+    const exercise = selectedLevel.exercises[currentExIdx]
+    const levelName = isMinecraft ? selectedLevel.nameMinecraft : selectedLevel.nameLalilo
+
+    return (
+      <div style={pageStyle}>
+        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '15px', flexWrap: 'wrap' }}>
+            <button
+              style={backBtnStyle}
+              onClick={() => { setSelectedLevel(null); setShowLesson(false); setCurrentExIdx(0) }}
+            >
+              {isMinecraft ? '< NIVEAUX' : 'Retour aux niveaux'}
+            </button>
+            {selectedLevel.lesson && (
+              <button
+                style={{
+                  ...backBtnStyle,
+                  background: isMinecraft ? '#4CAF50' : 'rgba(46,204,113,0.1)',
+                  color: isMinecraft ? '#fff' : '#27AE60',
+                  border: isMinecraft ? '2px outset #4CAF50' : 'none',
+                }}
+                onClick={() => setShowLesson(true)}
+              >
+                {isMinecraft ? '< LECON' : 'Revoir la lecon'}
+              </button>
+            )}
+          </div>
 
           <XPBar xp={progress.xp} level={progress.level} theme={profile.theme} />
 
@@ -152,7 +204,7 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
           theme={profile.theme}
           playerLevel={progress.level}
           completedExercises={progress.completedExercises}
-          onSelectLevel={setSelectedLevel}
+          onSelectLevel={handleSelectLevel}
         />
       </div>
     </div>

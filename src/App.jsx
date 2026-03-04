@@ -12,15 +12,24 @@ import { scienceLevels } from './data/scienceExercises'
 import { englishLevels } from './data/englishExercises'
 import { useProgress } from './hooks/useProgress'
 import { parentLogin, getLessons } from './api'
+import { lessons as lessonContent } from './data/lessonContent'
 import './App.css'
 
+// Attach lesson content to built-in levels
+function attachLessons(levels) {
+  return levels.map(level => ({
+    ...level,
+    lesson: lessonContent[level.id] || null,
+  }))
+}
+
 const BUILTIN_LEVELS = {
-  math: mathLevels,
-  french: frenchLevels,
-  history: historyLevels,
-  geography: geographyLevels,
-  science: scienceLevels,
-  english: englishLevels,
+  math: attachLessons(mathLevels),
+  french: attachLessons(frenchLevels),
+  history: attachLessons(historyLevels),
+  geography: attachLessons(geographyLevels),
+  science: attachLessons(scienceLevels),
+  english: attachLessons(englishLevels),
 }
 
 function App() {
