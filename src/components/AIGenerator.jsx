@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { generateExercises } from '../api'
+import { getTopicSuggestions } from '../data/curriculum'
 
 const SUBJECTS = [
   { id: 'math', label: 'Mathematiques', icon: '🔢' },
@@ -11,31 +12,30 @@ const SUBJECTS = [
 ]
 
 const LEVELS = [
-  { id: 'CE2', label: 'CE2 (8-9 ans)' },
-  { id: 'CM1', label: 'CM1 (9-10 ans)' },
-  { id: 'CM2', label: 'CM2 (10-11 ans)' },
-  { id: '6eme', label: '6eme (11-12 ans)' },
-  { id: '5eme', label: '5eme (12-13 ans)' },
+  { id: 'CE2', label: 'CE2 (8-9 ans)', age: '8-9' },
+  { id: 'CM1', label: 'CM1 (9-10 ans)', age: '9-10' },
+  { id: 'CM2', label: 'CM2 (10-11 ans)', age: '10-11' },
+  { id: '6eme', label: '6eme (11-12 ans)', age: '11-12' },
+  { id: '5eme', label: '5eme (12-13 ans)', age: '12-13' },
 ]
 
-const TOPIC_SUGGESTIONS = {
-  math: ['Les fractions', 'Geometrie', 'Proportionnalite', 'Calcul mental', 'Nombres decimaux', 'Problemes', 'Symetrie', 'Mesures et conversions'],
-  french: ['Conjugaison present', 'Accord du participe passe', 'Les homophones', 'Vocabulaire', 'Comprehension de texte', 'Types de phrases', 'Les pronoms'],
-  history: ['La Revolution francaise', 'L\'Antiquite grecque', 'Le Moyen Age', 'La Renaissance', 'Les Grandes Decouvertes', 'La Prehistoire', 'L\'Empire romain'],
-  geography: ['Les continents', 'Le relief francais', 'Les climats', 'Les oceans', 'L\'Union europeenne', 'Les capitales du monde', 'Fleuves et rivieres de France'],
-  science: ['Le systeme solaire', 'Le corps humain', 'La chaine alimentaire', 'L\'eau et ses etats', 'L\'electricite', 'Les volcans', 'La reproduction des plantes'],
-  english: ['Greetings', 'Colors and numbers', 'Present simple', 'Food and drinks', 'My family', 'The weather', 'Past simple'],
-}
-
-export default function AIGenerator({ onGenerated }) {
+export default function AIGenerator({ onGenerated, existingLessons = [] }) {
   const [subject, setSubject] = useState('math')
   const [topic, setTopic] = useState('')
   const [level, setLevel] = useState('CM2')
   const [count, setCount] = useState(5)
-  const [childAge, setChildAge] = useState('10-12')
   const [generating, setGenerating] = useState(false)
   const [preview, setPreview] = useState(null)
   const [error, setError] = useState('')
+
+  // Get curriculum-based suggestions for current level + subject
+  const curriculumTopics = getTopicSuggestions(level, subject)
+  const childAge = LEVELS.find(l => l.id === level)?.age || '10-11'
+
+  // Collect existing questions to avoid redundancy
+  const existingQuestions = existingLessons
+    .filter(l => l.subject === subject)
+    .flatMap(l => (l.exercises || []).map(e => e.question))
 
   const handleGenerate = async () => {
     if (!topic.trim()) {
@@ -53,6 +53,7 @@ export default function AIGenerator({ onGenerated }) {
         level,
         count,
         childAge,
+        existingQuestions: existingQuestions.slice(0, 50),
       })
       setPreview(lesson)
     } catch (e) {
@@ -82,6 +83,14 @@ export default function AIGenerator({ onGenerated }) {
       fontWeight: '700',
       color: 'rgba(255,255,255,0.8)',
       marginBottom: '10px',
+      display: 'block',
+    },
+    sublabel: {
+      fontFamily: "'Quicksand', sans-serif",
+      fontSize: '0.7rem',
+      fontWeight: '400',
+      color: 'rgba(255,255,255,0.4)',
+      marginBottom: '8px',
       display: 'block',
     },
     subjectGrid: {
@@ -119,17 +128,17 @@ export default function AIGenerator({ onGenerated }) {
       flexWrap: 'wrap',
       marginTop: '10px',
     },
-    suggestionBtn: {
+    suggestionBtn: (isCurriculum) => ({
       padding: '6px 14px',
       borderRadius: '20px',
-      border: '1px solid rgba(155,89,182,0.2)',
-      background: 'rgba(155,89,182,0.08)',
-      color: 'rgba(255,255,255,0.7)',
+      border: `1px solid ${isCurriculum ? 'rgba(46,204,113,0.3)' : 'rgba(155,89,182,0.2)'}`,
+      background: isCurriculum ? 'rgba(46,204,113,0.08)' : 'rgba(155,89,182,0.08)',
+      color: isCurriculum ? 'rgba(46,204,113,0.9)' : 'rgba(255,255,255,0.7)',
       fontFamily: "'Quicksand', sans-serif",
       fontSize: '0.75rem',
       cursor: 'pointer',
       transition: 'all 0.2s ease',
-    },
+    }),
     select: {
       width: '100%',
       padding: '12px 16px',
@@ -242,6 +251,18 @@ export default function AIGenerator({ onGenerated }) {
       marginRight: '10px',
       verticalAlign: 'middle',
     },
+    badge: {
+      display: 'inline-block',
+      padding: '2px 8px',
+      borderRadius: '8px',
+      background: 'rgba(46,204,113,0.15)',
+      color: '#2ECC71',
+      fontFamily: "'Quicksand', sans-serif",
+      fontSize: '0.65rem',
+      fontWeight: '600',
+      marginLeft: '6px',
+      verticalAlign: 'middle',
+    },
   }
 
   return (
@@ -264,33 +285,11 @@ export default function AIGenerator({ onGenerated }) {
         </div>
       </div>
 
-      {/* Topic */}
-      <div style={s.section}>
-        <label style={s.label}>Sujet / Theme de la lecon</label>
-        <input
-          style={s.input}
-          placeholder="Ex: Les fractions, La Revolution francaise..."
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-        />
-        <div style={s.suggestions}>
-          {(TOPIC_SUGGESTIONS[subject] || []).map((sug) => (
-            <button
-              key={sug}
-              style={s.suggestionBtn}
-              onClick={() => setTopic(sug)}
-            >
-              {sug}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Level & count */}
       <div style={{ ...s.section, ...s.row }}>
         <div style={{ flex: 1 }}>
-          <label style={s.label}>Niveau</label>
-          <select style={s.select} value={level} onChange={(e) => setLevel(e.target.value)}>
+          <label style={s.label}>Niveau scolaire</label>
+          <select style={s.select} value={level} onChange={(e) => { setLevel(e.target.value); setTopic('') }}>
             {LEVELS.map((l) => (
               <option key={l.id} value={l.id}>{l.label}</option>
             ))}
@@ -306,17 +305,51 @@ export default function AIGenerator({ onGenerated }) {
         </div>
       </div>
 
-      {/* Age */}
+      {/* Topic */}
       <div style={s.section}>
-        <label style={s.label}>Age de l'enfant</label>
-        <select style={s.select} value={childAge} onChange={(e) => setChildAge(e.target.value)}>
-          <option value="8-9">8-9 ans</option>
-          <option value="9-10">9-10 ans</option>
-          <option value="10-11">10-11 ans</option>
-          <option value="10-12">10-12 ans</option>
-          <option value="12-13">12-13 ans</option>
-        </select>
+        <label style={s.label}>
+          Sujet / Theme
+          {curriculumTopics.length > 0 && (
+            <span style={s.badge}>Programme officiel EN</span>
+          )}
+        </label>
+        <span style={s.sublabel}>
+          Les sujets verts suivent le programme officiel de l'Education nationale ({level}).
+        </span>
+        <input
+          style={s.input}
+          placeholder="Choisissez un sujet ci-dessous ou tapez le votre..."
+          value={topic}
+          onChange={(e) => setTopic(e.target.value)}
+        />
+        <div style={s.suggestions}>
+          {curriculumTopics.map((sug) => (
+            <button
+              key={sug}
+              style={s.suggestionBtn(true)}
+              onClick={() => setTopic(sug)}
+            >
+              {sug}
+            </button>
+          ))}
+        </div>
       </div>
+
+      {/* Existing exercises info */}
+      {existingQuestions.length > 0 && (
+        <div style={{
+          padding: '10px 16px',
+          borderRadius: '10px',
+          background: 'rgba(93,173,226,0.1)',
+          border: '1px solid rgba(93,173,226,0.2)',
+          fontFamily: "'Quicksand', sans-serif",
+          fontSize: '0.8rem',
+          color: 'rgba(93,173,226,0.8)',
+          marginBottom: '15px',
+        }}>
+          ℹ️ {existingQuestions.length} exercice(s) existant(s) en {SUBJECTS.find(s => s.id === subject)?.label} — les nouveaux seront differents.
+        </div>
+      )}
 
       {error && <div style={s.error}>{error}</div>}
 

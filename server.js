@@ -144,7 +144,7 @@ app.post('/api/generate', requireParent, async (req, res) => {
     })
   }
 
-  const { subject, topic, level, count, childAge } = req.body
+  const { subject, topic, level, count, childAge, existingQuestions } = req.body
 
   if (!subject || !topic) {
     return res.status(400).json({ error: 'Matiere et sujet requis' })
@@ -152,11 +152,34 @@ app.post('/api/generate', requireParent, async (req, res) => {
 
   const anthropic = new Anthropic({ apiKey })
 
-  const prompt = `Tu es un professeur francais expert en pedagogie pour enfants de ${childAge || '10-12'} ans en instruction en famille.
+  // Build anti-redundancy section
+  let antiRedundancy = ''
+  if (existingQuestions && existingQuestions.length > 0) {
+    antiRedundancy = `\n\nATTENTION ANTI-REDONDANCE : Voici les questions qui existent DEJA. Tu dois generer des questions DIFFERENTES, ni identiques ni des variations mineures :\n${existingQuestions.map(q => `- "${q}"`).join('\n')}\n`
+  }
 
-Genere exactement ${count || 5} exercices de ${subject} sur le theme "${topic}" pour un enfant de niveau ${level || 'CM2/6eme'}.
+  const prompt = `Tu es un professeur francais expert en pedagogie, specialise dans l'instruction en famille (IEF) pour enfants de ${childAge || '10-12'} ans.
 
-IMPORTANT: Reponds UNIQUEMENT avec un JSON valide, sans texte avant ou apres. Le format doit etre:
+Tu generes des exercices pour une application d'apprentissage qui suit les PROGRAMMES OFFICIELS DE L'EDUCATION NATIONALE francaise.
+
+MATIERE : ${subject}
+THEME : "${topic}"
+NIVEAU : ${level || 'CM2'}
+
+CONSIGNES PEDAGOGIQUES :
+- Exercices conformes au programme officiel du ${level || 'CM2'} de l'Education nationale
+- Difficulte adaptee au niveau scolaire
+- Progression : commence facile et augmente graduellement
+- Explications claires et pedagogiques
+- Vocabulaire adapte a l'age (${childAge || '10-12'} ans)
+- Pour les maths : nombres et operations du programme ${level || 'CM2'}
+- Pour le francais : regles et textes au programme ${level || 'CM2'}
+- Pour histoire/geo/sciences : periodes et themes au programme ${level || 'CM2'}
+${antiRedundancy}
+
+Genere exactement ${count || 5} exercices.
+
+IMPORTANT: Reponds UNIQUEMENT avec un JSON valide, sans texte avant ou apres :
 
 {
   "levelName": "Nom du niveau",
@@ -170,25 +193,22 @@ IMPORTANT: Reponds UNIQUEMENT avec un JSON valide, sans texte avant ou apres. Le
       "answer": "La bonne reponse (texte exact d'une des options)",
       "options": ["option1", "option2", "option3", "option4"],
       "xp": 15,
-      "explanation": "Explication pedagogique courte"
+      "explanation": "Explication pedagogique courte expliquant POURQUOI c'est la bonne reponse"
     }
   ]
 }
 
 Regles:
-- Les questions doivent etre adaptees a l'age de l'enfant
-- Chaque exercice a exactement 4 options
-- La reponse "answer" doit etre exactement l'une des options
-- Les XP vont de 10 (facile) a 25 (difficile)
-- Varie la difficulte dans le set
-- Les questions sont en francais
-- Pas d'accents dans le JSON (ecris "mathematiques" pas "mathématiques")
-- Sois pedagogique et encourageant dans les explications`
+- 4 options plausibles par exercice (pas de reponses absurdes)
+- "answer" = exactement l'une des options
+- XP : 10 (facile) a 25 (difficile), varie la difficulte
+- Questions en francais, pas d'accents dans le JSON
+- Explications pedagogiques et encourageantes`
 
   try {
     const message = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 2000,
+      max_tokens: 4000,
       messages: [{ role: 'user', content: prompt }],
     })
 
