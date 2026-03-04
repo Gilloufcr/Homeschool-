@@ -1,12 +1,17 @@
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001'
 
 // ─── Detect if server is available ─────────────────────────────────
-let serverAvailable = null
+// If we're not on localhost, we're deployed (GitHub Pages etc.) → skip server
+const isDeployed = typeof window !== 'undefined' &&
+  !window.location.hostname.includes('localhost') &&
+  !window.location.hostname.includes('127.0.0.1')
+
+let serverAvailable = isDeployed ? false : null
 
 async function checkServer() {
   if (serverAvailable !== null) return serverAvailable
   try {
-    const res = await fetch(`${API_URL}/api/children`, { signal: AbortSignal.timeout(2000) })
+    const res = await fetch(`${API_URL}/api/children`, { signal: AbortSignal.timeout(1500) })
     serverAvailable = res.ok
   } catch {
     serverAvailable = false
