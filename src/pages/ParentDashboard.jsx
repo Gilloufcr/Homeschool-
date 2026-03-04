@@ -30,7 +30,7 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
       setChildren(c)
       setLessons(l)
     } catch (e) {
-      setError('Impossible de charger les donnees. Le serveur est-il lance ?')
+      setError('Impossible de charger les donnees.')
     }
   }
 
