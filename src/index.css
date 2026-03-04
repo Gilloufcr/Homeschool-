@@ -75,3 +75,23 @@ body {
   70% { transform: scale(1.2); }
   100% { transform: scale(1); opacity: 1; }
 }
+
+/* Leaflet marker overrides */
+.emoji-marker {
+  background: none !important;
+  border: none !important;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
+}
+
+.leaflet-popup-content {
+  margin: 10px !important;
+  font-family: 'Quicksand', sans-serif !important;
+}
+
+.leaflet-popup-tip {
+  box-shadow: none !important;
+}

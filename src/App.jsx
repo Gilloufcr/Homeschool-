@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import LoginScreen from './components/LoginScreen'
 import Dashboard from './pages/Dashboard'
 import SubjectPage from './pages/SubjectPage'
+import InteractiveMap from './pages/InteractiveMap'
 import ParentDashboard from './pages/ParentDashboard'
 import { mathLevels } from './data/mathExercises'
 import { frenchLevels } from './data/frenchExercises'
@@ -109,6 +110,18 @@ function App() {
     return (
       <ParentDashboard
         onLogout={() => { setIsParent(false) }}
+      />
+    )
+  }
+
+  // Interactive map
+  if (currentPage === 'map') {
+    return (
+      <InteractiveMap
+        profile={profile}
+        progress={progress}
+        onComplete={handleExerciseComplete}
+        onBack={() => setCurrentPage('dashboard')}
       />
     )
   }

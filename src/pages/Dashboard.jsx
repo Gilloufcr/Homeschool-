@@ -202,6 +202,76 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
           </div>
         )}
 
+        {/* Interactive Map Banner */}
+        <div
+          onClick={() => onNavigate('map')}
+          style={{
+            padding: isMinecraft ? '16px' : '20px',
+            borderRadius: isMinecraft ? '0' : '20px',
+            background: isMinecraft
+              ? 'linear-gradient(135deg, rgba(0,0,0,0.7), rgba(39,60,30,0.8))'
+              : 'linear-gradient(135deg, rgba(93,173,226,0.15), rgba(46,204,113,0.15))',
+            border: isMinecraft
+              ? '3px solid #4CAF50'
+              : '2px solid rgba(93,173,226,0.3)',
+            cursor: 'pointer',
+            marginBottom: '25px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '15px',
+            transition: 'all 0.3s ease',
+            boxShadow: isMinecraft ? 'none' : '0 4px 15px rgba(93,173,226,0.15)',
+            animation: 'slideUp 0.4s ease-out',
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = 'translateY(-3px) scale(1.01)'
+            e.currentTarget.style.boxShadow = isMinecraft
+              ? '0 4px 15px rgba(76,175,80,0.3)'
+              : '0 8px 25px rgba(93,173,226,0.25)'
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = 'translateY(0) scale(1)'
+            e.currentTarget.style.boxShadow = isMinecraft ? 'none' : '0 4px 15px rgba(93,173,226,0.15)'
+          }}
+        >
+          <div style={{
+            fontSize: '2.5rem',
+            animation: 'float 3s ease-in-out infinite',
+          }}>
+            🗺️
+          </div>
+          <div>
+            <div style={{
+              fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+              fontSize: isMinecraft ? '0.6rem' : '1.1rem',
+              fontWeight: '700',
+              color: isMinecraft ? '#7CFC00' : '#2C3E50',
+              marginBottom: '4px',
+            }}>
+              {isMinecraft ? '> CARTE INTERACTIVE' : 'Carte Interactive'}
+            </div>
+            <div style={{
+              fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+              fontSize: isMinecraft ? '0.35rem' : '0.8rem',
+              color: isMinecraft ? '#aaa' : '#7F8C8D',
+              lineHeight: isMinecraft ? '1.6' : '1.4',
+            }}>
+              {isMinecraft
+                ? 'Explore la carte et decouvre l\'histoire et la geo !'
+                : 'Explore le monde, decouvre des lieux historiques et reponds aux quiz !'}
+            </div>
+          </div>
+          <div style={{
+            marginLeft: 'auto',
+            fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+            fontSize: isMinecraft ? '0.5rem' : '0.9rem',
+            color: isMinecraft ? '#FFD700' : '#5DADE2',
+            fontWeight: '700',
+          }}>
+            {isMinecraft ? '>>>' : 'Explorer →'}
+          </div>
+        </div>
+
         <div style={{
           fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
           fontSize: isMinecraft ? '0.7rem' : '1.2rem',
