@@ -6,7 +6,7 @@
 export const lessons = {
   // ─── MATHS ────────────────────────────────────────────────────────
   'math-1': {
-    title: 'Additions et Soustractions',
+    title: 'CE2 - Nombres et Calculs',
     pages: [
       {
         emoji: '🧮',
@@ -26,7 +26,7 @@ export const lessons = {
     ],
   },
   'math-2': {
-    title: 'Les Multiplications',
+    title: 'CM1 - Fractions et Grands Nombres',
     pages: [
       {
         emoji: '✖️',
@@ -45,7 +45,7 @@ export const lessons = {
     ],
   },
   'math-3': {
-    title: 'Les Divisions',
+    title: 'CM2 - Decimaux et Mesures',
     pages: [
       {
         emoji: '➗',
@@ -64,7 +64,7 @@ export const lessons = {
     ],
   },
   'math-4': {
-    title: 'Les Fractions',
+    title: '6eme - Proportionnalite et Geometrie',
     pages: [
       {
         emoji: '🍕',
@@ -82,7 +82,7 @@ export const lessons = {
     ],
   },
   'math-5': {
-    title: 'La Geometrie',
+    title: '5eme - Nombres Relatifs et Calcul Litteral',
     pages: [
       {
         emoji: '📐',
@@ -102,7 +102,7 @@ export const lessons = {
 
   // ─── FRANCAIS ─────────────────────────────────────────────────────
   'fr-1': {
-    title: 'Les regles d\'orthographe',
+    title: 'CE2 - Orthographe et Grammaire',
     pages: [
       {
         emoji: '✏️',
@@ -122,7 +122,7 @@ export const lessons = {
     ],
   },
   'fr-2': {
-    title: 'La conjugaison des verbes',
+    title: 'CM1 - Conjugaison et Complements',
     pages: [
       {
         emoji: '⏰',
@@ -140,7 +140,7 @@ export const lessons = {
     ],
   },
   'fr-3': {
-    title: 'Comprendre la grammaire',
+    title: 'CM2 - Passe Simple et Voix Passive',
     pages: [
       {
         emoji: '🧩',
@@ -158,7 +158,7 @@ export const lessons = {
     ],
   },
   'fr-4': {
-    title: 'Enrichir son vocabulaire',
+    title: '6eme - Analyse Grammaticale',
     pages: [
       {
         emoji: '📚',
@@ -177,7 +177,7 @@ export const lessons = {
     ],
   },
   'fr-5': {
-    title: 'L\'art d\'ecrire',
+    title: '5eme - Propositions et Temps Avances',
     pages: [
       {
         emoji: '🎭',
@@ -197,7 +197,7 @@ export const lessons = {
 
   // ─── HISTOIRE ─────────────────────────────────────────────────────
   'hist-1': {
-    title: 'La Prehistoire',
+    title: 'CE2 - Se Reperer dans le Temps',
     pages: [
       {
         emoji: '🦴',
@@ -215,7 +215,7 @@ export const lessons = {
     ],
   },
   'hist-2': {
-    title: 'L\'Antiquite',
+    title: 'CM1 - De la Prehistoire aux Carolingiens',
     pages: [
       {
         emoji: '🏛️',
@@ -232,7 +232,7 @@ export const lessons = {
     ],
   },
   'hist-3': {
-    title: 'Le Moyen Age',
+    title: 'CM2 - Revolution, Republique et Guerres',
     pages: [
       {
         emoji: '🏰',
@@ -249,7 +249,7 @@ export const lessons = {
     ],
   },
   'hist-4': {
-    title: 'La Renaissance',
+    title: '6eme - Antiquite et Premieres Civilisations',
     pages: [
       {
         emoji: '🎨',
@@ -267,7 +267,7 @@ export const lessons = {
     ],
   },
   'hist-5': {
-    title: 'La Revolution francaise',
+    title: '5eme - Moyen Age et Renaissance',
     pages: [
       {
         emoji: '🗡️',
@@ -286,7 +286,7 @@ export const lessons = {
 
   // ─── GEOGRAPHIE ───────────────────────────────────────────────────
   'geo-1': {
-    title: 'La France',
+    title: 'CE2 - Mon Quartier et les Paysages',
     pages: [
       {
         emoji: '🇫🇷',
@@ -303,7 +303,7 @@ export const lessons = {
     ],
   },
   'geo-2': {
-    title: 'L\'Europe',
+    title: 'CM1 - Region, Economie et Transports',
     pages: [
       {
         emoji: '🇪🇺',
@@ -320,7 +320,7 @@ export const lessons = {
     ],
   },
   'geo-3': {
-    title: 'Tour du monde',
+    title: 'CM2 - Se Deplacer et Developper Durable',
     pages: [
       {
         emoji: '🌍',
@@ -337,7 +337,7 @@ export const lessons = {
     ],
   },
   'geo-4': {
-    title: 'Climats et environnement',
+    title: '6eme - Habiter le Monde',
     pages: [
       {
         emoji: '☀️',
@@ -354,7 +354,7 @@ export const lessons = {
     ],
   },
   'geo-5': {
-    title: 'Populations et villes',
+    title: '5eme - Ressources et Inegalites Mondiales',
     pages: [
       {
         emoji: '👥',
@@ -373,7 +373,7 @@ export const lessons = {
 
   // ─── SCIENCES ─────────────────────────────────────────────────────
   'sci-1': {
-    title: 'Le corps humain',
+    title: 'CE2 - Vivant, Matiere et Electricite',
     pages: [
       {
         emoji: '🫀',
@@ -390,7 +390,7 @@ export const lessons = {
     ],
   },
   'sci-2': {
-    title: 'Le Systeme solaire',
+    title: 'CM1 - Systeme Solaire et Vivant',
     pages: [
       {
         emoji: '☀️',
@@ -408,7 +408,7 @@ export const lessons = {
     ],
   },
   'sci-3': {
-    title: 'La Nature et les ecosystemes',
+    title: 'CM2 - Energie, Reproduction et Environnement',
     pages: [
       {
         emoji: '🌿',
@@ -425,7 +425,7 @@ export const lessons = {
     ],
   },
   'sci-4': {
-    title: 'L\'Energie',
+    title: '6eme - Matiere, Mouvement et Cellule',
     pages: [
       {
         emoji: '⚡',
@@ -442,7 +442,7 @@ export const lessons = {
     ],
   },
   'sci-5': {
-    title: 'La Matiere',
+    title: '5eme - Eau, Electricite et Ecosystemes',
     pages: [
       {
         emoji: '🧊',
@@ -461,7 +461,7 @@ export const lessons = {
 
   // ─── ANGLAIS ──────────────────────────────────────────────────────
   'eng-1': {
-    title: 'First Words in English',
+    title: 'CE2 - Se Presenter en Anglais',
     pages: [
       {
         emoji: '👋',
@@ -480,7 +480,7 @@ export const lessons = {
     ],
   },
   'eng-2': {
-    title: 'Daily Life in English',
+    title: 'CM1 - Decrire et Raconter',
     pages: [
       {
         emoji: '🏠',
@@ -498,7 +498,7 @@ export const lessons = {
     ],
   },
   'eng-3': {
-    title: 'English Grammar',
+    title: 'CM2 - Passe et Comparaisons',
     pages: [
       {
         emoji: '📖',
@@ -516,7 +516,7 @@ export const lessons = {
     ],
   },
   'eng-4': {
-    title: 'Reading in English',
+    title: '6eme - Temps et Quantifieurs',
     pages: [
       {
         emoji: '📚',
@@ -534,7 +534,7 @@ export const lessons = {
     ],
   },
   'eng-5': {
-    title: 'Everyday Conversation',
+    title: '5eme - Present Perfect et Modaux',
     pages: [
       {
         emoji: '💬',
