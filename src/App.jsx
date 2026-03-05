@@ -98,8 +98,10 @@ function App() {
   }
 
   // Merge built-in levels + custom AI-generated lessons for a subject
+  // Filter by child's grade
   const getLevelsForSubject = (subject) => {
-    const builtin = BUILTIN_LEVELS[subject] || []
+    const grade = profile?.grade || 'CM2'
+    const builtin = (BUILTIN_LEVELS[subject] || []).filter(l => l.grade === grade)
     const custom = customLessons.filter(l => l.subject === subject)
     return [...builtin, ...custom]
   }

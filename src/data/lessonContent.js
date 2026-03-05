@@ -5,7 +5,7 @@
 
 export const lessons = {
   // ─── MATHS ────────────────────────────────────────────────────────
-  'math-1': {
+  'math-ce2-1': {
     title: 'CE2 - Nombres et Calculs',
     pages: [
       {
@@ -25,7 +25,7 @@ export const lessons = {
       },
     ],
   },
-  'math-2': {
+  'math-cm1-1': {
     title: 'CM1 - Fractions et Grands Nombres',
     pages: [
       {
@@ -44,7 +44,7 @@ export const lessons = {
       },
     ],
   },
-  'math-3': {
+  'math-cm2-1': {
     title: 'CM2 - Decimaux et Mesures',
     pages: [
       {
@@ -63,7 +63,7 @@ export const lessons = {
       },
     ],
   },
-  'math-4': {
+  'math-6e-1': {
     title: '6eme - Proportionnalite et Geometrie',
     pages: [
       {
@@ -81,7 +81,7 @@ export const lessons = {
       },
     ],
   },
-  'math-5': {
+  'math-5e-1': {
     title: '5eme - Nombres Relatifs et Calcul Litteral',
     pages: [
       {
@@ -101,7 +101,7 @@ export const lessons = {
   },
 
   // ─── FRANCAIS ─────────────────────────────────────────────────────
-  'fr-1': {
+  'fr-ce2-1': {
     title: 'CE2 - Orthographe et Grammaire',
     pages: [
       {
@@ -121,7 +121,7 @@ export const lessons = {
       },
     ],
   },
-  'fr-2': {
+  'fr-cm1-1': {
     title: 'CM1 - Conjugaison et Complements',
     pages: [
       {
@@ -139,7 +139,7 @@ export const lessons = {
       },
     ],
   },
-  'fr-3': {
+  'fr-cm2-1': {
     title: 'CM2 - Passe Simple et Voix Passive',
     pages: [
       {
@@ -157,7 +157,7 @@ export const lessons = {
       },
     ],
   },
-  'fr-4': {
+  'fr-6e-1': {
     title: '6eme - Analyse Grammaticale',
     pages: [
       {
@@ -176,7 +176,7 @@ export const lessons = {
       },
     ],
   },
-  'fr-5': {
+  'fr-5e-1': {
     title: '5eme - Propositions et Temps Avances',
     pages: [
       {
@@ -196,7 +196,7 @@ export const lessons = {
   },
 
   // ─── HISTOIRE ─────────────────────────────────────────────────────
-  'hist-1': {
+  'hist-ce2-1': {
     title: 'CE2 - Se Reperer dans le Temps',
     pages: [
       {
@@ -214,7 +214,7 @@ export const lessons = {
       },
     ],
   },
-  'hist-2': {
+  'hist-cm1-1': {
     title: 'CM1 - De la Prehistoire aux Carolingiens',
     pages: [
       {
@@ -231,7 +231,7 @@ export const lessons = {
       },
     ],
   },
-  'hist-3': {
+  'hist-cm2-1': {
     title: 'CM2 - Revolution, Republique et Guerres',
     pages: [
       {
@@ -248,7 +248,7 @@ export const lessons = {
       },
     ],
   },
-  'hist-4': {
+  'hist-6e-1': {
     title: '6eme - Antiquite et Premieres Civilisations',
     pages: [
       {
@@ -266,7 +266,7 @@ export const lessons = {
       },
     ],
   },
-  'hist-5': {
+  'hist-5e-1': {
     title: '5eme - Moyen Age et Renaissance',
     pages: [
       {
@@ -285,7 +285,7 @@ export const lessons = {
   },
 
   // ─── GEOGRAPHIE ───────────────────────────────────────────────────
-  'geo-1': {
+  'geo-ce2-1': {
     title: 'CE2 - Mon Quartier et les Paysages',
     pages: [
       {
@@ -302,7 +302,7 @@ export const lessons = {
       },
     ],
   },
-  'geo-2': {
+  'geo-cm1-1': {
     title: 'CM1 - Region, Economie et Transports',
     pages: [
       {
@@ -319,7 +319,7 @@ export const lessons = {
       },
     ],
   },
-  'geo-3': {
+  'geo-cm2-1': {
     title: 'CM2 - Se Deplacer et Developper Durable',
     pages: [
       {
@@ -336,7 +336,7 @@ export const lessons = {
       },
     ],
   },
-  'geo-4': {
+  'geo-6e-1': {
     title: '6eme - Habiter le Monde',
     pages: [
       {
@@ -353,7 +353,7 @@ export const lessons = {
       },
     ],
   },
-  'geo-5': {
+  'geo-5e-1': {
     title: '5eme - Ressources et Inegalites Mondiales',
     pages: [
       {
@@ -372,7 +372,7 @@ export const lessons = {
   },
 
   // ─── SCIENCES ─────────────────────────────────────────────────────
-  'sci-1': {
+  'sci-ce2-1': {
     title: 'CE2 - Vivant, Matiere et Electricite',
     pages: [
       {
@@ -389,7 +389,7 @@ export const lessons = {
       },
     ],
   },
-  'sci-2': {
+  'sci-cm1-1': {
     title: 'CM1 - Systeme Solaire et Vivant',
     pages: [
       {
@@ -407,7 +407,7 @@ export const lessons = {
       },
     ],
   },
-  'sci-3': {
+  'sci-cm2-1': {
     title: 'CM2 - Energie, Reproduction et Environnement',
     pages: [
       {
@@ -424,7 +424,7 @@ export const lessons = {
       },
     ],
   },
-  'sci-4': {
+  'sci-6e-1': {
     title: '6eme - Matiere, Mouvement et Cellule',
     pages: [
       {
@@ -441,7 +441,7 @@ export const lessons = {
       },
     ],
   },
-  'sci-5': {
+  'sci-5e-1': {
     title: '5eme - Eau, Electricite et Ecosystemes',
     pages: [
       {
@@ -460,7 +460,7 @@ export const lessons = {
   },
 
   // ─── ANGLAIS ──────────────────────────────────────────────────────
-  'eng-1': {
+  'eng-ce2-1': {
     title: 'CE2 - Se Presenter en Anglais',
     pages: [
       {
@@ -479,7 +479,7 @@ export const lessons = {
       },
     ],
   },
-  'eng-2': {
+  'eng-cm1-1': {
     title: 'CM1 - Decrire et Raconter',
     pages: [
       {
@@ -497,7 +497,7 @@ export const lessons = {
       },
     ],
   },
-  'eng-3': {
+  'eng-cm2-1': {
     title: 'CM2 - Passe et Comparaisons',
     pages: [
       {
@@ -515,7 +515,7 @@ export const lessons = {
       },
     ],
   },
-  'eng-4': {
+  'eng-6e-1': {
     title: '6eme - Temps et Quantifieurs',
     pages: [
       {
@@ -533,7 +533,7 @@ export const lessons = {
       },
     ],
   },
-  'eng-5': {
+  'eng-5e-1': {
     title: '5eme - Present Perfect et Modaux',
     pages: [
       {
