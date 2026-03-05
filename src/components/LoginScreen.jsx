@@ -254,6 +254,7 @@ export default function LoginScreen({ onSelectChild, onParentLogin }) {
               <div style={s.childName}>{child.name}</div>
               <div style={s.childTheme}>
                 {child.theme === 'minecraft' ? 'Mode Minecraft' : 'Mode Feerie'}
+                {child.grade && ` • ${child.grade}`}
               </div>
             </div>
           ))}

@@ -55,11 +55,12 @@ app.get('/api/children', (req, res) => {
     name: c.name,
     theme: c.theme,
     avatar: c.avatar,
+    grade: c.grade || 'CM2',
   })))
 })
 
 app.post('/api/children', requireParent, (req, res) => {
-  const { name, theme, avatar } = req.body
+  const { name, theme, avatar, grade } = req.body
   if (!name || !theme) {
     return res.status(400).json({ error: 'Nom et theme requis' })
   }
@@ -69,6 +70,7 @@ app.post('/api/children', requireParent, (req, res) => {
     name,
     theme,
     avatar: avatar || (theme === 'minecraft' ? '⛏️' : '🦋'),
+    grade: grade || 'CM2',
     createdAt: new Date().toISOString(),
   }
   data.children.push(child)

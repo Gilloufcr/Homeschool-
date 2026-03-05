@@ -16,7 +16,7 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
   const [children, setChildren] = useState([])
   const [lessons, setLessons] = useState([])
   const [showAddChild, setShowAddChild] = useState(false)
-  const [newChild, setNewChild] = useState({ name: '', theme: 'minecraft', avatar: '⛏️' })
+  const [newChild, setNewChild] = useState({ name: '', theme: 'minecraft', avatar: '⛏️', grade: 'CM2' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -38,9 +38,9 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
     if (!newChild.name.trim()) return
     setLoading(true)
     try {
-      await addChild(newChild.name, newChild.theme, newChild.avatar)
+      await addChild(newChild.name, newChild.theme, newChild.avatar, newChild.grade)
       setShowAddChild(false)
-      setNewChild({ name: '', theme: 'minecraft', avatar: '⛏️' })
+      setNewChild({ name: '', theme: 'minecraft', avatar: '⛏️', grade: 'CM2' })
       await loadData()
     } catch (e) {
       setError(e.message)
@@ -352,6 +352,7 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
                     <div style={s.cardName}>{child.name}</div>
                     <div style={s.cardMeta}>
                       {child.theme === 'minecraft' ? 'Mode Minecraft' : 'Mode Feerie'}
+                      {child.grade && ` • ${child.grade}`}
                     </div>
                     {progress && (
                       <div style={s.progressCard}>
@@ -404,6 +405,28 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
                   >
                     🦋 Feerie
                   </button>
+                </div>
+                <div style={{ marginBottom: '15px' }}>
+                  <div style={{
+                    fontFamily: "'Quicksand', sans-serif",
+                    fontSize: '0.85rem',
+                    fontWeight: '600',
+                    color: 'rgba(255,255,255,0.7)',
+                    marginBottom: '8px',
+                  }}>
+                    Niveau scolaire
+                  </div>
+                  <div style={s.themeSelector}>
+                    {['CE2', 'CM1', 'CM2', '6eme', '5eme'].map((g) => (
+                      <button
+                        key={g}
+                        style={s.themeOption(newChild.grade === g)}
+                        onClick={() => setNewChild({ ...newChild, grade: g })}
+                      >
+                        {g}
+                      </button>
+                    ))}
+                  </div>
                 </div>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <button style={s.submitBtn} onClick={handleAddChild} disabled={loading}>

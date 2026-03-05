@@ -64,15 +64,15 @@ export const getChildren = async () => {
   return getLocal(STORAGE_KEYS.children, [])
 }
 
-export const addChild = async (name, theme, avatar) => {
+export const addChild = async (name, theme, avatar, grade) => {
   if (await checkServer()) {
     return request('/api/children', {
       method: 'POST',
-      body: JSON.stringify({ name, theme, avatar }),
+      body: JSON.stringify({ name, theme, avatar, grade }),
     })
   }
   const children = getLocal(STORAGE_KEYS.children, [])
-  const child = { id: `child-${Date.now()}`, name, theme, avatar }
+  const child = { id: `child-${Date.now()}`, name, theme, avatar, grade: grade || 'CM2' }
   children.push(child)
   setLocal(STORAGE_KEYS.children, children)
   return child

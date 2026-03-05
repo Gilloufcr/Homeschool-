@@ -3,6 +3,7 @@ import LevelMap from '../components/LevelMap'
 import LessonView from '../components/LessonView'
 import ExerciseCard from '../components/ExerciseCard'
 import XPBar from '../components/XPBar'
+import LanguageResources from '../components/LanguageResources'
 
 const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack }) => {
   const [selectedLevel, setSelectedLevel] = useState(null)
@@ -181,6 +182,14 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
               isCompleted={progress.completedExercises.includes(exercise.id)}
             />
           </div>
+
+          {(subject === 'english' || subject === 'french') && (
+            <LanguageResources
+              subject={subject}
+              levelId={selectedLevel.id}
+              theme={profile.theme}
+            />
+          )}
         </div>
       </div>
     )
