@@ -1,12 +1,12 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:3001')
 
 // ─── Detect if server is available ─────────────────────────────────
-// If we're not on localhost, we're deployed (GitHub Pages etc.) → skip server
-const isDeployed = typeof window !== 'undefined' &&
-  !window.location.hostname.includes('localhost') &&
-  !window.location.hostname.includes('127.0.0.1')
+// In production build with same-origin API (API_URL=''), server is always available
+// On GitHub Pages (no backend), skip server
+const isGHPages = typeof window !== 'undefined' &&
+  window.location.hostname.includes('github.io')
 
-let serverAvailable = isDeployed ? false : null
+let serverAvailable = isGHPages ? false : (API_URL === '' ? true : null)
 
 async function checkServer() {
   if (serverAvailable !== null) return serverAvailable

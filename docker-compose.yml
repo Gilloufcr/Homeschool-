@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  homeschool:
+    build: .
+    container_name: homeschool-app
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      # Persist exercise data between container restarts
+      - homeschool-data:/app/data
+
+  # Nginx reverse proxy with HTTPS (Let's Encrypt)
+  nginx:
+    image: nginx:alpine
+    container_name: homeschool-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - certbot-etc:/etc/letsencrypt:ro
+      - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - homeschool
+
+  # Auto-renew SSL certificates
+  certbot:
+    image: certbot/certbot
+    container_name: homeschool-certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 12h & wait $${!}; certbot renew; done'"
+
+volumes:
+  homeschool-data:
+  certbot-etc:
+  certbot-var:

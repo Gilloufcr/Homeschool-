@@ -8,9 +8,12 @@
     "server": "node server.js",
     "dev:full": "node server.js & vite",
     "build": "vite build",
+    "build:ghpages": "VITE_BASE_URL=/Homeschool-/ vite build",
+    "start": "NODE_ENV=production node server.js",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "vite build && gh-pages -d dist"
+    "deploy": "npm run build:ghpages && gh-pages -d dist",
+    "deploy:docker": "docker compose up -d --build"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.78.0",

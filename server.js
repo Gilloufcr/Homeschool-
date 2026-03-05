@@ -442,8 +442,21 @@ app.get('/api/shared/stats', (req, res) => {
   })
 })
 
+// ─── Serve frontend in production ───────────────────────────────────
+const DIST_DIR = join(__dirname, 'dist')
+if (existsSync(DIST_DIR)) {
+  app.use(express.static(DIST_DIR))
+  // SPA fallback: serve index.html for any non-API route
+  app.get('*', (req, res) => {
+    if (!req.path.startsWith('/api/')) {
+      res.sendFile(join(DIST_DIR, 'index.html'))
+    }
+  })
+  console.log('   Serving frontend from dist/')
+}
+
 // ─── Start server ───────────────────────────────────────────────────
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🏫 HomeSchool API running on http://localhost:${PORT}`)
   console.log(`   Parent PIN par defaut: 1234`)
   const cache = loadSharedCache()
