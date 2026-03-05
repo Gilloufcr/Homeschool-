@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { generateExercises } from '../api'
+import { useState, useEffect } from 'react'
+import { generateExercises, searchSharedExercises, browseSharedExercises, getSharedExercise, getSharedStats } from '../api'
 import { getTopicSuggestions } from '../data/curriculum'
 
 const SUBJECTS = [
@@ -27,6 +27,11 @@ export default function AIGenerator({ onGenerated, existingLessons = [] }) {
   const [generating, setGenerating] = useState(false)
   const [preview, setPreview] = useState(null)
   const [error, setError] = useState('')
+  const [mode, setMode] = useState('generate') // 'generate' | 'community'
+  const [sharedResults, setSharedResults] = useState([])
+  const [sharedStats, setSharedStats] = useState(null)
+  const [loadingShared, setLoadingShared] = useState(false)
+  const [cacheHint, setCacheHint] = useState(null) // Show if topic exists in cache
 
   // Get curriculum-based suggestions for current level + subject
   const curriculumTopics = getTopicSuggestions(level, subject)
@@ -36,6 +41,70 @@ export default function AIGenerator({ onGenerated, existingLessons = [] }) {
   const existingQuestions = existingLessons
     .filter(l => l.subject === subject)
     .flatMap(l => (l.exercises || []).map(e => e.question))
+
+  // Load shared stats on mount
+  useEffect(() => {
+    getSharedStats().then(setSharedStats).catch(() => {})
+  }, [])
+
+  // Search shared cache when topic changes (debounced)
+  useEffect(() => {
+    if (!topic.trim() || topic.trim().length < 3) {
+      setCacheHint(null)
+      return
+    }
+    const timer = setTimeout(async () => {
+      try {
+        const result = await searchSharedExercises(subject, level, topic.trim())
+        if (result.matches && result.matches.length > 0) {
+          setCacheHint({
+            count: result.matches.length,
+            exactMatch: result.exactMatch,
+            first: result.matches[0],
+          })
+        } else {
+          setCacheHint(null)
+        }
+      } catch {
+        setCacheHint(null)
+      }
+    }, 500)
+    return () => clearTimeout(timer)
+  }, [topic, subject, level])
+
+  // Load community exercises when switching to community tab
+  useEffect(() => {
+    if (mode === 'community') {
+      loadCommunity()
+    }
+  }, [mode, subject, level])
+
+  const loadCommunity = async () => {
+    setLoadingShared(true)
+    try {
+      const data = await browseSharedExercises(subject, level)
+      setSharedResults(data.exercises || [])
+    } catch {
+      setSharedResults([])
+    }
+    setLoadingShared(false)
+  }
+
+  const handleImportShared = async (id) => {
+    setLoadingShared(true)
+    try {
+      const exercise = await getSharedExercise(id)
+      setPreview({
+        ...exercise,
+        fromCache: true,
+        id: `gen-${subject}-${Date.now()}`,
+      })
+      setMode('generate')
+    } catch (e) {
+      setError(e.message)
+    }
+    setLoadingShared(false)
+  }
 
   const handleGenerate = async () => {
     if (!topic.trim()) {
@@ -56,6 +125,8 @@ export default function AIGenerator({ onGenerated, existingLessons = [] }) {
         existingQuestions: existingQuestions.slice(0, 50),
       })
       setPreview(lesson)
+      // Refresh stats
+      getSharedStats().then(setSharedStats).catch(() => {})
     } catch (e) {
       setError(e.message || 'Erreur lors de la generation')
     }
@@ -67,6 +138,7 @@ export default function AIGenerator({ onGenerated, existingLessons = [] }) {
       onGenerated(preview)
       setPreview(null)
       setTopic('')
+      setCacheHint(null)
     }
   }
 
@@ -263,11 +335,135 @@ export default function AIGenerator({ onGenerated, existingLessons = [] }) {
       marginLeft: '6px',
       verticalAlign: 'middle',
     },
+    modeTabs: {
+      display: 'flex',
+      gap: '5px',
+      marginBottom: '20px',
+      background: 'rgba(255,255,255,0.05)',
+      borderRadius: '12px',
+      padding: '4px',
+    },
+    modeTab: (active) => ({
+      flex: 1,
+      padding: '10px 16px',
+      borderRadius: '10px',
+      border: 'none',
+      background: active ? 'linear-gradient(135deg, #9B59B6, #8E44AD)' : 'transparent',
+      color: active ? 'white' : 'rgba(255,255,255,0.5)',
+      fontFamily: "'Quicksand', sans-serif",
+      fontSize: '0.85rem',
+      fontWeight: '700',
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
+      textAlign: 'center',
+    }),
+    statsBar: {
+      display: 'flex',
+      gap: '15px',
+      padding: '12px 18px',
+      borderRadius: '12px',
+      background: 'rgba(46,204,113,0.08)',
+      border: '1px solid rgba(46,204,113,0.15)',
+      marginBottom: '20px',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+    },
+    statItem: {
+      fontFamily: "'Quicksand', sans-serif",
+      fontSize: '0.8rem',
+      color: 'rgba(255,255,255,0.6)',
+      textAlign: 'center',
+    },
+    statValue: {
+      fontFamily: "'Quicksand', sans-serif",
+      fontSize: '1.2rem',
+      fontWeight: '700',
+      color: '#2ECC71',
+      display: 'block',
+    },
+    cacheHint: {
+      padding: '12px 16px',
+      borderRadius: '12px',
+      background: 'rgba(241,196,15,0.1)',
+      border: '1px solid rgba(241,196,15,0.25)',
+      marginBottom: '15px',
+      fontFamily: "'Quicksand', sans-serif",
+      fontSize: '0.85rem',
+      color: 'rgba(241,196,15,0.9)',
+    },
+    communityCard: {
+      padding: '16px',
+      borderRadius: '14px',
+      background: 'rgba(255,255,255,0.04)',
+      border: '1px solid rgba(255,255,255,0.08)',
+      marginBottom: '10px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      gap: '12px',
+      flexWrap: 'wrap',
+    },
+    importBtn: {
+      padding: '8px 20px',
+      borderRadius: '10px',
+      border: 'none',
+      background: 'linear-gradient(135deg, #3498DB, #2980B9)',
+      color: 'white',
+      fontFamily: "'Quicksand', sans-serif",
+      fontSize: '0.85rem',
+      fontWeight: '600',
+      cursor: 'pointer',
+      whiteSpace: 'nowrap',
+    },
+    fromCacheBadge: {
+      display: 'inline-block',
+      padding: '3px 10px',
+      borderRadius: '8px',
+      background: 'rgba(241,196,15,0.15)',
+      color: '#F1C40F',
+      fontFamily: "'Quicksand', sans-serif",
+      fontSize: '0.7rem',
+      fontWeight: '600',
+      marginLeft: '8px',
+    },
+  }
+
+  const subjectLabels = {
+    math: 'Maths', french: 'Francais', history: 'Histoire',
+    geography: 'Geo', science: 'Sciences', english: 'Anglais',
   }
 
   return (
     <div style={s.container}>
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+
+      {/* Stats bar */}
+      {sharedStats && sharedStats.totalExercises > 0 && (
+        <div style={s.statsBar}>
+          <div style={s.statItem}>
+            <span style={s.statValue}>{sharedStats.totalExercises}</span>
+            exercices partages
+          </div>
+          <div style={s.statItem}>
+            <span style={s.statValue}>{sharedStats.tokensSaved}</span>
+            tokens API economises
+          </div>
+          <div style={s.statItem}>
+            <span style={s.statValue}>{sharedStats.totalGenerated}</span>
+            generations totales
+          </div>
+        </div>
+      )}
+
+      {/* Mode tabs */}
+      <div style={s.modeTabs}>
+        <button style={s.modeTab(mode === 'generate')} onClick={() => setMode('generate')}>
+          🤖 Generer (IA)
+        </button>
+        <button style={s.modeTab(mode === 'community')} onClick={() => setMode('community')}>
+          🌍 Communaute
+        </button>
+      </div>
 
       {/* Subject selection */}
       <div style={s.section}>
@@ -277,7 +473,7 @@ export default function AIGenerator({ onGenerated, existingLessons = [] }) {
             <button
               key={sub.id}
               style={s.subjectBtn(subject === sub.id)}
-              onClick={() => { setSubject(sub.id); setTopic('') }}
+              onClick={() => { setSubject(sub.id); setTopic(''); setCacheHint(null) }}
             >
               {sub.icon} {sub.label}
             </button>
@@ -289,124 +485,235 @@ export default function AIGenerator({ onGenerated, existingLessons = [] }) {
       <div style={{ ...s.section, ...s.row }}>
         <div style={{ flex: 1 }}>
           <label style={s.label}>Niveau scolaire</label>
-          <select style={s.select} value={level} onChange={(e) => { setLevel(e.target.value); setTopic('') }}>
+          <select style={s.select} value={level} onChange={(e) => { setLevel(e.target.value); setTopic(''); setCacheHint(null) }}>
             {LEVELS.map((l) => (
               <option key={l.id} value={l.id}>{l.label}</option>
             ))}
           </select>
         </div>
-        <div style={{ flex: 1 }}>
-          <label style={s.label}>Nb d'exercices</label>
-          <select style={s.select} value={count} onChange={(e) => setCount(Number(e.target.value))}>
-            {[3, 5, 8, 10].map((n) => (
-              <option key={n} value={n}>{n} exercices</option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {/* Topic */}
-      <div style={s.section}>
-        <label style={s.label}>
-          Sujet / Theme
-          {curriculumTopics.length > 0 && (
-            <span style={s.badge}>Programme officiel EN</span>
-          )}
-        </label>
-        <span style={s.sublabel}>
-          Les sujets verts suivent le programme officiel de l'Education nationale ({level}).
-        </span>
-        <input
-          style={s.input}
-          placeholder="Choisissez un sujet ci-dessous ou tapez le votre..."
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-        />
-        <div style={s.suggestions}>
-          {curriculumTopics.map((sug) => (
-            <button
-              key={sug}
-              style={s.suggestionBtn(true)}
-              onClick={() => setTopic(sug)}
-            >
-              {sug}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Existing exercises info */}
-      {existingQuestions.length > 0 && (
-        <div style={{
-          padding: '10px 16px',
-          borderRadius: '10px',
-          background: 'rgba(93,173,226,0.1)',
-          border: '1px solid rgba(93,173,226,0.2)',
-          fontFamily: "'Quicksand', sans-serif",
-          fontSize: '0.8rem',
-          color: 'rgba(93,173,226,0.8)',
-          marginBottom: '15px',
-        }}>
-          ℹ️ {existingQuestions.length} exercice(s) existant(s) en {SUBJECTS.find(s => s.id === subject)?.label} — les nouveaux seront differents.
-        </div>
-      )}
-
-      {error && <div style={s.error}>{error}</div>}
-
-      {/* Generate button */}
-      <button style={s.generateBtn} onClick={handleGenerate} disabled={generating}>
-        {generating ? (
-          <>
-            <span style={s.spinner} />
-            Claude genere les exercices...
-          </>
-        ) : (
-          '🤖 Generer avec Claude AI'
+        {mode === 'generate' && (
+          <div style={{ flex: 1 }}>
+            <label style={s.label}>Nb d'exercices</label>
+            <select style={s.select} value={count} onChange={(e) => setCount(Number(e.target.value))}>
+              {[3, 5, 8, 10].map((n) => (
+                <option key={n} value={n}>{n} exercices</option>
+              ))}
+            </select>
+          </div>
         )}
-      </button>
+      </div>
 
-      {/* Preview */}
-      {preview && (
-        <div style={s.previewCard}>
-          <div style={s.previewTitle}>
-            ✅ "{preview.name}" - {preview.exercises?.length} exercices generes
-          </div>
-          <div style={{ fontFamily: "'Quicksand', sans-serif", fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', marginBottom: '15px' }}>
-            {preview.description}
+      {/* ─── Generate mode ──────────────────────────────────── */}
+      {mode === 'generate' && (
+        <>
+          {/* Topic */}
+          <div style={s.section}>
+            <label style={s.label}>
+              Sujet / Theme
+              {curriculumTopics.length > 0 && (
+                <span style={s.badge}>Programme officiel EN</span>
+              )}
+            </label>
+            <span style={s.sublabel}>
+              Les sujets verts suivent le programme officiel de l'Education nationale ({level}).
+            </span>
+            <input
+              style={s.input}
+              placeholder="Choisissez un sujet ci-dessous ou tapez le votre..."
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+            />
+            <div style={s.suggestions}>
+              {curriculumTopics.map((sug) => (
+                <button
+                  key={sug}
+                  style={s.suggestionBtn(true)}
+                  onClick={() => setTopic(sug)}
+                >
+                  {sug}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {preview.exercises?.map((ex, i) => (
-            <div key={i} style={s.exercisePreview}>
-              <div style={s.question}>
-                {i + 1}. {ex.question} ({ex.xp} XP)
+          {/* Cache hint — if this topic already exists in shared pool */}
+          {cacheHint && (
+            <div style={s.cacheHint}>
+              💡 Ce sujet existe deja dans le cache communautaire ({cacheHint.count} resultat{cacheHint.count > 1 ? 's' : ''}).
+              {cacheHint.exactMatch
+                ? ' La generation sera instantanee et gratuite (0 token API) !'
+                : ' Des exercices similaires sont disponibles.'}
+            </div>
+          )}
+
+          {/* Existing exercises info */}
+          {existingQuestions.length > 0 && (
+            <div style={{
+              padding: '10px 16px',
+              borderRadius: '10px',
+              background: 'rgba(93,173,226,0.1)',
+              border: '1px solid rgba(93,173,226,0.2)',
+              fontFamily: "'Quicksand', sans-serif",
+              fontSize: '0.8rem',
+              color: 'rgba(93,173,226,0.8)',
+              marginBottom: '15px',
+            }}>
+              ℹ️ {existingQuestions.length} exercice(s) existant(s) en {SUBJECTS.find(s => s.id === subject)?.label} — les nouveaux seront differents.
+            </div>
+          )}
+
+          {error && <div style={s.error}>{error}</div>}
+
+          {/* Generate button */}
+          <button style={s.generateBtn} onClick={handleGenerate} disabled={generating}>
+            {generating ? (
+              <>
+                <span style={s.spinner} />
+                Claude genere les exercices...
+              </>
+            ) : cacheHint?.exactMatch ? (
+              '⚡ Recuperer depuis le cache (gratuit !)'
+            ) : (
+              '🤖 Generer avec Claude AI'
+            )}
+          </button>
+
+          {/* Preview */}
+          {preview && (
+            <div style={s.previewCard}>
+              <div style={s.previewTitle}>
+                ✅ "{preview.name}" - {preview.exercises?.length} exercices
+                {preview.fromCache && <span style={s.fromCacheBadge}>⚡ Depuis le cache</span>}
               </div>
-              {ex.options?.map((opt, j) => (
-                <div key={j} style={s.option(opt === ex.answer)}>
-                  {opt === ex.answer ? '✓ ' : '  '}{opt}
+              <div style={{ fontFamily: "'Quicksand', sans-serif", fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', marginBottom: '15px' }}>
+                {preview.description}
+              </div>
+
+              {preview.exercises?.map((ex, i) => (
+                <div key={i} style={s.exercisePreview}>
+                  <div style={s.question}>
+                    {i + 1}. {ex.question} ({ex.xp} XP)
+                  </div>
+                  {ex.options?.map((opt, j) => (
+                    <div key={j} style={s.option(opt === ex.answer)}>
+                      {opt === ex.answer ? '✓ ' : '  '}{opt}
+                    </div>
+                  ))}
+                  {ex.explanation && (
+                    <div style={{
+                      fontFamily: "'Quicksand', sans-serif",
+                      fontSize: '0.75rem',
+                      color: 'rgba(241,196,15,0.7)',
+                      marginTop: '6px',
+                      fontStyle: 'italic',
+                    }}>
+                      💡 {ex.explanation}
+                    </div>
+                  )}
                 </div>
               ))}
-              {ex.explanation && (
-                <div style={{
-                  fontFamily: "'Quicksand', sans-serif",
-                  fontSize: '0.75rem',
-                  color: 'rgba(241,196,15,0.7)',
-                  marginTop: '6px',
-                  fontStyle: 'italic',
-                }}>
-                  💡 {ex.explanation}
-                </div>
-              )}
-            </div>
-          ))}
 
-          <div>
-            <button style={s.saveBtn} onClick={handleSave}>
-              💾 Sauvegarder cette lecon
-            </button>
-            <button style={s.discardBtn} onClick={() => setPreview(null)}>
-              Supprimer
-            </button>
+              <div>
+                <button style={s.saveBtn} onClick={handleSave}>
+                  💾 Sauvegarder cette lecon
+                </button>
+                <button style={s.discardBtn} onClick={() => setPreview(null)}>
+                  Supprimer
+                </button>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      {/* ─── Community mode ─────────────────────────────────── */}
+      {mode === 'community' && (
+        <div>
+          <div style={{ ...s.sublabel, marginBottom: '15px', fontSize: '0.8rem' }}>
+            Exercices generes par la communaute pour {SUBJECTS.find(s => s.id === subject)?.label} ({level}).
+            Importez-les gratuitement sans utiliser de tokens API !
           </div>
+
+          {loadingShared ? (
+            <div style={{ textAlign: 'center', padding: '30px', color: 'rgba(255,255,255,0.4)', fontFamily: "'Quicksand', sans-serif" }}>
+              <span style={s.spinner} />
+              Chargement...
+            </div>
+          ) : sharedResults.length === 0 ? (
+            <div style={{
+              textAlign: 'center',
+              padding: '40px',
+              color: 'rgba(255,255,255,0.4)',
+              fontFamily: "'Quicksand', sans-serif",
+            }}>
+              Aucun exercice partage pour {subjectLabels[subject]} en {level}.
+              <br />Generez-en un avec l'IA, il sera automatiquement partage !
+            </div>
+          ) : (
+            sharedResults.map((ex) => (
+              <div key={ex.id} style={s.communityCard}>
+                <div style={{ flex: 1 }}>
+                  <div style={{
+                    fontFamily: "'Quicksand', sans-serif",
+                    fontSize: '1rem',
+                    fontWeight: '700',
+                    color: 'white',
+                    marginBottom: '4px',
+                  }}>
+                    {ex.name}
+                  </div>
+                  <div style={{
+                    fontFamily: "'Quicksand', sans-serif",
+                    fontSize: '0.8rem',
+                    color: 'rgba(255,255,255,0.5)',
+                    marginBottom: '6px',
+                  }}>
+                    {ex.description}
+                  </div>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                    <span style={{
+                      padding: '2px 8px',
+                      borderRadius: '6px',
+                      background: 'rgba(155,89,182,0.15)',
+                      color: '#9B59B6',
+                      fontFamily: "'Quicksand', sans-serif",
+                      fontSize: '0.7rem',
+                      fontWeight: '600',
+                    }}>
+                      {ex.exerciseCount} exercices
+                    </span>
+                    <span style={{
+                      padding: '2px 8px',
+                      borderRadius: '6px',
+                      background: 'rgba(93,173,226,0.15)',
+                      color: '#5DADE2',
+                      fontFamily: "'Quicksand', sans-serif",
+                      fontSize: '0.7rem',
+                      fontWeight: '600',
+                    }}>
+                      {ex.topic}
+                    </span>
+                    {ex.usedBy > 1 && (
+                      <span style={{
+                        padding: '2px 8px',
+                        borderRadius: '6px',
+                        background: 'rgba(46,204,113,0.15)',
+                        color: '#2ECC71',
+                        fontFamily: "'Quicksand', sans-serif",
+                        fontSize: '0.7rem',
+                        fontWeight: '600',
+                      }}>
+                        {ex.usedBy} familles
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <button style={s.importBtn} onClick={() => handleImportShared(ex.id)}>
+                  📥 Importer
+                </button>
+              </div>
+            ))
+          )}
         </div>
       )}
     </div>

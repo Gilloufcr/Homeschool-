@@ -1,9 +1,10 @@
 import express from 'express'
 import cors from 'cors'
 import Anthropic from '@anthropic-ai/sdk'
-import { readFileSync, writeFileSync, existsSync } from 'fs'
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import crypto from 'crypto'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -12,28 +13,62 @@ const PORT = process.env.PORT || 3001
 app.use(cors())
 app.use(express.json())
 
-// ─── Data persistence (JSON file) ───────────────────────────────────
-const DATA_FILE = join(__dirname, 'data', 'app-data.json')
+// ─── Data persistence (JSON files) ──────────────────────────────────
+const DATA_DIR = join(__dirname, 'data')
+const DATA_FILE = join(DATA_DIR, 'app-data.json')
+const SHARED_FILE = join(DATA_DIR, 'shared-exercises.json')
+
+function ensureDir(dir) {
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
+}
+
+function loadJSON(file, fallback) {
+  if (!existsSync(file)) {
+    ensureDir(dirname(file))
+    writeFileSync(file, JSON.stringify(fallback, null, 2))
+    return fallback
+  }
+  return JSON.parse(readFileSync(file, 'utf-8'))
+}
+
+function saveJSON(file, data) {
+  ensureDir(dirname(file))
+  writeFileSync(file, JSON.stringify(data, null, 2))
+}
 
 function loadData() {
-  if (!existsSync(DATA_FILE)) {
-    const initial = {
-      parentPin: '1234',
-      children: [],
-      customLessons: [],
-    }
-    saveData(initial)
-    return initial
-  }
-  return JSON.parse(readFileSync(DATA_FILE, 'utf-8'))
+  return loadJSON(DATA_FILE, { parentPin: '1234', children: [], customLessons: [] })
 }
 
 function saveData(data) {
-  const dir = dirname(DATA_FILE)
-  if (!existsSync(dir)) {
-    import('fs').then(fs => fs.mkdirSync(dir, { recursive: true }))
-  }
-  writeFileSync(DATA_FILE, JSON.stringify(data, null, 2))
+  saveJSON(DATA_FILE, data)
+}
+
+// ─── Shared exercise cache ──────────────────────────────────────────
+// Exercises are indexed by a normalized key: subject|grade|normalizedTopic
+// This allows families to share exercises without sharing personal data
+
+function loadSharedCache() {
+  return loadJSON(SHARED_FILE, { exercises: [], stats: { totalGenerated: 0, tokensSaved: 0 } })
+}
+
+function saveSharedCache(cache) {
+  saveJSON(SHARED_FILE, cache)
+}
+
+function normalizeKey(subject, grade, topic) {
+  // Normalize: lowercase, trim, remove accents, collapse spaces
+  const norm = topic.toLowerCase().trim()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, ' ')
+  return `${subject}|${grade}|${norm}`
+}
+
+function fuzzyMatch(query, text) {
+  // Simple fuzzy: check if all query words appear in text
+  const qWords = query.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/\s+/)
+  const tNorm = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  return qWords.every(w => tNorm.includes(w))
 }
 
 // ─── Auth middleware ─────────────────────────────────────────────────
@@ -46,10 +81,16 @@ function requireParent(req, res, next) {
   next()
 }
 
+// ─── Family UUID ────────────────────────────────────────────────────
+// Each family gets an anonymous UUID — no PII is stored in the shared DB
+app.post('/api/family/register', (req, res) => {
+  const familyId = crypto.randomUUID()
+  res.json({ familyId })
+})
+
 // ─── Children management ────────────────────────────────────────────
 app.get('/api/children', (req, res) => {
   const data = loadData()
-  // Return children without sensitive data
   res.json(data.children.map(c => ({
     id: c.id,
     name: c.name,
@@ -137,7 +178,93 @@ app.delete('/api/lessons/:id', requireParent, (req, res) => {
   res.json({ ok: true })
 })
 
-// ─── AI Content Generation (Anthropic Claude) ──────────────────────
+// ─── Shared exercise pool: Browse & Search ──────────────────────────
+// Browse all shared exercises (no auth needed — it's community data)
+app.get('/api/shared/browse', (req, res) => {
+  const { subject, grade } = req.query
+  const cache = loadSharedCache()
+  let results = cache.exercises
+
+  if (subject) {
+    results = results.filter(e => e.subject === subject)
+  }
+  if (grade) {
+    results = results.filter(e => e.grade === grade)
+  }
+
+  // Return summary info (no full exercise data to keep response light)
+  res.json({
+    exercises: results.map(e => ({
+      id: e.id,
+      subject: e.subject,
+      grade: e.grade,
+      topic: e.topic,
+      name: e.name,
+      description: e.description,
+      exerciseCount: e.exercises?.length || 0,
+      createdAt: e.createdAt,
+      usedBy: e.usedBy || 0,
+    })),
+    stats: cache.stats,
+  })
+})
+
+// Search shared exercises by topic (fuzzy match)
+app.get('/api/shared/search', (req, res) => {
+  const { subject, grade, topic } = req.query
+  if (!subject || !grade || !topic) {
+    return res.status(400).json({ error: 'subject, grade et topic requis' })
+  }
+
+  const cache = loadSharedCache()
+  const key = normalizeKey(subject, grade, topic)
+
+  // 1. Try exact key match
+  let matches = cache.exercises.filter(e => normalizeKey(e.subject, e.grade, e.topic) === key)
+
+  // 2. If no exact match, try fuzzy match on same subject+grade
+  if (matches.length === 0) {
+    matches = cache.exercises.filter(e =>
+      e.subject === subject && e.grade === grade && fuzzyMatch(topic, e.topic)
+    )
+  }
+
+  res.json({
+    matches: matches.map(e => ({
+      id: e.id,
+      subject: e.subject,
+      grade: e.grade,
+      topic: e.topic,
+      name: e.name,
+      description: e.description,
+      exerciseCount: e.exercises?.length || 0,
+      createdAt: e.createdAt,
+    })),
+    exactMatch: matches.length > 0 && normalizeKey(matches[0].subject, matches[0].grade, matches[0].topic) === key,
+  })
+})
+
+// Get full exercise data for a shared exercise (for importing)
+app.get('/api/shared/:id', (req, res) => {
+  const cache = loadSharedCache()
+  const exercise = cache.exercises.find(e => e.id === req.params.id)
+  if (!exercise) {
+    return res.status(404).json({ error: 'Exercice non trouve' })
+  }
+
+  // Increment usage counter
+  exercise.usedBy = (exercise.usedBy || 0) + 1
+  saveSharedCache(cache)
+
+  // Return full data (without family info)
+  res.json({
+    ...exercise,
+    // Strip any accidental PII
+    familyId: undefined,
+  })
+})
+
+// ─── AI Content Generation with Shared Cache ────────────────────────
 app.post('/api/generate', requireParent, async (req, res) => {
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) {
@@ -146,12 +273,35 @@ app.post('/api/generate', requireParent, async (req, res) => {
     })
   }
 
-  const { subject, topic, level, count, childAge, existingQuestions } = req.body
+  const { subject, topic, level, count, childAge, existingQuestions, familyId } = req.body
 
   if (!subject || !topic) {
     return res.status(400).json({ error: 'Matiere et sujet requis' })
   }
 
+  // ── Check shared cache first ──────────────────────────────────────
+  const cache = loadSharedCache()
+  const key = normalizeKey(subject, level || 'CM2', topic)
+  const cached = cache.exercises.find(e => normalizeKey(e.subject, e.grade, e.topic) === key)
+
+  if (cached) {
+    // Cache hit! Return existing exercises — saves API tokens
+    cached.usedBy = (cached.usedBy || 0) + 1
+    cache.stats.tokensSaved = (cache.stats.tokensSaved || 0) + 1
+    saveSharedCache(cache)
+
+    console.log(`  Cache HIT for "${topic}" (${subject}/${level}) — token saved!`)
+
+    return res.json({
+      ...cached,
+      fromCache: true,
+      id: `gen-${subject}-${Date.now()}`, // New ID for this family's copy
+    })
+  }
+
+  console.log(`  Cache MISS for "${topic}" (${subject}/${level}) — calling Claude API...`)
+
+  // ── No cache hit → generate with AI ───────────────────────────────
   const anthropic = new Anthropic({ apiKey })
 
   // Build anti-redundancy section
@@ -215,44 +365,90 @@ Regles:
     })
 
     const text = message.content[0].text
-    // Parse JSON from response
     const jsonMatch = text.match(/\{[\s\S]*\}/)
     if (!jsonMatch) {
       return res.status(500).json({ error: 'Reponse IA invalide' })
     }
 
     const generated = JSON.parse(jsonMatch[0])
+    const now = Date.now()
 
     // Build lesson object
     const lesson = {
-      id: `gen-${subject}-${Date.now()}`,
+      id: `gen-${subject}-${now}`,
       name: generated.levelName,
       nameMinecraft: generated.levelNameMinecraft,
       nameLalilo: generated.levelNameLalilo,
       description: generated.description,
       subject,
+      grade: level || 'CM2',
       topic,
       minLevel: 1,
       isCustom: true,
       isAIGenerated: true,
       exercises: generated.exercises.map((ex, i) => ({
         ...ex,
-        id: `gen-${subject}-${Date.now()}-${i}`,
+        id: `gen-${subject}-${now}-${i}`,
         type: ex.type || 'choice',
       })),
     }
 
-    res.json(lesson)
+    // ── Save to shared cache (no PII — only exercise content) ───────
+    const sharedEntry = {
+      id: `shared-${subject}-${now}`,
+      name: lesson.name,
+      nameMinecraft: lesson.nameMinecraft,
+      nameLalilo: lesson.nameLalilo,
+      description: lesson.description,
+      subject,
+      grade: level || 'CM2',
+      topic,
+      exercises: lesson.exercises,
+      createdAt: new Date().toISOString(),
+      usedBy: 1,
+    }
+
+    cache.exercises.push(sharedEntry)
+    cache.stats.totalGenerated = (cache.stats.totalGenerated || 0) + 1
+    saveSharedCache(cache)
+
+    console.log(`  Saved to shared cache: "${topic}" (${subject}/${level}) — ${lesson.exercises.length} exercises`)
+
+    res.json({ ...lesson, fromCache: false })
   } catch (err) {
     console.error('AI generation error:', err)
     res.status(500).json({ error: `Erreur de generation: ${err.message}` })
   }
 })
 
+// ─── Shared pool stats ──────────────────────────────────────────────
+app.get('/api/shared/stats', (req, res) => {
+  const cache = loadSharedCache()
+  const subjects = {}
+  for (const ex of cache.exercises) {
+    const key = ex.subject
+    if (!subjects[key]) subjects[key] = { count: 0, grades: new Set() }
+    subjects[key].count++
+    subjects[key].grades.add(ex.grade)
+  }
+
+  res.json({
+    totalExercises: cache.exercises.length,
+    totalGenerated: cache.stats.totalGenerated || 0,
+    tokensSaved: cache.stats.tokensSaved || 0,
+    subjects: Object.fromEntries(
+      Object.entries(subjects).map(([k, v]) => [k, { count: v.count, grades: [...v.grades] }])
+    ),
+  })
+})
+
 // ─── Start server ───────────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`🏫 HomeSchool API running on http://localhost:${PORT}`)
   console.log(`   Parent PIN par defaut: 1234`)
+  const cache = loadSharedCache()
+  console.log(`   📚 ${cache.exercises.length} exercice(s) dans le cache partage`)
+  console.log(`   💰 ${cache.stats.tokensSaved || 0} token(s) API economise(s)`)
   if (!process.env.ANTHROPIC_API_KEY) {
     console.log(`   ⚠️  ANTHROPIC_API_KEY non definie - la generation IA ne marchera pas`)
     console.log(`   Lancez: ANTHROPIC_API_KEY=sk-... node server.js`)

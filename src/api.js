@@ -25,6 +25,7 @@ const STORAGE_KEYS = {
   lessons: 'homeschool_lessons',
   parentPin: 'homeschool_parent_pin',
   parentPinSet: 'homeschool_parent_pin_set',
+  familyId: 'homeschool_family_id',
 }
 
 function getLocal(key, fallback = []) {
@@ -56,6 +57,16 @@ async function request(path, options = {}) {
     throw new Error(data.error || 'Erreur serveur')
   }
   return data
+}
+
+// ─── Family UUID (anonymous, no PII) ─────────────────────────────
+export const getFamilyId = () => {
+  let id = localStorage.getItem(STORAGE_KEYS.familyId)
+  if (!id) {
+    id = crypto.randomUUID()
+    localStorage.setItem(STORAGE_KEYS.familyId, id)
+  }
+  return id
 }
 
 // ─── Children ──────────────────────────────────────────────────────
@@ -159,8 +170,41 @@ export const generateExercises = async (params) => {
   if (await checkServer()) {
     return request('/api/generate', {
       method: 'POST',
-      body: JSON.stringify(params),
+      body: JSON.stringify({ ...params, familyId: getFamilyId() }),
     })
   }
   throw new Error('La generation IA necessite le serveur backend. Lancez "npm run dev:full" en local.')
+}
+
+// ─── Shared exercise pool ─────────────────────────────────────────
+export const searchSharedExercises = async (subject, grade, topic) => {
+  if (await checkServer()) {
+    const params = new URLSearchParams({ subject, grade, topic })
+    return request(`/api/shared/search?${params}`)
+  }
+  return { matches: [], exactMatch: false }
+}
+
+export const browseSharedExercises = async (subject, grade) => {
+  if (await checkServer()) {
+    const params = new URLSearchParams()
+    if (subject) params.set('subject', subject)
+    if (grade) params.set('grade', grade)
+    return request(`/api/shared/browse?${params}`)
+  }
+  return { exercises: [], stats: { totalGenerated: 0, tokensSaved: 0 } }
+}
+
+export const getSharedExercise = async (id) => {
+  if (await checkServer()) {
+    return request(`/api/shared/${id}`)
+  }
+  throw new Error('Le cache partage necessite le serveur backend.')
+}
+
+export const getSharedStats = async () => {
+  if (await checkServer()) {
+    return request('/api/shared/stats')
+  }
+  return { totalExercises: 0, totalGenerated: 0, tokensSaved: 0, subjects: {} }
 }
