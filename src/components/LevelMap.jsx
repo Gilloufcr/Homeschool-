@@ -278,8 +278,6 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
     <div style={{
       position: 'relative',
       width: '100%',
-      maxWidth: '400px',
-      margin: '0 auto',
       height: `${totalHeight}px`,
       background: isMinecraft
         ? '#87CEEB'
@@ -363,10 +361,14 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
       )}
 
       {/* ─── SVG PATH ─────────────────────────────────────── */}
-      <svg style={{
-        position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-        zIndex: 2, pointerEvents: 'none',
-      }}>
+      <svg
+        viewBox={`0 0 400 ${totalHeight}`}
+        preserveAspectRatio="none"
+        style={{
+          position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+          zIndex: 2, pointerEvents: 'none',
+        }}
+      >
         {levels.map((level, idx) => {
           if (idx === 0) return null
           const from = getNodePosition(idx - 1, levels.length)

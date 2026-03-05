@@ -95,3 +95,90 @@ body {
 .leaflet-popup-tip {
   box-shadow: none !important;
 }
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE LAYOUT
+   ═══════════════════════════════════════════════════════ */
+
+/* Container wrapper — used in pages */
+.app-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Tablet: wider container */
+@media (min-width: 768px) {
+  .app-container {
+    max-width: 900px;
+  }
+}
+
+/* Desktop: even wider */
+@media (min-width: 1200px) {
+  .app-container {
+    max-width: 1100px;
+  }
+}
+
+/* Subject grid: 1 col on mobile, 2 on tablet, 3 on desktop */
+.subject-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 600px) {
+  .subject-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .subject-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Stats grid responsive */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (min-width: 600px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Level map: wider on desktop */
+.level-map-wrapper {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .level-map-wrapper {
+    max-width: 500px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .level-map-wrapper {
+    max-width: 600px;
+  }
+}
+
+/* Exercise/lesson area: wider on desktop */
+.exercise-area {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+@media (min-width: 1200px) {
+  .exercise-area {
+    max-width: 800px;
+  }
+}

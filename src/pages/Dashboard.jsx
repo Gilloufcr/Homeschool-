@@ -152,7 +152,7 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
 
   return (
     <div style={pageStyle}>
-      <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+      <div className="app-container">
         <div style={headerStyle}>
           <div style={greetingStyle}>
             {isMinecraft ? `> Salut ${profile.name} !` : `Bonjour ${profile.name} !`}
@@ -169,7 +169,7 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
 
         <XPBar xp={progress.xp} level={progress.level} theme={profile.theme} />
 
-        <div style={statsGrid}>
+        <div className="stats-grid">
           <div style={statCardStyle()}>
             <div style={statValueStyle}>{progress.level}</div>
             <div style={statLabelStyle}>{isMinecraft ? 'NIVEAU' : 'Niveau'}</div>
@@ -283,11 +283,7 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
           {isMinecraft ? '> MATIERES' : 'Choisis ta matiere'}
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '12px',
-        }}>
+        <div className="subject-grid">
           {subjects.map((subject, idx) => (
             <div
               key={subject.id}

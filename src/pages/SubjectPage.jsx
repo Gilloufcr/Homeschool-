@@ -73,7 +73,7 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
 
     return (
       <div style={pageStyle}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+        <div className="exercise-area">
           <button
             style={backBtnStyle}
             onClick={() => { setSelectedLevel(null); setShowLesson(false); setCurrentExIdx(0) }}
@@ -102,7 +102,7 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
 
     return (
       <div style={pageStyle}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+        <div className="exercise-area">
           <div style={{ display: 'flex', gap: '8px', marginBottom: '15px', flexWrap: 'wrap' }}>
             <button
               style={backBtnStyle}
@@ -197,7 +197,7 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
 
   return (
     <div style={pageStyle}>
-      <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+      <div className="app-container">
         <button style={backBtnStyle} onClick={onBack}>
           {isMinecraft ? '< RETOUR' : 'Retour au menu'}
         </button>
@@ -208,13 +208,15 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
           {isMinecraft ? `> ${subjectNames[subject]}` : subjectNames[subject]}
         </div>
 
-        <LevelMap
-          levels={levels}
-          theme={profile.theme}
-          playerLevel={progress.level}
-          completedExercises={progress.completedExercises}
-          onSelectLevel={handleSelectLevel}
-        />
+        <div className="level-map-wrapper">
+          <LevelMap
+            levels={levels}
+            theme={profile.theme}
+            playerLevel={progress.level}
+            completedExercises={progress.completedExercises}
+            onSelectLevel={handleSelectLevel}
+          />
+        </div>
       </div>
     </div>
   )
