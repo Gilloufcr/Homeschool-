@@ -115,7 +115,7 @@ export default function InteractiveMap({ profile, progress, onComplete, onBack }
       gap: '8px',
     },
     title: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.7rem' : '1.3rem',
       fontWeight: '700',
       color: isMinecraft ? '#FFD700' : '#333',
@@ -123,11 +123,11 @@ export default function InteractiveMap({ profile, progress, onComplete, onBack }
     },
     backBtn: {
       padding: isMinecraft ? '8px 12px' : '8px 18px',
-      borderRadius: isMinecraft ? '0' : '12px',
+      borderRadius: '12px',
       border: isMinecraft ? '2px outset #777' : 'none',
       background: isMinecraft ? '#555' : 'rgba(155,89,182,0.1)',
       color: isMinecraft ? '#fff' : '#9B59B6',
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.5rem' : '0.85rem',
       fontWeight: '700',
       cursor: 'pointer',
@@ -140,7 +140,7 @@ export default function InteractiveMap({ profile, progress, onComplete, onBack }
     modeBtn: (active) => ({
       flex: 1,
       padding: isMinecraft ? '10px' : '12px',
-      borderRadius: isMinecraft ? '0' : '14px',
+      borderRadius: '14px',
       border: isMinecraft
         ? `3px solid ${active ? '#FFD700' : '#555'}`
         : `2px solid ${active ? '#9B59B6' : 'rgba(155,89,182,0.15)'}`,
@@ -150,7 +150,7 @@ export default function InteractiveMap({ profile, progress, onComplete, onBack }
       color: active
         ? (isMinecraft ? '#FFD700' : '#9B59B6')
         : (isMinecraft ? '#aaa' : '#888'),
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.5rem' : '0.9rem',
       fontWeight: '700',
       cursor: 'pointer',
@@ -165,18 +165,18 @@ export default function InteractiveMap({ profile, progress, onComplete, onBack }
     },
     filterBtn: (active, color) => ({
       padding: isMinecraft ? '5px 8px' : '6px 14px',
-      borderRadius: isMinecraft ? '0' : '20px',
+      borderRadius: '20px',
       border: `2px solid ${active ? color : 'transparent'}`,
       background: active ? `${color}22` : (isMinecraft ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.7)'),
       color: active ? color : (isMinecraft ? '#aaa' : '#888'),
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.35rem' : '0.75rem',
       fontWeight: '600',
       cursor: 'pointer',
       transition: 'all 0.2s ease',
     }),
     mapWrapper: {
-      borderRadius: isMinecraft ? '0' : '20px',
+      borderRadius: '20px',
       overflow: 'hidden',
       border: isMinecraft ? '4px solid #555' : '2px solid rgba(155,89,182,0.15)',
       boxShadow: isMinecraft ? 'none' : '0 4px 20px rgba(0,0,0,0.1)',
@@ -189,7 +189,7 @@ export default function InteractiveMap({ profile, progress, onComplete, onBack }
       gap: '20px',
       marginTop: '12px',
       padding: '12px',
-      borderRadius: isMinecraft ? '0' : '15px',
+      borderRadius: '15px',
       background: isMinecraft ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.9)',
       border: isMinecraft ? '3px solid #555' : '2px solid rgba(155,89,182,0.1)',
     },
@@ -197,13 +197,13 @@ export default function InteractiveMap({ profile, progress, onComplete, onBack }
       textAlign: 'center',
     },
     statValue: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.8rem' : '1.3rem',
       fontWeight: '700',
       color: isMinecraft ? '#7CFC00' : '#9B59B6',
     },
     statLabel: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.35rem' : '0.7rem',
       color: isMinecraft ? '#aaa' : '#888',
       marginTop: '2px',

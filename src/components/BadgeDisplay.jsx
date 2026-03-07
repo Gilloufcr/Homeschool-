@@ -31,7 +31,7 @@ export default function BadgeDisplay({ progress, theme }) {
       padding: '15px',
     },
     title: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.7rem' : '1.2rem',
       fontWeight: '700',
       color: isMinecraft ? '#FFD700' : '#333',
@@ -45,7 +45,7 @@ export default function BadgeDisplay({ progress, theme }) {
     },
     badge: (unlocked) => ({
       padding: '15px 8px',
-      borderRadius: isMinecraft ? '0' : '15px',
+      borderRadius: '15px',
       background: unlocked
         ? (isMinecraft ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.95)')
         : (isMinecraft ? 'rgba(0,0,0,0.3)' : 'rgba(200,200,200,0.3)'),
@@ -64,20 +64,20 @@ export default function BadgeDisplay({ progress, theme }) {
       filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
     },
     badgeName: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.4rem' : '0.7rem',
       fontWeight: '700',
       color: isMinecraft ? '#FFD700' : '#333',
       marginBottom: '3px',
     },
     badgeDesc: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.3rem' : '0.6rem',
       color: isMinecraft ? '#aaa' : '#888',
       lineHeight: '1.4',
     },
     counter: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.5rem' : '0.8rem',
       color: isMinecraft ? '#7CFC00' : '#9B59B6',
       marginBottom: '10px',

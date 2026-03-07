@@ -40,7 +40,7 @@ export default function LanguageResources({ subject, levelId, theme }) {
     container: {
       marginTop: '15px',
       padding: '18px',
-      borderRadius: isMinecraft ? '0' : '18px',
+      borderRadius: '18px',
       background: isMinecraft
         ? 'rgba(0,0,0,0.6)'
         : 'rgba(255,255,255,0.95)',
@@ -50,7 +50,7 @@ export default function LanguageResources({ subject, levelId, theme }) {
       boxShadow: isMinecraft ? 'none' : '0 2px 12px rgba(0,0,0,0.06)',
     },
     title: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.5rem' : '1rem',
       fontWeight: '700',
       color: isMinecraft ? '#5DADE2' : '#2980B9',
@@ -58,7 +58,7 @@ export default function LanguageResources({ subject, levelId, theme }) {
       textShadow: isMinecraft ? '1px 1px 0 #000' : 'none',
     },
     sectionTitle: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.4rem' : '0.8rem',
       fontWeight: '700',
       color: isMinecraft ? '#FFD700' : '#666',
@@ -70,7 +70,7 @@ export default function LanguageResources({ subject, levelId, theme }) {
       alignItems: 'center',
       gap: '10px',
       padding: '10px 14px',
-      borderRadius: isMinecraft ? '0' : '12px',
+      borderRadius: '12px',
       background: isMinecraft ? 'rgba(93,173,226,0.1)' : 'rgba(93,173,226,0.06)',
       border: isMinecraft ? '2px solid #5DADE2' : '1px solid rgba(93,173,226,0.15)',
       marginBottom: '8px',
@@ -86,24 +86,24 @@ export default function LanguageResources({ subject, levelId, theme }) {
       flex: 1,
     },
     videoTitle: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.35rem' : '0.8rem',
       fontWeight: '700',
       color: isMinecraft ? '#fff' : '#333',
       marginBottom: '2px',
     },
     videoMeta: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.3rem' : '0.65rem',
       color: isMinecraft ? '#aaa' : '#888',
     },
     playBtn: {
       padding: isMinecraft ? '4px 8px' : '6px 12px',
-      borderRadius: isMinecraft ? '0' : '8px',
+      borderRadius: '8px',
       border: 'none',
       background: isMinecraft ? '#E74C3C' : '#E74C3C',
       color: 'white',
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.3rem' : '0.65rem',
       fontWeight: '700',
       cursor: 'pointer',
@@ -114,20 +114,20 @@ export default function LanguageResources({ subject, levelId, theme }) {
       alignItems: 'center',
       gap: '10px',
       padding: '8px 12px',
-      borderRadius: isMinecraft ? '0' : '10px',
+      borderRadius: '10px',
       background: isMinecraft ? 'rgba(46,204,113,0.1)' : 'rgba(46,204,113,0.06)',
       border: isMinecraft ? '1px solid #4CAF50' : '1px solid rgba(46,204,113,0.15)',
       marginBottom: '6px',
     },
     wordText: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.35rem' : '0.85rem',
       fontWeight: '700',
       color: isMinecraft ? '#7CFC00' : '#27AE60',
       flex: 1,
     },
     wordTranslation: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+      fontFamily: "'Quicksand', sans-serif",
       fontSize: isMinecraft ? '0.3rem' : '0.7rem',
       color: isMinecraft ? '#aaa' : '#888',
       flex: 1,
@@ -135,7 +135,7 @@ export default function LanguageResources({ subject, levelId, theme }) {
     speakBtn: (playing) => ({
       width: isMinecraft ? '28px' : '34px',
       height: isMinecraft ? '28px' : '34px',
-      borderRadius: isMinecraft ? '0' : '50%',
+      borderRadius: '50%',
       border: 'none',
       background: playing
         ? (isMinecraft ? '#E67E22' : 'linear-gradient(135deg, #E67E22, #F39C12)')

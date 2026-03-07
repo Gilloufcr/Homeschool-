@@ -36,19 +36,19 @@ export default function ExerciseCard({ exercise, theme, onComplete, isCompleted 
     setIsCorrect(false)
   }
 
+  const font = "'Quicksand', sans-serif"
+
   const getOptionStyle = (option) => {
     const base = {
-      padding: isMinecraft
-        ? 'clamp(10px, 1.2vw, 20px) clamp(14px, 1.5vw, 28px)'
-        : 'clamp(14px, 1.5vw, 24px) clamp(20px, 2vw, 36px)',
+      padding: 'clamp(12px, 1.4vw, 22px) clamp(18px, 2vw, 32px)',
       margin: 'clamp(6px, 0.8vw, 14px) 0',
-      borderRadius: isMinecraft ? '0' : '15px',
+      borderRadius: '15px',
       cursor: showResult ? 'default' : 'pointer',
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? 'clamp(0.65rem, 0.9vw, 1.1rem)' : 'clamp(1rem, 1.3vw, 1.5rem)',
+      fontFamily: font,
+      fontSize: 'clamp(0.95rem, 1.2vw, 1.5rem)',
       fontWeight: '600',
       transition: 'all 0.2s ease',
-      border: isMinecraft ? '3px outset' : '2px solid',
+      border: '2px solid',
       textAlign: 'left',
       width: '100%',
     }
@@ -76,9 +76,11 @@ export default function ExerciseCard({ exercise, theme, onComplete, isCompleted 
     if (isMinecraft) {
       return {
         ...base,
-        background: '#5a5a5a',
+        background: 'rgba(40, 40, 55, 0.8)',
         color: 'white',
-        borderColor: '#777',
+        borderColor: 'rgba(255,255,255,0.12)',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+        backdropFilter: 'blur(4px)',
       }
     }
 
@@ -92,15 +94,14 @@ export default function ExerciseCard({ exercise, theme, onComplete, isCompleted 
   }
 
   const cardStyle = {
-    padding: isMinecraft
-      ? 'clamp(20px, 2.5vw, 40px)'
-      : 'clamp(25px, 3vw, 50px)',
-    borderRadius: isMinecraft ? '0' : '20px',
-    background: isMinecraft
-      ? 'rgba(0,0,0,0.75)'
-      : 'rgba(255,255,255,0.95)',
-    border: isMinecraft ? '3px solid #555' : '2px solid rgba(155,89,182,0.15)',
-    boxShadow: isMinecraft ? 'none' : '0 4px 20px rgba(0,0,0,0.08)',
+    padding: 'clamp(22px, 2.8vw, 45px)',
+    borderRadius: '20px',
+    background: isMinecraft ? 'rgba(20, 20, 30, 0.8)' : 'rgba(255,255,255,0.95)',
+    border: isMinecraft ? '1px solid rgba(255,255,255,0.08)' : '2px solid rgba(155,89,182,0.15)',
+    boxShadow: isMinecraft
+      ? '0 6px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05)'
+      : '0 4px 20px rgba(0,0,0,0.08)',
+    backdropFilter: 'blur(8px)',
     animation: 'slideUp 0.4s ease-out',
     maxWidth: '900px',
     width: '100%',
@@ -108,12 +109,12 @@ export default function ExerciseCard({ exercise, theme, onComplete, isCompleted 
   }
 
   const questionStyle = {
-    fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-    fontSize: isMinecraft ? 'clamp(0.75rem, 1.1vw, 1.3rem)' : 'clamp(1.2rem, 1.6vw, 2rem)',
+    fontFamily: font,
+    fontSize: 'clamp(1.1rem, 1.5vw, 1.9rem)',
     fontWeight: '700',
     color: isMinecraft ? '#FFD700' : '#333',
     marginBottom: 'clamp(16px, 2vw, 30px)',
-    lineHeight: isMinecraft ? '1.8' : '1.5',
+    lineHeight: '1.6',
   }
 
   return (
@@ -122,11 +123,11 @@ export default function ExerciseCard({ exercise, theme, onComplete, isCompleted 
         <div style={{
           textAlign: 'center',
           padding: '5px 15px',
-          borderRadius: isMinecraft ? '0' : '10px',
+          borderRadius: '10px',
           background: isMinecraft ? '#2E7D32' : '#2ECC71',
           color: 'white',
-          fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-          fontSize: isMinecraft ? 'clamp(0.6rem, 0.8vw, 1rem)' : 'clamp(0.85rem, 1vw, 1.2rem)',
+          fontFamily: "'Quicksand', sans-serif",
+          fontSize: 'clamp(0.85rem, 1vw, 1.2rem)',
           marginBottom: '10px',
           fontWeight: '700',
         }}>
@@ -170,13 +171,13 @@ export default function ExerciseCard({ exercise, theme, onComplete, isCompleted 
         <div style={{
           marginTop: 'clamp(16px, 2vw, 28px)',
           padding: 'clamp(12px, 1.5vw, 24px)',
-          borderRadius: isMinecraft ? '0' : '15px',
+          borderRadius: '15px',
           textAlign: 'center',
           background: isCorrect
             ? (isMinecraft ? 'rgba(46,125,50,0.3)' : 'rgba(46,204,113,0.15)')
             : (isMinecraft ? 'rgba(183,28,28,0.3)' : 'rgba(231,76,60,0.15)'),
-          fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-          fontSize: isMinecraft ? 'clamp(0.7rem, 1vw, 1.2rem)' : 'clamp(1.1rem, 1.4vw, 1.6rem)',
+          fontFamily: "'Quicksand', sans-serif",
+          fontSize: 'clamp(1.1rem, 1.4vw, 1.6rem)',
           color: isCorrect
             ? (isMinecraft ? '#7CFC00' : '#27AE60')
             : (isMinecraft ? '#FF6B6B' : '#E74C3C'),
@@ -194,11 +195,11 @@ export default function ExerciseCard({ exercise, theme, onComplete, isCompleted 
                 display: 'block',
                 margin: '12px auto 0',
                 padding: isMinecraft ? '8px 16px' : '10px 25px',
-                borderRadius: isMinecraft ? '0' : '12px',
-                border: isMinecraft ? '2px outset #777' : 'none',
+                borderRadius: '12px',
+                border: isMinecraft ? '2px solid rgba(255,255,255,0.15)' : 'none',
                 background: isMinecraft ? '#5a5a5a' : 'linear-gradient(135deg, #E74C3C, #C0392B)',
                 color: 'white',
-                fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+                fontFamily: "'Quicksand', sans-serif",
                 fontSize: isMinecraft ? 'clamp(0.6rem, 0.8vw, 1rem)' : 'clamp(0.9rem, 1.1vw, 1.3rem)',
                 fontWeight: '700',
                 cursor: 'pointer',
@@ -213,8 +214,8 @@ export default function ExerciseCard({ exercise, theme, onComplete, isCompleted 
       <div style={{
         marginTop: '12px',
         textAlign: 'right',
-        fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-        fontSize: isMinecraft ? 'clamp(0.5rem, 0.7vw, 0.9rem)' : 'clamp(0.8rem, 1vw, 1.2rem)',
+        fontFamily: "'Quicksand', sans-serif",
+        fontSize: 'clamp(0.85rem, 1vw, 1.2rem)',
         color: isMinecraft ? '#FFD700' : '#E67E22',
         fontWeight: '600',
       }}>
