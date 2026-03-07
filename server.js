@@ -73,6 +73,19 @@ function migrateIfNeeded() {
   return data
 }
 
+// ─── Progress persistence (exercise results per family) ─────────────
+function progressFile(familyId) {
+  return join(DATA_DIR, `progress-${familyId}.json`)
+}
+
+function loadProgress(familyId) {
+  return loadJSON(progressFile(familyId), { children: {} })
+}
+
+function saveProgress(familyId, data) {
+  saveJSON(progressFile(familyId), data)
+}
+
 // ─── Shared exercise cache ──────────────────────────────────────────
 function loadSharedCache() {
   return loadJSON(SHARED_FILE, { exercises: [], stats: { totalGenerated: 0, tokensSaved: 0 } })
@@ -250,6 +263,7 @@ app.get('/api/children', requireAuth, (req, res) => {
     theme: c.theme,
     avatar: c.avatar,
     grade: c.grade || 'CM2',
+    accessibility: c.accessibility || null,
   })))
 })
 
@@ -280,6 +294,107 @@ app.delete('/api/children/:id', requireAuth, (req, res) => {
   family.children = family.children.filter(c => c.id !== req.params.id)
   saveFamilyUpdate(family)
   res.json({ ok: true })
+})
+
+// ─── Update child profile (TND / accessibility) ─────────────────────
+app.put('/api/children/:id', requireAuth, (req, res) => {
+  const family = getFamily(req)
+  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
+  const child = family.children.find(c => c.id === req.params.id)
+  if (!child) return res.status(404).json({ error: 'Enfant non trouve' })
+
+  const { name, theme, avatar, grade, accessibility } = req.body
+  if (name !== undefined) child.name = name
+  if (theme !== undefined) child.theme = theme
+  if (avatar !== undefined) child.avatar = avatar
+  if (grade !== undefined) child.grade = grade
+  if (accessibility !== undefined) child.accessibility = accessibility
+
+  saveFamilyUpdate(family)
+  res.json(child)
+})
+
+// ─── Progress tracking (exercise results) ────────────────────────────
+app.post('/api/progress/exercise', requireAuth, (req, res) => {
+  const { childId, exerciseId, subject, grade, question, givenAnswer, correctAnswer, isCorrect, duration, levelName } = req.body
+  if (!childId || !exerciseId) {
+    return res.status(400).json({ error: 'childId et exerciseId requis' })
+  }
+
+  const progress = loadProgress(req.familyId)
+  if (!progress.children[childId]) {
+    progress.children[childId] = { exercises: [] }
+  }
+
+  progress.children[childId].exercises.push({
+    exerciseId,
+    subject: subject || 'unknown',
+    grade: grade || '',
+    question: question || '',
+    givenAnswer: String(givenAnswer ?? ''),
+    correctAnswer: String(correctAnswer ?? ''),
+    isCorrect: !!isCorrect,
+    duration: duration || 0,
+    levelName: levelName || '',
+    timestamp: new Date().toISOString(),
+  })
+
+  saveProgress(req.familyId, progress)
+  res.json({ ok: true })
+})
+
+app.get('/api/progress/:childId', requireAuth, (req, res) => {
+  const progress = loadProgress(req.familyId)
+  const childData = progress.children[req.params.childId]
+  if (!childData) return res.json({ exercises: [] })
+
+  const { subject, from, to } = req.query
+  let exercises = childData.exercises
+
+  if (subject) exercises = exercises.filter(e => e.subject === subject)
+  if (from) exercises = exercises.filter(e => e.timestamp >= from)
+  if (to) exercises = exercises.filter(e => e.timestamp <= to)
+
+  res.json({ exercises })
+})
+
+app.get('/api/progress/:childId/summary', requireAuth, (req, res) => {
+  const progress = loadProgress(req.familyId)
+  const childData = progress.children[req.params.childId]
+  if (!childData) {
+    return res.json({ total: 0, correct: 0, subjects: {}, byDate: {} })
+  }
+
+  const { from, to } = req.query
+  let exercises = childData.exercises
+  if (from) exercises = exercises.filter(e => e.timestamp >= from)
+  if (to) exercises = exercises.filter(e => e.timestamp <= to)
+
+  const subjects = {}
+  const byDate = {}
+
+  for (const ex of exercises) {
+    // Per subject
+    if (!subjects[ex.subject]) {
+      subjects[ex.subject] = { total: 0, correct: 0, totalDuration: 0 }
+    }
+    subjects[ex.subject].total++
+    if (ex.isCorrect) subjects[ex.subject].correct++
+    subjects[ex.subject].totalDuration += ex.duration || 0
+
+    // Per date
+    const date = ex.timestamp.split('T')[0]
+    if (!byDate[date]) byDate[date] = { total: 0, correct: 0 }
+    byDate[date].total++
+    if (ex.isCorrect) byDate[date].correct++
+  }
+
+  res.json({
+    total: exercises.length,
+    correct: exercises.filter(e => e.isCorrect).length,
+    subjects,
+    byDate,
+  })
 })
 
 // ─── Custom lessons management (family-scoped) ──────────────────────
@@ -392,7 +507,7 @@ app.post('/api/generate', requireAuth, async (req, res) => {
     })
   }
 
-  const { subject, topic, level, count, childAge, existingQuestions } = req.body
+  const { subject, topic, level, count, childAge, existingQuestions, accessibilityProfiles } = req.body
 
   if (!subject || !topic) {
     return res.status(400).json({ error: 'Matiere et sujet requis' })
@@ -465,7 +580,10 @@ Regles:
 - "answer" = exactement l'une des options
 - XP : 10 (facile) a 25 (difficile)
 - Questions en francais
-- Explications pedagogiques et encourageantes`
+- Explications pedagogiques et encourageantes${accessibilityProfiles && accessibilityProfiles.length > 0 ? `
+
+ADAPTATIONS TND REQUISES (${accessibilityProfiles.join(', ')}) :
+${accessibilityProfiles.includes('dyslexia') ? '- Questions courtes avec vocabulaire simple, eviter les mots complexes\n- Phrases simples (sujet-verbe-complement)\n' : ''}${accessibilityProfiles.includes('dyscalculia') ? '- Utiliser des nombres simples et des contextes concrets\n- Proposer des etapes intermediaires dans les calculs\n' : ''}${accessibilityProfiles.includes('adhd') ? '- Questions tres courtes et directes\n- Un seul concept par question\n- Encouragements dans les explications\n' : ''}${accessibilityProfiles.includes('autism') ? '- Instructions tres explicites et sans ambiguite\n- Eviter les expressions figurees ou le second degre\n- Structure previsible pour chaque question\n' : ''}${accessibilityProfiles.includes('dyspraxia') ? '- Options de reponse courtes (1-3 mots max)\n- Texte des questions court et clair\n' : ''}` : ''}`
 
   try {
     const message = await anthropic.messages.create({

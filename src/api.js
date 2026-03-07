@@ -123,6 +123,39 @@ export const deleteLesson = async (id) => {
   return request(`/api/lessons/${id}`, { method: 'DELETE' })
 }
 
+// ─── Update child (TND profile) ──────────────────────────────────
+export const updateChild = async (id, data) => {
+  return request(`/api/children/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  })
+}
+
+// ─── Progress tracking ──────────────────────────────────────────────
+export const recordExercise = async (data) => {
+  return request('/api/progress/exercise', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+}
+
+export const getProgress = async (childId, filters = {}) => {
+  const params = new URLSearchParams()
+  if (filters.subject) params.set('subject', filters.subject)
+  if (filters.from) params.set('from', filters.from)
+  if (filters.to) params.set('to', filters.to)
+  const qs = params.toString()
+  return request(`/api/progress/${childId}${qs ? '?' + qs : ''}`)
+}
+
+export const getProgressSummary = async (childId, filters = {}) => {
+  const params = new URLSearchParams()
+  if (filters.from) params.set('from', filters.from)
+  if (filters.to) params.set('to', filters.to)
+  const qs = params.toString()
+  return request(`/api/progress/${childId}/summary${qs ? '?' + qs : ''}`)
+}
+
 // ─── AI Generation (server only) ──────────────────────────────────
 export const generateExercises = async (params) => {
   return request('/api/generate', {

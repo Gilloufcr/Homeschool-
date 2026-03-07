@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import confetti from 'canvas-confetti'
+import { recordExercise } from '../api'
 import {
   historyMapPoints,
   geographyMapPoints,
@@ -68,6 +69,20 @@ export default function InteractiveMap({ profile, progress, onComplete, onBack }
     setQuizAnswer(answer)
     const correct = answer === point.quiz.answer
     setQuizResult(correct)
+
+    // Record to server
+    recordExercise({
+      childId: profile?.id,
+      exerciseId: `map-${point.id}`,
+      subject: mode === 'history' ? 'history' : 'geography',
+      grade: profile?.grade || '',
+      question: point.quiz.question,
+      givenAnswer: String(answer),
+      correctAnswer: String(point.quiz.answer),
+      isCorrect: correct,
+      duration: 0,
+      levelName: 'Carte interactive',
+    }).catch(() => {})
 
     if (correct) {
       confetti({

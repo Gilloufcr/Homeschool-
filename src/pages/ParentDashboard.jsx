@@ -8,6 +8,8 @@ import {
   addLesson,
 } from '../api'
 import AIGenerator from '../components/AIGenerator'
+import ReportsPage from '../components/ReportsPage'
+import AccessibilitySettings from '../components/AccessibilitySettings'
 
 export default function ParentDashboard({
   family,
@@ -24,6 +26,7 @@ export default function ParentDashboard({
   const [newChild, setNewChild] = useState({ name: '', theme: 'minecraft', avatar: '⛏️', grade: 'CM2' })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [editingTND, setEditingTND] = useState(null)
 
   useEffect(() => {
     loadData()
@@ -402,6 +405,8 @@ export default function ParentDashboard({
           {[
             { id: 'home', label: 'Enfants' },
             { id: 'children', label: 'Gerer' },
+            { id: 'reports', label: 'Rapports' },
+            { id: 'accessibility', label: 'TND' },
             { id: 'lessons', label: 'Lecons' },
             { id: 'generate', label: 'Generer (IA)' },
           ].map((t) => (
@@ -595,6 +600,87 @@ export default function ParentDashboard({
                   </button>
                 </div>
               ))
+            )}
+          </div>
+        )}
+
+        {/* ─── Reports tab ─── */}
+        {tab === 'reports' && (
+          <ReportsPage children={children} />
+        )}
+
+        {/* ─── Accessibility / TND tab ─── */}
+        {tab === 'accessibility' && (
+          <div>
+            {children.length === 0 ? (
+              <div style={s.emptyState}>
+                <div style={{ fontSize: '3rem', marginBottom: '15px' }}>♿</div>
+                <div style={{ fontSize: '1.1rem', marginBottom: '8px', color: 'rgba(255,255,255,0.6)' }}>
+                  Aucun enfant
+                </div>
+                <div style={{ fontSize: '0.85rem' }}>
+                  Ajoutez un enfant d'abord dans l'onglet "Gerer"
+                </div>
+              </div>
+            ) : !editingTND ? (
+              <div>
+                <div style={{
+                  fontFamily: "'Quicksand', sans-serif", fontSize: '0.9rem',
+                  color: 'rgba(255,255,255,0.6)', marginBottom: '20px', lineHeight: '1.6',
+                }}>
+                  Configurez les adaptations pour les Troubles Neurodeveloppementaux (TND) de chaque enfant.
+                  Les exercices et l'interface s'adapteront automatiquement.
+                </div>
+                {children.map((child) => (
+                  <div key={child.id} style={s.card}>
+                    <div style={{ fontSize: '2rem' }}>{child.avatar}</div>
+                    <div style={s.cardInfo}>
+                      <div style={s.cardName}>{child.name}</div>
+                      <div style={s.cardMeta}>
+                        {child.accessibility?.profiles?.length > 0
+                          ? child.accessibility.profiles.map(p => {
+                              const labels = { dyslexia: 'Dyslexie', dyscalculia: 'Dyscalculie', adhd: 'TDAH', autism: 'TSA', dyspraxia: 'Dyspraxie' }
+                              return labels[p] || p
+                            }).join(', ')
+                          : 'Aucune adaptation configuree'
+                        }
+                      </div>
+                    </div>
+                    <button
+                      style={{
+                        padding: '8px 16px', borderRadius: '10px', border: 'none',
+                        background: 'rgba(155,89,182,0.15)', color: '#9B59B6',
+                        fontFamily: "'Quicksand', sans-serif", fontSize: '0.8rem',
+                        fontWeight: '600', cursor: 'pointer',
+                      }}
+                      onClick={() => setEditingTND(child)}
+                    >
+                      Configurer
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div>
+                <button
+                  style={{
+                    padding: '8px 16px', borderRadius: '10px',
+                    border: '1px solid rgba(155,89,182,0.3)',
+                    background: 'rgba(155,89,182,0.1)', color: '#9B59B6',
+                    fontFamily: "'Quicksand', sans-serif", fontSize: '0.85rem',
+                    fontWeight: '600', cursor: 'pointer', marginBottom: '20px',
+                  }}
+                  onClick={() => { setEditingTND(null); loadData(); }}
+                >
+                  Retour a la liste
+                </button>
+                <AccessibilitySettings
+                  child={editingTND}
+                  onUpdate={(updatedChild) => {
+                    setChildren(prev => prev.map(c => c.id === updatedChild.id ? updatedChild : c))
+                  }}
+                />
+              </div>
             )}
           </div>
         )}

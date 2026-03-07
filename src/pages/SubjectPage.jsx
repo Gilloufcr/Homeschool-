@@ -165,7 +165,12 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <ExerciseCard key={exercise.id} exercise={exercise} theme={profile.theme}
               onComplete={handleExerciseComplete}
-              isCompleted={progress.completedExercises.includes(exercise.id)} />
+              isCompleted={progress.completedExercises.includes(exercise.id)}
+              accessibility={profile.accessibility}
+              childId={profile.id}
+              childGrade={profile.grade}
+              subject={subject}
+              levelName={selectedLevel.name || selectedLevel.nameMinecraft || ''} />
           </div>
 
           {(subject === 'english' || subject === 'french') && (
