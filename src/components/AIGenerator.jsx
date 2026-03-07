@@ -216,12 +216,11 @@ export default function AIGenerator({ onGenerated, existingLessons = [] }) {
       padding: '12px 16px',
       borderRadius: '12px',
       border: '2px solid rgba(155,89,182,0.2)',
-      background: 'rgba(255,255,255,0.05)',
+      background: '#1a1a2e',
       color: 'white',
       fontFamily: "'Quicksand', sans-serif",
       fontSize: '0.95rem',
       outline: 'none',
-      appearance: 'none',
     },
     row: {
       display: 'flex',

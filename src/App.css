@@ -55,6 +55,13 @@
   background: rgba(155, 89, 182, 0.5);
 }
 
+/* Select dropdown options — readable on dark backgrounds */
+select option {
+  background: #1a1a2e;
+  color: #fff;
+  padding: 8px;
+}
+
 /* Selection color */
 ::selection {
   background: rgba(155, 89, 182, 0.3);
