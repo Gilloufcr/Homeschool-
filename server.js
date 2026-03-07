@@ -447,9 +447,12 @@ const DIST_DIR = join(__dirname, 'dist')
 if (existsSync(DIST_DIR)) {
   app.use(express.static(DIST_DIR))
   // SPA fallback: serve index.html for any non-API route
-  app.get('*', (req, res) => {
-    if (!req.path.startsWith('/api/')) {
+  // Express 5 uses path-to-regexp v8 which requires named params
+  app.use((req, res, next) => {
+    if (req.method === 'GET' && !req.path.startsWith('/api/')) {
       res.sendFile(join(DIST_DIR, 'index.html'))
+    } else {
+      next()
     }
   })
   console.log('   Serving frontend from dist/')
