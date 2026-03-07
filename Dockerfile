@@ -18,15 +18,15 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install rclone for cloud backups
-RUN apk add --no-cache rclone
+# Install rclone + build tools for native modules (better-sqlite3)
+RUN apk add --no-cache rclone python3 make g++
 
 # Only install production dependencies
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev && apk del python3 make g++
 
-# Copy server + built frontend
-COPY server.js ./
+# Copy server + database module + built frontend
+COPY server.js database.js ./
 COPY --from=builder /app/dist ./dist
 
 # Copy backup infrastructure
