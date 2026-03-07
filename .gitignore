@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 .env
+rclone.conf
 data/app-data.json
 
 # Editor directories and files

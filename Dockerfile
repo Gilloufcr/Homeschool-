@@ -18,6 +18,9 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+# Install rclone for cloud backups
+RUN apk add --no-cache rclone
+
 # Only install production dependencies
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
@@ -25,6 +28,11 @@ RUN npm ci --omit=dev
 # Copy server + built frontend
 COPY server.js ./
 COPY --from=builder /app/dist ./dist
+
+# Copy backup infrastructure
+COPY backup.sh entrypoint.sh ./
+RUN chmod +x /app/backup.sh /app/entrypoint.sh
+COPY crontab /etc/crontabs/root
 
 # Data directory (mount as volume for persistence)
 RUN mkdir -p /app/data
@@ -34,4 +42,4 @@ EXPOSE 3001
 ENV NODE_ENV=production
 ENV PORT=3001
 
-CMD ["node", "server.js"]
+CMD ["/app/entrypoint.sh"]

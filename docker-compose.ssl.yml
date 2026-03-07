@@ -15,8 +15,10 @@ services:
       - NODE_ENV=production
       - PORT=3001
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - RCLONE_REMOTE=${RCLONE_REMOTE:-}
     volumes:
       - ./data:/app/data
+      - ./rclone.conf:/app/rclone.conf:ro
 
   nginx:
     image: nginx:alpine
