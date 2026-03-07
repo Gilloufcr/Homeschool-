@@ -60,17 +60,24 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
   const [bouncing, setBouncing] = useState(true)
   const [wingFrame, setWingFrame] = useState(true)
 
-  const getLevelStatus = (level) => {
+  // Compute completion status for each level (without unlock info yet)
+  const levelCompletions = levels.map(level => {
     const exerciseIds = level.exercises.map(e => e.id)
     const completed = exerciseIds.filter(id => completedExercises.includes(id)).length
     const total = exerciseIds.length
-    const unlocked = playerLevel >= level.minLevel
-    return { completed, total, unlocked, allDone: completed === total }
+    return { completed, total, allDone: completed === total && total > 0 }
+  })
+
+  // Sequential unlock: level 0 always unlocked, others require previous level completed
+  const getLevelStatus = (level, idx) => {
+    const { completed, total, allDone } = levelCompletions[idx]
+    const unlocked = idx === 0 || levelCompletions[idx - 1].allDone
+    return { completed, total, unlocked, allDone }
   }
 
   const currentLevelIdx = (() => {
     for (let i = levels.length - 1; i >= 0; i--) {
-      const s = getLevelStatus(levels[i])
+      const s = getLevelStatus(levels[i], i)
       if (s.unlocked && s.allDone) return Math.min(i + 1, levels.length - 1)
     }
     return 0
@@ -167,8 +174,8 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
           const toX = to.x / 100 * 400
           const midY = (from.y + to.y) / 2
 
-          const status = getLevelStatus(level)
-          const prevStatus = getLevelStatus(levels[idx - 1])
+          const status = getLevelStatus(level, idx)
+          const prevStatus = getLevelStatus(levels[idx - 1], idx - 1)
 
           const pathD = `M ${fromX} ${from.y} C ${fromX} ${midY}, ${toX} ${midY}, ${toX} ${to.y}`
 
@@ -212,7 +219,7 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
 
       {/* ─── LEVEL NODES ──────────────────────────────────── */}
       {levels.map((level, idx) => {
-        const status = getLevelStatus(level)
+        const status = getLevelStatus(level, idx)
         const pos = getNodePosition(idx, levels.length)
         const pct = status.total > 0 ? Math.round((status.completed / status.total) * 100) : 0
         const isCurrentLevel = idx === currentLevelIdx
@@ -376,7 +383,7 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
               fontWeight: '600',
             }}>
               {!status.unlocked
-                ? (isMinecraft ? `Niv.${level.minLevel}` : `Niv.${level.minLevel}`)
+                ? (isMinecraft ? `VERROU.` : 'Verrouille')
                 : status.allDone
                   ? (isMinecraft ? 'COMPLETE!' : 'Termine !')
                   : `${status.completed}/${status.total}`}
