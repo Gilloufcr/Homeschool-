@@ -687,7 +687,7 @@ export default function ParentDashboard({
 
         {/* ─── AI Generator tab ─── */}
         {tab === 'generate' && (
-          <AIGenerator onGenerated={handleLessonGenerated} existingLessons={lessons} />
+          <AIGenerator onGenerated={handleLessonGenerated} existingLessons={lessons} children={children} />
         )}
       </div>
     </div>

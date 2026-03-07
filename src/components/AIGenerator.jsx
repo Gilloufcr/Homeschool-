@@ -20,7 +20,7 @@ const LEVELS = [
   { id: '5eme', label: '5eme (12-13 ans)', age: '12-13' },
 ]
 
-export default function AIGenerator({ onGenerated, existingLessons = [] }) {
+export default function AIGenerator({ onGenerated, existingLessons = [], children = [] }) {
   const [subject, setSubject] = useState('math')
   const [topic, setTopic] = useState('')
   const [level, setLevel] = useState('CM2')
@@ -33,6 +33,7 @@ export default function AIGenerator({ onGenerated, existingLessons = [] }) {
   const [sharedStats, setSharedStats] = useState(null)
   const [loadingShared, setLoadingShared] = useState(false)
   const [cacheHint, setCacheHint] = useState(null) // Show if topic exists in cache
+  const [targetChild, setTargetChild] = useState('') // child id for TND adaptation
 
   // Get curriculum-based suggestions for current level + subject
   const curriculumTopics = getTopicSuggestions(level, subject)
@@ -117,6 +118,8 @@ export default function AIGenerator({ onGenerated, existingLessons = [] }) {
     setPreview(null)
 
     try {
+      const selectedChild = children.find(c => c.id === targetChild)
+      const accessibilityProfiles = selectedChild?.accessibility?.profiles || []
       const lesson = await generateExercises({
         subject,
         topic: topic.trim(),
@@ -124,6 +127,7 @@ export default function AIGenerator({ onGenerated, existingLessons = [] }) {
         count,
         childAge,
         existingQuestions: existingQuestions.slice(0, 50),
+        ...(accessibilityProfiles.length > 0 ? { accessibilityProfiles } : {}),
       })
       setPreview(lesson)
       // Refresh stats
@@ -506,6 +510,38 @@ export default function AIGenerator({ onGenerated, existingLessons = [] }) {
       {/* ─── Generate mode ──────────────────────────────────── */}
       {mode === 'generate' && (
         <>
+          {/* TND child selector */}
+          {children.length > 0 && children.some(c => c.accessibility?.profiles?.length > 0) && (
+            <div style={s.section}>
+              <label style={s.label}>
+                Adapter pour un enfant TND
+                <span style={s.badge}>Adaptations TND</span>
+              </label>
+              <select style={s.select} value={targetChild} onChange={(e) => setTargetChild(e.target.value)}>
+                <option value="">Aucune adaptation (standard)</option>
+                {children.filter(c => c.accessibility?.profiles?.length > 0).map(c => {
+                  const labels = { dyslexia: 'Dyslexie', dyscalculia: 'Dyscalculie', adhd: 'TDAH', autism: 'TSA', dyspraxia: 'Dyspraxie' }
+                  const profileNames = c.accessibility.profiles.map(p => labels[p] || p).join(', ')
+                  return (
+                    <option key={c.id} value={c.id}>
+                      {c.name} ({profileNames})
+                    </option>
+                  )
+                })}
+              </select>
+              {targetChild && (
+                <div style={{
+                  marginTop: '8px', padding: '10px 14px', borderRadius: '10px',
+                  background: 'rgba(155,89,182,0.08)', border: '1px solid rgba(155,89,182,0.15)',
+                  fontFamily: "'Quicksand', sans-serif", fontSize: '0.78rem',
+                  color: 'rgba(155,89,182,0.8)', lineHeight: '1.5',
+                }}>
+                  Les exercices generes seront adaptes : questions plus courtes, vocabulaire simplifie, consignes explicites.
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Topic */}
           <div style={s.section}>
             <label style={s.label}>
