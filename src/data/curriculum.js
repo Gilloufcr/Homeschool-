@@ -173,6 +173,41 @@ export const curriculum = {
         },
       ],
     },
+    emc: {
+      label: 'EMC CE2',
+      domains: [
+        {
+          name: 'La sensibilite',
+          topics: [
+            'Identifier et exprimer ses emotions',
+            'Respecter les autres et leurs differences',
+            'Le vivre-ensemble et les regles de vie',
+          ],
+        },
+        {
+          name: 'Le droit et la regle',
+          topics: [
+            'Les regles de la classe et de l\'ecole',
+            'Les droits et devoirs de l\'enfant',
+            'Les symboles de la Republique francaise',
+          ],
+        },
+        {
+          name: 'Le jugement',
+          topics: [
+            'L\'egalite filles-garcons',
+            'Distinguer le bien du mal dans des situations simples',
+          ],
+        },
+        {
+          name: 'L\'engagement',
+          topics: [
+            'Les gestes de securite au quotidien',
+            'Prendre soin de son environnement proche',
+          ],
+        },
+      ],
+    },
   },
 
   // ─── CYCLE 3 : CM1 ─────────────────────────────────────────────────
@@ -358,6 +393,41 @@ export const curriculum = {
             'Present simple et present continu',
             'Les vetements et le corps',
             'Les metiers',
+          ],
+        },
+      ],
+    },
+    emc: {
+      label: 'EMC CM1',
+      domains: [
+        {
+          name: 'La sensibilite',
+          topics: [
+            'L\'empathie et le respect des differences',
+            'Le harcelement : le reconnaitre et reagir',
+            'Gerer les conflits par le dialogue',
+          ],
+        },
+        {
+          name: 'Le droit et la regle',
+          topics: [
+            'Les droits de l\'enfant (Convention de 1989)',
+            'La democratie a l\'ecole : elections de delegues',
+            'La laicite et la Charte de la laicite',
+          ],
+        },
+        {
+          name: 'Le jugement',
+          topics: [
+            'L\'egalite et la lutte contre les stereotypes',
+            'Developper son esprit critique',
+          ],
+        },
+        {
+          name: 'L\'engagement',
+          topics: [
+            'La protection de l\'environnement et le developpement durable',
+            'La solidarite et l\'entraide',
           ],
         },
       ],
@@ -559,6 +629,40 @@ export const curriculum = {
         },
       ],
     },
+    emc: {
+      label: 'EMC CM2',
+      domains: [
+        {
+          name: 'La sensibilite',
+          topics: [
+            'Les medias et l\'esprit critique face aux fake news',
+            'La liberte d\'expression et ses limites',
+          ],
+        },
+        {
+          name: 'Le droit et la regle',
+          topics: [
+            'La Republique francaise et ses institutions',
+            'La Declaration des droits de l\'Homme et du Citoyen (1789)',
+            'Le fonctionnement de la justice',
+          ],
+        },
+        {
+          name: 'Le jugement',
+          topics: [
+            'Les valeurs de la Republique : liberte, egalite, fraternite',
+            'Debattre et argumenter',
+          ],
+        },
+        {
+          name: 'L\'engagement',
+          topics: [
+            'L\'engagement citoyen et les associations',
+            'Le benevolat et la solidarite',
+          ],
+        },
+      ],
+    },
   },
 
   // ─── CYCLE 3 : 6eme ────────────────────────────────────────────────
@@ -741,6 +845,34 @@ export const curriculum = {
         },
       ],
     },
+    emc: {
+      label: 'EMC 6eme',
+      domains: [
+        {
+          name: 'Respecter autrui',
+          topics: [
+            'Identite personnelle et diversite',
+            'Lutter contre les discriminations et le racisme',
+            'Le respect de la dignite humaine',
+          ],
+        },
+        {
+          name: 'Acquerir et partager les valeurs de la Republique',
+          topics: [
+            'Le droit et la regle : comprendre le sens de la loi',
+            'La vie democratique : elections et participation',
+            'Les droits de l\'Homme et le suffrage universel',
+          ],
+        },
+        {
+          name: 'Construire une culture civique',
+          topics: [
+            'L\'esprit critique et le jugement moral',
+            'Internet et citoyennete numerique (droit a l\'image, RGPD)',
+          ],
+        },
+      ],
+    },
   },
 
   // ─── CYCLE 4 : 5eme (debut) ────────────────────────────────────────
@@ -890,6 +1022,35 @@ export const curriculum = {
             'Donner des conseils',
             'Comprendre un texte de 250 mots',
             'Ecrire un texte de 80-100 mots',
+          ],
+        },
+      ],
+    },
+    emc: {
+      label: 'EMC 5eme',
+      domains: [
+        {
+          name: 'Respecter autrui',
+          topics: [
+            'Egalite, discrimination et lutte contre les prejuges',
+            'La parite homme-femme',
+            'Solidarite internationale et ONG',
+          ],
+        },
+        {
+          name: 'Acquerir et partager les valeurs de la Republique',
+          topics: [
+            'La securite et la defense nationale (JDC, Vigipirate)',
+            'Les formes d\'engagement citoyen (service civique, associations)',
+            'La liberte d\'association (loi 1901)',
+          ],
+        },
+        {
+          name: 'Construire une culture civique',
+          topics: [
+            'Bioethique et questions ethiques liees au progres scientifique',
+            'Le referendum et la participation democratique',
+            'Engagement et citoyennete active',
           ],
         },
       ],

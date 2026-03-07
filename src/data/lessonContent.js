@@ -551,4 +551,101 @@ export const lessons = {
       },
     ],
   },
+
+  // ─── EMC ──────────────────────────────────────────────────────────
+  'emc-ce2-1': {
+    title: 'CE2 - Vivre ensemble',
+    pages: [
+      {
+        emoji: '🤝',
+        title: 'Les regles de vie',
+        content: 'Dans une classe, comme dans la societe, il y a des regles. Elles existent pour que tout le monde puisse vivre ensemble, apprendre et se sentir en securite. Ces regles sont decidees ensemble !',
+        highlights: ['Respecter les autres', 'Lever la main pour parler', 'Ecouter quand quelqu\'un parle'],
+        tip: 'Un droit, c\'est ce que tu peux faire (aller a l\'ecole, jouer). Un devoir, c\'est ce que tu dois faire (respecter les autres, etre poli).',
+      },
+      {
+        emoji: '💬',
+        title: 'Le respect',
+        content: 'Respecter quelqu\'un, c\'est accepter qu\'il soit different de toi : une autre couleur de peau, une autre langue, un handicap... La difference, c\'est une richesse !',
+        highlights: ['Chacun est unique', 'La difference est une richesse', 'Etre poli et bienveillant'],
+        tip: 'Si un camarade est triste ou seul, un simple "Ca va ?" peut changer sa journee. L\'empathie, c\'est se mettre a la place de l\'autre.',
+      },
+    ],
+  },
+  'emc-cm1-1': {
+    title: 'CM1 - Les droits de l\'enfant',
+    pages: [
+      {
+        emoji: '📜',
+        title: 'La Convention des droits de l\'enfant',
+        content: 'En 1989, presque tous les pays du monde ont signe la Convention internationale des droits de l\'enfant. Ce texte protege tous les enfants jusqu\'a 18 ans : droit a l\'education, a la sante, a la protection, aux loisirs...',
+        highlights: ['Adoptee en 1989', 'Protege tous les enfants de moins de 18 ans', 'Droit a l\'education, a la sante, aux loisirs'],
+        tip: 'L\'UNICEF est l\'organisme de l\'ONU qui veille au respect des droits des enfants dans le monde. Son nom signifie "Fonds des Nations Unies pour l\'Enfance".',
+      },
+      {
+        emoji: '⚖️',
+        title: 'Droits et devoirs',
+        content: 'Avoir des droits, c\'est aussi avoir des devoirs. Tu as le droit d\'aller a l\'ecole, mais tu as le devoir de travailler. Tu as le droit de jouer, mais tu as le devoir de respecter les regles du jeu.',
+        highlights: ['Droit a l\'education → devoir de travailler', 'Droit de s\'exprimer → devoir d\'ecouter les autres'],
+        tip: 'Le travail des enfants est interdit ! Aucun enfant ne devrait travailler au lieu d\'aller a l\'ecole. Malheureusement, 160 millions d\'enfants travaillent encore dans le monde.',
+      },
+    ],
+  },
+  'emc-cm2-1': {
+    title: 'CM2 - La Republique francaise',
+    pages: [
+      {
+        emoji: '🏛️',
+        title: 'Les institutions',
+        content: 'La France est une Republique democratique. Le President est elu pour 5 ans (quinquennat) au suffrage universel. Il nomme le Premier ministre. Le Parlement (Assemblee nationale + Senat) vote les lois.',
+        highlights: ['President elu pour 5 ans', 'Premier ministre nomme par le President', 'Le Parlement vote les lois'],
+        tip: 'La Constitution de la Ve Republique date de 1958. C\'est le texte supreme qui organise tous les pouvoirs en France.',
+      },
+      {
+        emoji: '🇫🇷',
+        title: 'Les valeurs de la Republique',
+        content: 'Liberte, Egalite, Fraternite : c\'est la devise de la France. Le drapeau tricolore (bleu, blanc, rouge), La Marseillaise (hymne national) et Marianne (symbole de la Republique) sont nos symboles.',
+        highlights: ['Liberte, Egalite, Fraternite', 'Drapeau bleu, blanc, rouge', 'La Marseillaise', 'Marianne'],
+        tip: 'La fete nationale du 14 juillet commemore la prise de la Bastille en 1789, symbole de la fin de l\'Ancien Regime.',
+      },
+    ],
+  },
+  'emc-6e-1': {
+    title: '6eme - Identite et diversite',
+    pages: [
+      {
+        emoji: '🌈',
+        title: 'Identite et diversite',
+        content: 'Ton identite, c\'est ce qui te definit : ton nom, ta nationalite, ta culture, tes gouts, tes valeurs... Chaque personne est unique. La diversite de nos identites est une richesse pour la societe.',
+        highlights: ['Chaque personne est unique', 'La diversite est une richesse', 'Identite = nom, culture, valeurs, gouts...'],
+        tip: 'La discrimination (traiter differemment quelqu\'un a cause de son origine, son sexe, son handicap...) est interdite et punie par la loi en France. Plus de 25 criteres de discrimination sont reconnus.',
+      },
+      {
+        emoji: '⚖️',
+        title: 'Lutter contre les discriminations',
+        content: 'Le racisme, le sexisme, l\'homophobie sont des formes de discrimination. En France, le Defenseur des droits est une autorite independante qui aide les victimes. Tu peux aussi appeler le 3928.',
+        highlights: ['Le Defenseur des droits protege les victimes', 'Numero : 3928', 'Toute discrimination est punie par la loi'],
+        tip: 'Face a une situation de discrimination, ne reste jamais silencieux. Parles-en a un adulte de confiance. Tu peux aussi contacter le Defenseur des droits sur antidiscriminations.fr.',
+      },
+    ],
+  },
+  'emc-5e-1': {
+    title: '5eme - Egalite et discrimination',
+    pages: [
+      {
+        emoji: '⚖️',
+        title: 'L\'egalite en droit',
+        content: 'L\'egalite en droit signifie que la loi s\'applique de la meme facon a tous, sans distinction d\'origine, de sexe, de religion ou de handicap. La parite vise a avoir autant de femmes que d\'hommes dans les instances de decision.',
+        highlights: ['La loi est la meme pour tous', 'La parite : autant de femmes que d\'hommes', 'Plus de 25 criteres de discrimination reconnus par la loi'],
+        tip: 'Le Defenseur des droits est une autorite independante creee en 2011. Il peut etre saisi par n\'importe qui, meme un mineur, via antidiscriminations.fr ou le 3928.',
+      },
+      {
+        emoji: '🌍',
+        title: 'Solidarite internationale',
+        content: 'L\'ONU (creee en 1945) reunit 193 pays pour la paix et la cooperation. Les ONG comme Medecins Sans Frontieres ou la Croix-Rouge agissent dans les zones de crise. Les 17 Objectifs de Developpement Durable guident l\'action mondiale.',
+        highlights: ['ONU : 193 pays', '17 Objectifs de Developpement Durable', 'ONG : organisations independantes d\'interet general'],
+        tip: 'Le service civique permet aux jeunes de 16 a 25 ans de s\'engager dans une mission d\'interet general pendant 6 a 12 mois. C\'est volontaire et indemnise.',
+      },
+    ],
+  },
 }

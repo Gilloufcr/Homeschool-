@@ -55,6 +55,14 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
       color: isMinecraft ? 'linear-gradient(135deg, #C62828, #B71C1C)' : 'linear-gradient(135deg, #E74C3C, #C0392B)',
       border: isMinecraft ? '#C62828' : '#E74C3C',
     },
+    {
+      id: 'emc',
+      name: 'EMC',
+      icon: '⚖️',
+      desc: isMinecraft ? 'Les regles du serveur et la justice' : 'Deviens un citoyen eclaire',
+      color: isMinecraft ? 'linear-gradient(135deg, #5C6BC0, #3949AB)' : 'linear-gradient(135deg, #7E57C2, #5E35B1)',
+      border: isMinecraft ? '#5C6BC0' : '#7E57C2',
+    },
   ]
 
   const pageStyle = {

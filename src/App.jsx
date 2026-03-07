@@ -11,6 +11,7 @@ import { historyLevels } from './data/historyExercises'
 import { geographyLevels } from './data/geographyExercises'
 import { scienceLevels } from './data/scienceExercises'
 import { englishLevels } from './data/englishExercises'
+import { emcLevels } from './data/emcExercises'
 import { useProgress } from './hooks/useProgress'
 import { isLoggedIn, getSavedFamily, authLogout, getLessons } from './api'
 import { lessons as lessonContent } from './data/lessonContent'
@@ -30,6 +31,7 @@ const BUILTIN_LEVELS = {
   geography: attachLessons(geographyLevels),
   science: attachLessons(scienceLevels),
   english: attachLessons(englishLevels),
+  emc: attachLessons(emcLevels),
 }
 
 function App() {
@@ -154,7 +156,7 @@ function App() {
   }
 
   // Subject pages for child
-  const subjects = ['math', 'french', 'history', 'geography', 'science', 'english']
+  const subjects = ['math', 'french', 'history', 'geography', 'science', 'english', 'emc']
   if (subjects.includes(currentPage)) {
     return (
       <SubjectPage

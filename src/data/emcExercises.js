@@ -1,0 +1,342 @@
+// ═══════════════════════════════════════════════════════════════
+// EMC (Enseignement Moral et Civique) — Multiples chapitres par niveau
+// Chaque grade (CE2→5eme) a 5 niveaux thematiques
+// Programmes officiels Education nationale
+// ═══════════════════════════════════════════════════════════════
+
+export const emcLevels = [
+  // ─── CE2 ─────────────────────────────────────────────────────
+  {
+    id: 'emc-ce2-1', grade: 'CE2', minLevel: 1,
+    name: 'CE2 - Vivre ensemble',
+    nameMinecraft: 'Village cooperatif', nameLalilo: 'Le jardin du vivre-ensemble',
+    description: 'Les regles de la vie en collectivite',
+    exercises: [
+      { id: 'emc-ce2-1-1', type: 'choice', question: 'Pourquoi y a-t-il des regles dans une classe ?', answer: 'Pour que tout le monde puisse travailler et se sentir bien', options: ['Pour punir les eleves', 'Pour que tout le monde puisse travailler et se sentir bien', 'Parce que le maitre l\'a decide tout seul', 'Pour empecher de jouer'], xp: 10 },
+      { id: 'emc-ce2-1-2', type: 'choice', question: 'Que signifie "respecter les autres" ?', answer: 'Accepter les differences et etre poli', options: ['Faire tout ce qu\'ils veulent', 'Accepter les differences et etre poli', 'Ne jamais leur parler', 'Toujours etre d\'accord avec eux'], xp: 10 },
+      { id: 'emc-ce2-1-3', type: 'choice', question: 'Si un camarade est triste, que peux-tu faire ?', answer: 'Lui demander ce qui ne va pas et l\'ecouter', options: ['L\'ignorer', 'Lui demander ce qui ne va pas et l\'ecouter', 'Se moquer de lui', 'Le forcer a jouer'], xp: 10 },
+      { id: 'emc-ce2-1-4', type: 'choice', question: 'Qu\'est-ce qu\'un droit ?', answer: 'Ce que l\'on peut faire et qui est protege par la loi', options: ['Une punition', 'Ce que l\'on peut faire et qui est protege par la loi', 'Une regle que l\'on peut ignorer', 'Un devoir obligatoire'], xp: 15 },
+      { id: 'emc-ce2-1-5', type: 'choice', question: 'Les regles de vie de la classe sont decidees :', answer: 'ensemble, par les eleves et le maitre', options: ['par le directeur seul', 'ensemble, par les eleves et le maitre', 'par les parents', 'par le maire'], xp: 15 },
+    ],
+  },
+  {
+    id: 'emc-ce2-2', grade: 'CE2', minLevel: 1,
+    name: 'CE2 - Les emotions',
+    nameMinecraft: 'Potions d\'emotions', nameLalilo: 'Le royaume des sentiments',
+    description: 'Reconnaitre et exprimer ses emotions',
+    exercises: [
+      { id: 'emc-ce2-2-1', type: 'choice', question: 'Combien d\'emotions de base y a-t-il ?', answer: '6 (joie, tristesse, colere, peur, surprise, degout)', options: ['2 (content, pas content)', '4 (joie, tristesse, colere, peur)', '6 (joie, tristesse, colere, peur, surprise, degout)', '10 emotions'], xp: 10 },
+      { id: 'emc-ce2-2-2', type: 'choice', question: 'Quand tu es en colere, que faut-il faire ?', answer: 'Respirer calmement et en parler', options: ['Crier sur les autres', 'Respirer calmement et en parler', 'Taper du pied', 'Ne rien dire et bouder'], xp: 10 },
+      { id: 'emc-ce2-2-3', type: 'choice', question: 'Est-ce normal d\'avoir peur parfois ?', answer: 'Oui, toutes les emotions sont normales', options: ['Non, il faut etre courageux', 'Oui, toutes les emotions sont normales', 'Non, la peur est une faiblesse', 'Seulement les enfants ont peur'], xp: 10 },
+      { id: 'emc-ce2-2-4', type: 'choice', question: 'Pourquoi est-il important d\'exprimer ses emotions ?', answer: 'Pour que les autres nous comprennent et pour se sentir mieux', options: ['Ce n\'est pas important', 'Pour que les autres nous comprennent et pour se sentir mieux', 'Pour attirer l\'attention', 'Pour embeter les autres'], xp: 15 },
+      { id: 'emc-ce2-2-5', type: 'choice', question: 'L\'empathie, c\'est :', answer: 'comprendre ce que l\'autre ressent', options: ['etre toujours d\'accord', 'comprendre ce que l\'autre ressent', 'pleurer quand quelqu\'un pleure', 'donner des conseils'], xp: 15 },
+    ],
+  },
+  {
+    id: 'emc-ce2-3', grade: 'CE2', minLevel: 1,
+    name: 'CE2 - Egalite filles-garcons',
+    nameMinecraft: 'Egalite dans le crafting', nameLalilo: 'Le monde equitable',
+    description: 'L\'egalite entre les filles et les garcons',
+    exercises: [
+      { id: 'emc-ce2-3-1', type: 'choice', question: 'Les filles et les garcons ont-ils les memes droits ?', answer: 'Oui, ils ont exactement les memes droits', options: ['Non, les garcons en ont plus', 'Oui, ils ont exactement les memes droits', 'Non, les filles en ont plus', 'Ca depend des pays'], xp: 10 },
+      { id: 'emc-ce2-3-2', type: 'choice', question: 'Un garcon peut-il faire de la danse ?', answer: 'Oui, tous les sports sont ouverts a tous', options: ['Non, c\'est pour les filles', 'Oui, tous les sports sont ouverts a tous', 'Seulement certaines danses', 'Non, c\'est interdit'], xp: 10 },
+      { id: 'emc-ce2-3-3', type: 'choice', question: 'Une fille peut-elle devenir pilote d\'avion ?', answer: 'Oui, tous les metiers sont accessibles a tous', options: ['Non, c\'est trop dangereux', 'Oui, tous les metiers sont accessibles a tous', 'Peut-etre, mais c\'est rare', 'Non, c\'est un metier d\'homme'], xp: 10 },
+      { id: 'emc-ce2-3-4', type: 'choice', question: 'Un stereotype, c\'est :', answer: 'une idee toute faite qui n\'est pas toujours vraie', options: ['une verite scientifique', 'une idee toute faite qui n\'est pas toujours vraie', 'un type de photo', 'une regle de l\'ecole'], xp: 15 },
+      { id: 'emc-ce2-3-5', type: 'choice', question: 'A la maison, les taches menageres doivent etre faites par :', answer: 'tout le monde, peu importe si on est fille ou garcon', options: ['les filles uniquement', 'les garcons uniquement', 'les parents uniquement', 'tout le monde, peu importe si on est fille ou garcon'], xp: 15 },
+    ],
+  },
+  {
+    id: 'emc-ce2-4', grade: 'CE2', minLevel: 1,
+    name: 'CE2 - La securite',
+    nameMinecraft: 'Armure de protection', nameLalilo: 'Le bouclier magique',
+    description: 'Les regles de securite au quotidien',
+    exercises: [
+      { id: 'emc-ce2-4-1', type: 'choice', question: 'Quel numero appeler en cas d\'urgence en France ?', answer: '15 (SAMU), 17 (Police), 18 (Pompiers) ou 112', options: ['Le 0800', '15 (SAMU), 17 (Police), 18 (Pompiers) ou 112', 'Le 3615', 'Le 01 02 03 04'], xp: 10 },
+      { id: 'emc-ce2-4-2', type: 'choice', question: 'Avant de traverser la route, que faut-il faire ?', answer: 'Regarder a gauche, a droite, puis encore a gauche', options: ['Courir tres vite', 'Regarder a gauche, a droite, puis encore a gauche', 'Fermer les yeux', 'Traverser sans regarder si le feu est vert'], xp: 10 },
+      { id: 'emc-ce2-4-3', type: 'choice', question: 'Un inconnu te propose de monter dans sa voiture. Que fais-tu ?', answer: 'Je refuse et je previens un adulte de confiance', options: ['J\'accepte si il est gentil', 'Je refuse et je previens un adulte de confiance', 'Ca depend de la voiture', 'J\'accepte s\'il connait mon prenom'], xp: 15 },
+      { id: 'emc-ce2-4-4', type: 'choice', question: 'Pourquoi faut-il mettre sa ceinture en voiture ?', answer: 'Pour etre protege en cas d\'accident', options: ['Pour faire plaisir aux parents', 'Pour etre protege en cas d\'accident', 'C\'est seulement pour les adultes', 'Ce n\'est pas obligatoire'], xp: 10 },
+      { id: 'emc-ce2-4-5', type: 'choice', question: 'Que faire si tu trouves un medicament par terre ?', answer: 'Ne pas y toucher et prevenir un adulte', options: ['Le gouter pour voir ce que c\'est', 'Ne pas y toucher et prevenir un adulte', 'Le mettre dans sa poche', 'Le donner a un copain'], xp: 15 },
+    ],
+  },
+  {
+    id: 'emc-ce2-5', grade: 'CE2', minLevel: 1,
+    name: 'CE2 - Les symboles de la France',
+    nameMinecraft: 'Banniere de la Republique', nameLalilo: 'Les tresors de Marianne',
+    description: 'Connaitre les symboles de la Republique francaise',
+    exercises: [
+      { id: 'emc-ce2-5-1', type: 'choice', question: 'Quelles sont les couleurs du drapeau francais ?', answer: 'Bleu, blanc, rouge', options: ['Rouge, jaune, vert', 'Bleu, blanc, rouge', 'Noir, rouge, or', 'Blanc, vert, rouge'], xp: 10 },
+      { id: 'emc-ce2-5-2', type: 'choice', question: 'Comment s\'appelle l\'hymne national francais ?', answer: 'La Marseillaise', options: ['La Parisienne', 'La Marseillaise', 'La Francaise', 'La Republique'], xp: 10 },
+      { id: 'emc-ce2-5-3', type: 'choice', question: 'Quelle est la devise de la France ?', answer: 'Liberte, Egalite, Fraternite', options: ['Travail, Famille, Patrie', 'Liberte, Egalite, Fraternite', 'Unite, Force, Courage', 'Paix, Amour, Partage'], xp: 10 },
+      { id: 'emc-ce2-5-4', type: 'choice', question: 'Marianne represente :', answer: 'la Republique francaise', options: ['une reine de France', 'la Republique francaise', 'une sainte', 'une actrice celebre'], xp: 15 },
+      { id: 'emc-ce2-5-5', type: 'choice', question: 'Le 14 juillet, on fete :', answer: 'la Fete nationale (prise de la Bastille)', options: ['Noel en avance', 'la Fete nationale (prise de la Bastille)', 'l\'anniversaire du president', 'le debut des vacances'], xp: 15 },
+    ],
+  },
+
+  // ─── CM1 ─────────────────────────────────────────────────────
+  {
+    id: 'emc-cm1-1', grade: 'CM1', minLevel: 1,
+    name: 'CM1 - Les droits de l\'enfant',
+    nameMinecraft: 'Parchemin des droits', nameLalilo: 'La charte enchantee',
+    description: 'La Convention internationale des droits de l\'enfant',
+    exercises: [
+      { id: 'emc-cm1-1-1', type: 'choice', question: 'En quelle annee a ete adoptee la Convention internationale des droits de l\'enfant ?', answer: '1989', options: ['1789', '1945', '1989', '2000'], xp: 15 },
+      { id: 'emc-cm1-1-2', type: 'choice', question: 'Quel droit est fondamental pour tous les enfants ?', answer: 'Le droit a l\'education', options: ['Le droit d\'avoir un telephone', 'Le droit a l\'education', 'Le droit de ne pas dormir', 'Le droit de manger des bonbons'], xp: 10 },
+      { id: 'emc-cm1-1-3', type: 'choice', question: 'Jusqu\'a quel age est-on considere comme un enfant selon la Convention ?', answer: '18 ans', options: ['12 ans', '16 ans', '18 ans', '21 ans'], xp: 10 },
+      { id: 'emc-cm1-1-4', type: 'choice', question: 'Quel organisme de l\'ONU protege les droits des enfants ?', answer: 'l\'UNICEF', options: ['l\'UNESCO', 'l\'UNICEF', 'l\'OMS', 'la FAO'], xp: 15 },
+      { id: 'emc-cm1-1-5', type: 'choice', question: 'Le travail des enfants est :', answer: 'interdit, car les enfants ont droit a l\'education et aux loisirs', options: ['autorise a partir de 10 ans', 'interdit, car les enfants ont droit a l\'education et aux loisirs', 'autorise pendant les vacances', 'autorise si les parents sont d\'accord'], xp: 15 },
+    ],
+  },
+  {
+    id: 'emc-cm1-2', grade: 'CM1', minLevel: 1,
+    name: 'CM1 - La democratie a l\'ecole',
+    nameMinecraft: 'Conseil du village', nameLalilo: 'Le parlement feerique',
+    description: 'Les elections et la prise de decision collective',
+    exercises: [
+      { id: 'emc-cm1-2-1', type: 'choice', question: 'Comment choisit-on les delegues de classe ?', answer: 'Par un vote a bulletin secret', options: ['Le maitre les choisit', 'Par un vote a bulletin secret', 'Au hasard', 'Les plus grands sont delegues'], xp: 10 },
+      { id: 'emc-cm1-2-2', type: 'choice', question: 'Que signifie "voter a bulletin secret" ?', answer: 'Personne ne voit pour qui on vote', options: ['On vote en criant son choix', 'Personne ne voit pour qui on vote', 'On ne dit a personne qu\'on a vote', 'Le vote est cache au maitre'], xp: 10 },
+      { id: 'emc-cm1-2-3', type: 'choice', question: 'Un debat, c\'est :', answer: 'echanger des arguments differents en ecoutant les autres', options: ['une dispute ou on crie', 'echanger des arguments differents en ecoutant les autres', 'quand une seule personne parle', 'un jeu de cour de recreation'], xp: 15 },
+      { id: 'emc-cm1-2-4', type: 'choice', question: 'Le conseil de classe sert a :', answer: 'discuter des problemes et proposer des solutions ensemble', options: ['punir les eleves', 'discuter des problemes et proposer des solutions ensemble', 'feliciter seulement les meilleurs', 'annuler les controles'], xp: 10 },
+      { id: 'emc-cm1-2-5', type: 'choice', question: 'Que veut dire "democratie" ?', answer: 'Le pouvoir appartient au peuple', options: ['Le pouvoir d\'un seul roi', 'Le pouvoir appartient au peuple', 'Le pouvoir de l\'armee', 'Le pouvoir des riches'], xp: 15 },
+    ],
+  },
+  {
+    id: 'emc-cm1-3', grade: 'CM1', minLevel: 1,
+    name: 'CM1 - Le harcelement',
+    nameMinecraft: 'Anti-griefing', nameLalilo: 'Briser le sortilege',
+    description: 'Comprendre et lutter contre le harcelement',
+    exercises: [
+      { id: 'emc-cm1-3-1', type: 'choice', question: 'Le harcelement, c\'est :', answer: 'des violences repetees envers une meme personne', options: ['une dispute entre amis', 'des violences repetees envers une meme personne', 'se moquer une fois', 'un jeu entre camarades'], xp: 10 },
+      { id: 'emc-cm1-3-2', type: 'choice', question: 'Quel est le numero national contre le harcelement ?', answer: '3020', options: ['3020', '3615', '112', '15'], xp: 10 },
+      { id: 'emc-cm1-3-3', type: 'choice', question: 'Si tu es temoin de harcelement, que dois-tu faire ?', answer: 'En parler a un adulte de confiance', options: ['Ne rien faire pour ne pas avoir de problemes', 'En parler a un adulte de confiance', 'Participer pour ne pas etre vise', 'Filmer la scene'], xp: 15 },
+      { id: 'emc-cm1-3-4', type: 'choice', question: 'Le cyberharcelement, c\'est :', answer: 'du harcelement par internet ou les reseaux sociaux', options: ['un virus informatique', 'du harcelement par internet ou les reseaux sociaux', 'un jeu video', 'envoyer beaucoup de messages'], xp: 15 },
+      { id: 'emc-cm1-3-5', type: 'choice', question: 'Qui peut etre victime de harcelement ?', answer: 'N\'importe qui, personne ne le merite', options: ['Seulement les timides', 'Seulement les petits', 'N\'importe qui, personne ne le merite', 'Seulement ceux qui sont differents'], xp: 10 },
+    ],
+  },
+  {
+    id: 'emc-cm1-4', grade: 'CM1', minLevel: 1,
+    name: 'CM1 - L\'environnement',
+    nameMinecraft: 'Biome en danger', nameLalilo: 'Proteger la foret enchantee',
+    description: 'Responsabilite envers l\'environnement',
+    exercises: [
+      { id: 'emc-cm1-4-1', type: 'choice', question: 'Que signifie "developpement durable" ?', answer: 'Repondre aux besoins d\'aujourd\'hui sans compromettre ceux de demain', options: ['Construire plus de batiments', 'Repondre aux besoins d\'aujourd\'hui sans compromettre ceux de demain', 'Arreter tout progres', 'Produire toujours plus'], xp: 15 },
+      { id: 'emc-cm1-4-2', type: 'choice', question: 'Quel geste aide a proteger l\'environnement ?', answer: 'Trier ses dechets pour le recyclage', options: ['Laisser les lumieres allumees', 'Trier ses dechets pour le recyclage', 'Utiliser des sacs plastiques', 'Jeter ses dechets dans la nature'], xp: 10 },
+      { id: 'emc-cm1-4-3', type: 'choice', question: 'L\'eau potable est :', answer: 'une ressource precieuse qu\'il ne faut pas gaspiller', options: ['infinie, il y en aura toujours', 'une ressource precieuse qu\'il ne faut pas gaspiller', 'disponible partout dans le monde', 'gratuite pour tout le monde'], xp: 10 },
+      { id: 'emc-cm1-4-4', type: 'choice', question: 'La biodiversite, c\'est :', answer: 'la variete des especes vivantes sur Terre', options: ['un type de sport', 'la variete des especes vivantes sur Terre', 'un pays d\'Afrique', 'une marque de yaourt bio'], xp: 15 },
+      { id: 'emc-cm1-4-5', type: 'choice', question: 'Le rechauffement climatique est cause principalement par :', answer: 'les activites humaines (transports, industrie, deforestation)', options: ['le soleil qui chauffe plus', 'les activites humaines (transports, industrie, deforestation)', 'les volcans', 'les animaux'], xp: 15 },
+    ],
+  },
+  {
+    id: 'emc-cm1-5', grade: 'CM1', minLevel: 1,
+    name: 'CM1 - La laicite',
+    nameMinecraft: 'La regle d\'or du serveur', nameLalilo: 'Le principe universel',
+    description: 'Comprendre le principe de laicite',
+    exercises: [
+      { id: 'emc-cm1-5-1', type: 'choice', question: 'La laicite, c\'est :', answer: 'la separation entre l\'Etat et les religions', options: ['interdire toutes les religions', 'la separation entre l\'Etat et les religions', 'imposer une seule religion', 'ne croire en rien'], xp: 15 },
+      { id: 'emc-cm1-5-2', type: 'choice', question: 'A l\'ecole publique, la laicite signifie que :', answer: 'toutes les croyances sont respectees mais on ne fait pas de proselytisme', options: ['on ne parle jamais de religion', 'toutes les croyances sont respectees mais on ne fait pas de proselytisme', 'on choisit une religion pour la classe', 'les religions sont interdites'], xp: 15 },
+      { id: 'emc-cm1-5-3', type: 'choice', question: 'La Charte de la laicite est affichee :', answer: 'dans toutes les ecoles publiques', options: ['uniquement a Paris', 'dans toutes les ecoles publiques', 'dans les eglises', 'dans les magasins'], xp: 10 },
+      { id: 'emc-cm1-5-4', type: 'choice', question: 'En France, chaque personne a le droit de :', answer: 'croire ou ne pas croire, c\'est une liberte', options: ['suivre obligatoirement une religion', 'croire ou ne pas croire, c\'est une liberte', 'imposer sa religion aux autres', 'se moquer des croyances des autres'], xp: 10 },
+      { id: 'emc-cm1-5-5', type: 'choice', question: 'La loi de separation des Eglises et de l\'Etat date de :', answer: '1905', options: ['1789', '1848', '1905', '1958'], xp: 15 },
+    ],
+  },
+
+  // ─── CM2 ─────────────────────────────────────────────────────
+  {
+    id: 'emc-cm2-1', grade: 'CM2', minLevel: 1,
+    name: 'CM2 - La Republique francaise',
+    nameMinecraft: 'Forteresse Republique', nameLalilo: 'Le palais de la Republique',
+    description: 'Les institutions de la Republique francaise',
+    exercises: [
+      { id: 'emc-cm2-1-1', type: 'choice', question: 'Qui est le chef de l\'Etat en France ?', answer: 'Le President de la Republique', options: ['Le Premier ministre', 'Le President de la Republique', 'Le maire de Paris', 'Le roi'], xp: 10 },
+      { id: 'emc-cm2-1-2', type: 'choice', question: 'Pour combien d\'annees le President est-il elu ?', answer: '5 ans (un quinquennat)', options: ['4 ans', '5 ans (un quinquennat)', '7 ans', '10 ans'], xp: 10 },
+      { id: 'emc-cm2-1-3', type: 'choice', question: 'Qui vote les lois en France ?', answer: 'Le Parlement (Assemblee nationale et Senat)', options: ['Le President seul', 'Le Parlement (Assemblee nationale et Senat)', 'Les juges', 'Les maires'], xp: 15 },
+      { id: 'emc-cm2-1-4', type: 'choice', question: 'Le Premier ministre est :', answer: 'nomme par le President pour diriger le gouvernement', options: ['elu par le peuple', 'nomme par le President pour diriger le gouvernement', 'choisi au hasard', 'le fils du President'], xp: 15 },
+      { id: 'emc-cm2-1-5', type: 'choice', question: 'Qu\'est-ce que la Constitution ?', answer: 'Le texte fondamental qui organise la Republique', options: ['Un livre d\'histoire', 'Le texte fondamental qui organise la Republique', 'Un journal officiel', 'Le reglement de l\'ecole'], xp: 15 },
+    ],
+  },
+  {
+    id: 'emc-cm2-2', grade: 'CM2', minLevel: 1,
+    name: 'CM2 - La justice',
+    nameMinecraft: 'Tribunal du Nether', nameLalilo: 'La balance enchantee',
+    description: 'Le fonctionnement de la justice en France',
+    exercises: [
+      { id: 'emc-cm2-2-1', type: 'choice', question: 'Le symbole de la justice est :', answer: 'une balance (equilibre) et un glaive (force de la loi)', options: ['un marteau', 'une balance (equilibre) et un glaive (force de la loi)', 'une epee seule', 'un bouclier'], xp: 10 },
+      { id: 'emc-cm2-2-2', type: 'choice', question: 'En France, une personne est consideree comme :', answer: 'innocente jusqu\'a preuve du contraire', options: ['coupable jusqu\'a preuve du contraire', 'innocente jusqu\'a preuve du contraire', 'ni innocente ni coupable', 'coupable si la police l\'arrete'], xp: 15 },
+      { id: 'emc-cm2-2-3', type: 'choice', question: 'Qui juge les affaires au tribunal ?', answer: 'Un juge (magistrat)', options: ['Le maire', 'Un juge (magistrat)', 'Le President', 'Les policiers'], xp: 10 },
+      { id: 'emc-cm2-2-4', type: 'choice', question: 'La justice est la meme pour tous. Cela signifie :', answer: 'riches ou pauvres, tout le monde est juge avec les memes lois', options: ['les riches sont mieux traites', 'riches ou pauvres, tout le monde est juge avec les memes lois', 'les adultes ont plus de droits', 'on ne juge que les criminels'], xp: 15 },
+      { id: 'emc-cm2-2-5', type: 'choice', question: 'Un mineur (enfant) qui commet une infraction est juge par :', answer: 'un juge des enfants, avec des regles adaptees', options: ['le meme tribunal que les adultes', 'un juge des enfants, avec des regles adaptees', 'ses parents', 'le directeur de l\'ecole'], xp: 15 },
+    ],
+  },
+  {
+    id: 'emc-cm2-3', grade: 'CM2', minLevel: 1,
+    name: 'CM2 - Les medias et l\'information',
+    nameMinecraft: 'Livre des enchantements', nameLalilo: 'Le miroir de verite',
+    description: 'S\'informer et developper son esprit critique',
+    exercises: [
+      { id: 'emc-cm2-3-1', type: 'choice', question: 'Qu\'est-ce qu\'une "fake news" ?', answer: 'Une fausse information presentee comme vraie', options: ['Un article de journal', 'Une fausse information presentee comme vraie', 'Une blague entre amis', 'Un scoop exclusif'], xp: 10 },
+      { id: 'emc-cm2-3-2', type: 'choice', question: 'Pour verifier une information, il faut :', answer: 'comparer plusieurs sources fiables', options: ['croire le premier article trouve', 'comparer plusieurs sources fiables', 'demander sur les reseaux sociaux', 'faire confiance a une seule personne'], xp: 15 },
+      { id: 'emc-cm2-3-3', type: 'choice', question: 'La liberte de la presse, c\'est :', answer: 'le droit des journalistes d\'informer librement', options: ['le droit d\'ecrire n\'importe quoi', 'le droit des journalistes d\'informer librement', 'l\'obligation de lire le journal', 'un journal gratuit'], xp: 15 },
+      { id: 'emc-cm2-3-4', type: 'choice', question: 'Qu\'est-ce qu\'un journaliste doit respecter ?', answer: 'La verite des faits et la verification des sources', options: ['L\'avis du gouvernement', 'La verite des faits et la verification des sources', 'L\'opinion de ses amis', 'Les publicites de ses sponsors'], xp: 15 },
+      { id: 'emc-cm2-3-5', type: 'choice', question: 'Sur Internet, n\'importe qui peut publier des informations. C\'est pourquoi :', answer: 'il faut toujours verifier avant de partager', options: ['tout est forcement vrai', 'il faut toujours verifier avant de partager', 'il ne faut jamais aller sur Internet', 'seuls les adultes ont le droit de lire'], xp: 10 },
+    ],
+  },
+  {
+    id: 'emc-cm2-4', grade: 'CM2', minLevel: 1,
+    name: 'CM2 - La Declaration des droits de l\'Homme',
+    nameMinecraft: 'Table des lois ultimes', nameLalilo: 'Le grand grimoire des droits',
+    description: 'Les grands textes fondateurs des droits humains',
+    exercises: [
+      { id: 'emc-cm2-4-1', type: 'choice', question: 'En quelle annee a ete ecrite la Declaration des droits de l\'Homme et du Citoyen ?', answer: '1789', options: ['1515', '1789', '1848', '1945'], xp: 10 },
+      { id: 'emc-cm2-4-2', type: 'choice', question: 'L\'article 1er declare que les hommes naissent :', answer: 'libres et egaux en droits', options: ['riches ou pauvres', 'libres et egaux en droits', 'avec des privileges', 'soumis au roi'], xp: 10 },
+      { id: 'emc-cm2-4-3', type: 'choice', question: 'La Declaration universelle des droits de l\'Homme (1948) a ete adoptee par :', answer: 'l\'Organisation des Nations Unies (ONU)', options: ['la France seule', 'l\'Organisation des Nations Unies (ONU)', 'l\'Europe', 'les Etats-Unis'], xp: 15 },
+      { id: 'emc-cm2-4-4', type: 'choice', question: 'Quel droit fondamental permet de dire ce que l\'on pense ?', answer: 'La liberte d\'expression', options: ['La liberte de circuler', 'La liberte d\'expression', 'Le droit de vote', 'Le droit de propriete'], xp: 10 },
+      { id: 'emc-cm2-4-5', type: 'choice', question: 'La liberte d\'expression a-t-elle des limites ?', answer: 'Oui, on ne peut pas insulter, diffamer ou inciter a la haine', options: ['Non, on peut tout dire', 'Oui, on ne peut pas insulter, diffamer ou inciter a la haine', 'Non, c\'est un droit absolu', 'Oui, on ne peut critiquer personne'], xp: 15 },
+    ],
+  },
+  {
+    id: 'emc-cm2-5', grade: 'CM2', minLevel: 1,
+    name: 'CM2 - Engagement citoyen',
+    nameMinecraft: 'Quete du heros civique', nameLalilo: 'L\'ordre des citoyens',
+    description: 'L\'engagement et la solidarite',
+    exercises: [
+      { id: 'emc-cm2-5-1', type: 'choice', question: 'Un citoyen, c\'est :', answer: 'une personne qui a des droits et des devoirs dans son pays', options: ['quelqu\'un qui habite en ville', 'une personne qui a des droits et des devoirs dans son pays', 'un politicien', 'un adulte uniquement'], xp: 10 },
+      { id: 'emc-cm2-5-2', type: 'choice', question: 'Qu\'est-ce qu\'une association ?', answer: 'un groupe de personnes reunies pour un projet commun', options: ['une entreprise qui gagne de l\'argent', 'un groupe de personnes reunies pour un projet commun', 'un parti politique', 'un club de sport professionnel'], xp: 10 },
+      { id: 'emc-cm2-5-3', type: 'choice', question: 'Le benevolat, c\'est :', answer: 'aider les autres gratuitement, sans etre paye', options: ['un travail bien paye', 'aider les autres gratuitement, sans etre paye', 'un metier de l\'Etat', 'une obligation legale'], xp: 10 },
+      { id: 'emc-cm2-5-4', type: 'choice', question: 'Les Restos du Coeur sont une association qui :', answer: 'distribue des repas aux personnes en difficulte', options: ['ouvre des restaurants de luxe', 'distribue des repas aux personnes en difficulte', 'organise des concours de cuisine', 'vend de la nourriture bio'], xp: 15 },
+      { id: 'emc-cm2-5-5', type: 'choice', question: 'A ton age, comment peux-tu t\'engager ?', answer: 'Participer a des collectes, aider les plus jeunes, respecter l\'environnement', options: ['On ne peut rien faire avant 18 ans', 'Participer a des collectes, aider les plus jeunes, respecter l\'environnement', 'Voter aux elections', 'Creer un parti politique'], xp: 15 },
+    ],
+  },
+
+  // ─── 6eme ────────────────────────────────────────────────────
+  {
+    id: 'emc-6e-1', grade: '6eme', minLevel: 1,
+    name: '6eme - Identite et diversite',
+    nameMinecraft: 'Skins et identites', nameLalilo: 'Le prisme des identites',
+    description: 'Identite personnelle et respect de la diversite',
+    exercises: [
+      { id: 'emc-6e-1-1', type: 'choice', question: 'L\'identite d\'une personne est composee de :', answer: 'son nom, sa nationalite, sa culture, ses gouts...', options: ['uniquement son prenom', 'son nom, sa nationalite, sa culture, ses gouts...', 'seulement sa religion', 'son adresse'], xp: 10 },
+      { id: 'emc-6e-1-2', type: 'choice', question: 'La discrimination, c\'est :', answer: 'traiter differemment une personne a cause de son origine, son sexe, son handicap...', options: ['choisir ses amis', 'traiter differemment une personne a cause de son origine, son sexe, son handicap...', 'avoir des preferences', 'une opinion personnelle'], xp: 15 },
+      { id: 'emc-6e-1-3', type: 'choice', question: 'En France, la discrimination est :', answer: 'interdite et punie par la loi', options: ['autorisee', 'interdite et punie par la loi', 'toleree dans certains cas', 'un droit individuel'], xp: 10 },
+      { id: 'emc-6e-1-4', type: 'choice', question: 'Le racisme, c\'est :', answer: 'croire qu\'il existe des races superieures a d\'autres', options: ['aimer sa propre culture', 'croire qu\'il existe des races superieures a d\'autres', 'voyager dans d\'autres pays', 'etudier les differences culturelles'], xp: 15 },
+      { id: 'emc-6e-1-5', type: 'choice', question: 'Que peut-on faire face a une situation de discrimination ?', answer: 'Denoncer, en parler a un adulte, contacter le Defenseur des droits', options: ['Rien, c\'est normal', 'Denoncer, en parler a un adulte, contacter le Defenseur des droits', 'Se venger', 'Ignorer et oublier'], xp: 15 },
+    ],
+  },
+  {
+    id: 'emc-6e-2', grade: '6eme', minLevel: 1,
+    name: '6eme - Le droit et la regle',
+    nameMinecraft: 'Code du serveur', nameLalilo: 'Le livre des lois',
+    description: 'Comprendre le sens de la loi et des regles',
+    exercises: [
+      { id: 'emc-6e-2-1', type: 'choice', question: 'Une loi sert a :', answer: 'organiser la vie en societe et proteger les citoyens', options: ['embeter les gens', 'organiser la vie en societe et proteger les citoyens', 'donner du pouvoir aux policiers', 'punir tout le monde'], xp: 10 },
+      { id: 'emc-6e-2-2', type: 'choice', question: 'Quelle est la difference entre un droit et un devoir ?', answer: 'Un droit est ce qu\'on peut faire, un devoir est ce qu\'on doit faire', options: ['C\'est la meme chose', 'Un droit est ce qu\'on peut faire, un devoir est ce qu\'on doit faire', 'Les droits sont pour les adultes, les devoirs pour les enfants', 'Il n\'y a pas de difference'], xp: 15 },
+      { id: 'emc-6e-2-3', type: 'choice', question: 'Le reglement interieur du college est :', answer: 'obligatoire pour tous (eleves, professeurs, personnel)', options: ['seulement pour les eleves', 'obligatoire pour tous (eleves, professeurs, personnel)', 'facultatif', 'seulement pour les 6emes'], xp: 10 },
+      { id: 'emc-6e-2-4', type: 'choice', question: 'Qui ecrit les lois en France ?', answer: 'Les deputes et senateurs (le Parlement)', options: ['Le President seul', 'Les deputes et senateurs (le Parlement)', 'Les juges', 'Les policiers'], xp: 15 },
+      { id: 'emc-6e-2-5', type: 'choice', question: 'La majorite penale en France est a :', answer: '18 ans', options: ['13 ans', '16 ans', '18 ans', '21 ans'], xp: 10 },
+    ],
+  },
+  {
+    id: 'emc-6e-3', grade: '6eme', minLevel: 1,
+    name: '6eme - Le jugement et l\'esprit critique',
+    nameMinecraft: 'Detection de fake crafts', nameLalilo: 'Le cristal de verite',
+    description: 'Developper son esprit critique et son jugement moral',
+    exercises: [
+      { id: 'emc-6e-3-1', type: 'choice', question: 'Avoir un esprit critique, c\'est :', answer: 'reflechir, se poser des questions et ne pas tout accepter sans verifier', options: ['critiquer tout le monde', 'reflechir, se poser des questions et ne pas tout accepter sans verifier', 'toujours dire non', 'ne faire confiance a personne'], xp: 15 },
+      { id: 'emc-6e-3-2', type: 'choice', question: 'Un argument, c\'est :', answer: 'une raison qui soutient une idee ou une opinion', options: ['une insulte', 'une raison qui soutient une idee ou une opinion', 'une question', 'un cri'], xp: 10 },
+      { id: 'emc-6e-3-3', type: 'choice', question: 'Face a un dilemme moral, il faut :', answer: 'peser le pour et le contre en pensant aux consequences', options: ['agir sans reflechir', 'peser le pour et le contre en pensant aux consequences', 'toujours faire comme les autres', 'demander a un ami de choisir'], xp: 15 },
+      { id: 'emc-6e-3-4', type: 'choice', question: 'Un prejuge, c\'est :', answer: 'une opinion formee sans connaitre les faits', options: ['une verite prouvee', 'une opinion formee sans connaitre les faits', 'un jugement du tribunal', 'un fait scientifique'], xp: 10 },
+      { id: 'emc-6e-3-5', type: 'choice', question: 'Pourquoi est-il important de debattre ?', answer: 'Pour entendre d\'autres points de vue et enrichir sa reflexion', options: ['Pour montrer qu\'on a toujours raison', 'Pour entendre d\'autres points de vue et enrichir sa reflexion', 'Pour gagner contre les autres', 'Ce n\'est pas important'], xp: 15 },
+    ],
+  },
+  {
+    id: 'emc-6e-4', grade: '6eme', minLevel: 1,
+    name: '6eme - La vie democratique',
+    nameMinecraft: 'Elections du serveur', nameLalilo: 'Le conseil des sages',
+    description: 'Les principes de la vie democratique',
+    exercises: [
+      { id: 'emc-6e-4-1', type: 'choice', question: 'A quel age peut-on voter en France ?', answer: '18 ans', options: ['16 ans', '18 ans', '20 ans', '21 ans'], xp: 10 },
+      { id: 'emc-6e-4-2', type: 'choice', question: 'Le suffrage universel signifie que :', answer: 'tous les citoyens majeurs peuvent voter', options: ['seuls les riches votent', 'tous les citoyens majeurs peuvent voter', 'seuls les hommes votent', 'on vote a partir de 15 ans'], xp: 15 },
+      { id: 'emc-6e-4-3', type: 'choice', question: 'Les femmes ont obtenu le droit de vote en France en :', answer: '1944', options: ['1789', '1848', '1944', '1981'], xp: 15 },
+      { id: 'emc-6e-4-4', type: 'choice', question: 'Quel est le contraire d\'une democratie ?', answer: 'Une dictature', options: ['Une republique', 'Une dictature', 'Une monarchie constitutionnelle', 'Une federation'], xp: 10 },
+      { id: 'emc-6e-4-5', type: 'choice', question: 'Le maire est elu par :', answer: 'les conseillers municipaux, eux-memes elus par les habitants', options: ['le President', 'les conseillers municipaux, eux-memes elus par les habitants', 'le prefet', 'les deputes'], xp: 15 },
+    ],
+  },
+  {
+    id: 'emc-6e-5', grade: '6eme', minLevel: 1,
+    name: '6eme - Internet et citoyennete numerique',
+    nameMinecraft: 'Securite du serveur', nameLalilo: 'Le monde virtuel responsable',
+    description: 'Etre un citoyen responsable sur Internet',
+    exercises: [
+      { id: 'emc-6e-5-1', type: 'choice', question: 'Le droit a l\'image signifie :', answer: 'on ne peut pas publier la photo de quelqu\'un sans son accord', options: ['on peut photographier n\'importe qui', 'on ne peut pas publier la photo de quelqu\'un sans son accord', 'les photos sont interdites', 'seuls les adultes ont un droit a l\'image'], xp: 15 },
+      { id: 'emc-6e-5-2', type: 'choice', question: 'Quelles informations ne faut-il JAMAIS donner sur Internet ?', answer: 'Son adresse, son telephone, son ecole, son mot de passe', options: ['Son prenom', 'Son adresse, son telephone, son ecole, son mot de passe', 'Son age', 'Ses gouts musicaux'], xp: 10 },
+      { id: 'emc-6e-5-3', type: 'choice', question: 'Le RGPD (Reglement General sur la Protection des Donnees) sert a :', answer: 'proteger les donnees personnelles des citoyens europeens', options: ['bloquer Internet', 'proteger les donnees personnelles des citoyens europeens', 'interdire les reseaux sociaux', 'espionner les internautes'], xp: 15 },
+      { id: 'emc-6e-5-4', type: 'choice', question: 'L\'age minimum legal pour s\'inscrire sur les reseaux sociaux en France est :', answer: '15 ans', options: ['10 ans', '13 ans', '15 ans', '18 ans'], xp: 10 },
+      { id: 'emc-6e-5-5', type: 'choice', question: 'Si quelqu\'un te met mal a l\'aise en ligne, tu dois :', answer: 'en parler a un adulte de confiance et bloquer la personne', options: ['repondre pour se defendre', 'en parler a un adulte de confiance et bloquer la personne', 'ne rien faire', 'supprimer ton compte'], xp: 15 },
+    ],
+  },
+
+  // ─── 5eme ────────────────────────────────────────────────────
+  {
+    id: 'emc-5e-1', grade: '5eme', minLevel: 1,
+    name: '5eme - Egalite et discrimination',
+    nameMinecraft: 'Justice pour tous les joueurs', nameLalilo: 'Le bouclier d\'egalite',
+    description: 'Lutter contre les discriminations',
+    exercises: [
+      { id: 'emc-5e-1-1', type: 'choice', question: 'Combien de criteres de discrimination sont reconnus par la loi francaise ?', answer: 'Plus de 25 criteres', options: ['5 criteres', '10 criteres', 'Plus de 25 criteres', '3 criteres'], xp: 15 },
+      { id: 'emc-5e-1-2', type: 'choice', question: 'Le Defenseur des droits est :', answer: 'une autorite independante qui lutte contre les discriminations', options: ['un super-heros', 'une autorite independante qui lutte contre les discriminations', 'un avocat', 'un ministre'], xp: 15 },
+      { id: 'emc-5e-1-3', type: 'choice', question: 'L\'egalite en droit signifie que :', answer: 'la loi s\'applique de la meme facon a tous, sans distinction', options: ['tout le monde gagne le meme salaire', 'la loi s\'applique de la meme facon a tous, sans distinction', 'tout le monde a le meme metier', 'tout le monde pense pareil'], xp: 10 },
+      { id: 'emc-5e-1-4', type: 'choice', question: 'La parite homme-femme en politique vise a :', answer: 'avoir autant de femmes que d\'hommes elus', options: ['que seules les femmes soient elues', 'avoir autant de femmes que d\'hommes elus', 'interdire aux hommes de voter', 'supprimer les elections'], xp: 15 },
+      { id: 'emc-5e-1-5', type: 'choice', question: 'Un temoignage de discrimination peut etre signale a :', answer: 'la plateforme antidiscriminations.fr ou le 3928', options: ['Facebook', 'la plateforme antidiscriminations.fr ou le 3928', 'Wikipedia', 'Google'], xp: 10 },
+    ],
+  },
+  {
+    id: 'emc-5e-2', grade: '5eme', minLevel: 1,
+    name: '5eme - Solidarite internationale',
+    nameMinecraft: 'Alliance des serveurs', nameLalilo: 'L\'arc-en-ciel solidaire',
+    description: 'La solidarite a l\'echelle mondiale',
+    exercises: [
+      { id: 'emc-5e-2-1', type: 'choice', question: 'L\'ONU (Organisation des Nations Unies) a ete creee en :', answer: '1945, apres la Seconde Guerre mondiale', options: ['1918', '1945, apres la Seconde Guerre mondiale', '1989', '2001'], xp: 15 },
+      { id: 'emc-5e-2-2', type: 'choice', question: 'Combien d\'Objectifs de Developpement Durable (ODD) l\'ONU a-t-elle fixes ?', answer: '17 objectifs', options: ['5 objectifs', '10 objectifs', '17 objectifs', '50 objectifs'], xp: 10 },
+      { id: 'emc-5e-2-3', type: 'choice', question: 'Les ONG (Organisations Non Gouvernementales) sont :', answer: 'des associations independantes qui agissent pour l\'interet general', options: ['des entreprises du gouvernement', 'des associations independantes qui agissent pour l\'interet general', 'des partis politiques', 'des banques internationales'], xp: 15 },
+      { id: 'emc-5e-2-4', type: 'choice', question: 'Medecins Sans Frontieres est une ONG qui :', answer: 'apporte des soins medicaux dans les zones de crise', options: ['vend des medicaments', 'apporte des soins medicaux dans les zones de crise', 'forme des medecins en France', 'construit des hopitaux de luxe'], xp: 10 },
+      { id: 'emc-5e-2-5', type: 'choice', question: 'La cooperation internationale, c\'est :', answer: 'les pays qui travaillent ensemble pour resoudre des problemes communs', options: ['la guerre entre les pays', 'les pays qui travaillent ensemble pour resoudre des problemes communs', 'le commerce international', 'les Jeux Olympiques'], xp: 15 },
+    ],
+  },
+  {
+    id: 'emc-5e-3', grade: '5eme', minLevel: 1,
+    name: '5eme - Securite et defense',
+    nameMinecraft: 'Defense du territoire', nameLalilo: 'Les gardiens du royaume',
+    description: 'La securite et la defense nationale',
+    exercises: [
+      { id: 'emc-5e-3-1', type: 'choice', question: 'Qui est le chef des armees en France ?', answer: 'Le President de la Republique', options: ['Le Premier ministre', 'Le President de la Republique', 'Le general de l\'armee', 'Le ministre de la Defense'], xp: 10 },
+      { id: 'emc-5e-3-2', type: 'choice', question: 'La JDC (Journee Defense et Citoyennete) est :', answer: 'obligatoire pour tous les jeunes de 16 ans', options: ['facultative', 'obligatoire pour tous les jeunes de 16 ans', 'reservee aux militaires', 'supprimee depuis 2020'], xp: 15 },
+      { id: 'emc-5e-3-3', type: 'choice', question: 'Le plan Vigipirate sert a :', answer: 'prevenir et reagir face au terrorisme', options: ['organiser les pompiers', 'prevenir et reagir face au terrorisme', 'controler la circulation', 'proteger les animaux'], xp: 15 },
+      { id: 'emc-5e-3-4', type: 'choice', question: 'Le service militaire obligatoire a ete suspendu en France en :', answer: '1997', options: ['1945', '1968', '1997', '2010'], xp: 10 },
+      { id: 'emc-5e-3-5', type: 'choice', question: 'Le SNU (Service National Universel) s\'adresse aux :', answer: 'jeunes de 15 a 17 ans, sur la base du volontariat', options: ['adultes de plus de 30 ans', 'jeunes de 15 a 17 ans, sur la base du volontariat', 'retraites', 'militaires professionnels'], xp: 15 },
+    ],
+  },
+  {
+    id: 'emc-5e-4', grade: '5eme', minLevel: 1,
+    name: '5eme - Bioethique et progres',
+    nameMinecraft: 'Potions interdites', nameLalilo: 'Les dilemmes du sage',
+    description: 'Les questions ethiques liees aux avancees scientifiques',
+    exercises: [
+      { id: 'emc-5e-4-1', type: 'choice', question: 'La bioethique, c\'est :', answer: 'la reflexion morale sur les avancees de la biologie et la medecine', options: ['l\'agriculture biologique', 'la reflexion morale sur les avancees de la biologie et la medecine', 'un regime alimentaire', 'l\'ecologie'], xp: 15 },
+      { id: 'emc-5e-4-2', type: 'choice', question: 'Le don d\'organes en France est :', answer: 'gratuit, anonyme et base sur le consentement presume', options: ['payant', 'gratuit, anonyme et base sur le consentement presume', 'interdit', 'reserve aux medecins'], xp: 15 },
+      { id: 'emc-5e-4-3', type: 'choice', question: 'Le CCNE (Comite Consultatif National d\'Ethique) sert a :', answer: 'donner des avis sur les questions ethiques en sciences et medecine', options: ['voter les lois', 'donner des avis sur les questions ethiques en sciences et medecine', 'juger les medecins', 'fabriquer des medicaments'], xp: 15 },
+      { id: 'emc-5e-4-4', type: 'choice', question: 'L\'intelligence artificielle pose des questions ethiques car :', answer: 'elle peut impacter la vie privee, l\'emploi et les decisions humaines', options: ['elle est trop chere', 'elle peut impacter la vie privee, l\'emploi et les decisions humaines', 'elle remplace les ordinateurs', 'elle est inutile'], xp: 15 },
+      { id: 'emc-5e-4-5', type: 'choice', question: 'Pourquoi les experiences sur les animaux sont-elles encadrees par la loi ?', answer: 'Pour limiter la souffrance animale tout en permettant la recherche', options: ['Pour faire plaisir aux associations', 'Pour limiter la souffrance animale tout en permettant la recherche', 'Les experiences ne sont pas encadrees', 'Pour interdire toute recherche'], xp: 10 },
+    ],
+  },
+  {
+    id: 'emc-5e-5', grade: '5eme', minLevel: 1,
+    name: '5eme - Engagement et citoyennete active',
+    nameMinecraft: 'Leader de guilde', nameLalilo: 'Le chevalier citoyen',
+    description: 'Formes d\'engagement citoyen et participation democratique',
+    exercises: [
+      { id: 'emc-5e-5-1', type: 'choice', question: 'Un referendum, c\'est :', answer: 'un vote ou le peuple repond directement a une question', options: ['une election de deputes', 'un vote ou le peuple repond directement a une question', 'un sondage d\'opinion', 'une manifestation'], xp: 15 },
+      { id: 'emc-5e-5-2', type: 'choice', question: 'Le service civique permet aux jeunes de :', answer: 's\'engager dans une mission d\'interet general pendant 6 a 12 mois', options: ['faire son service militaire', 's\'engager dans une mission d\'interet general pendant 6 a 12 mois', 'remplacer l\'ecole', 'travailler en entreprise'], xp: 10 },
+      { id: 'emc-5e-5-3', type: 'choice', question: 'La liberte d\'association est garantie par :', answer: 'la loi de 1901', options: ['la Constitution de 1958', 'la loi de 1901', 'le Code civil', 'le reglement interieur'], xp: 15 },
+      { id: 'emc-5e-5-4', type: 'choice', question: 'Manifester pacifiquement est :', answer: 'un droit fondamental en democratie', options: ['toujours interdit', 'un droit fondamental en democratie', 'reserve aux adultes', 'autorise seulement le week-end'], xp: 10 },
+      { id: 'emc-5e-5-5', type: 'choice', question: 'Une petition sert a :', answer: 'demander a des elus de se pencher sur un sujet, grace a de nombreuses signatures', options: ['elire un president', 'demander a des elus de se pencher sur un sujet, grace a de nombreuses signatures', 'annuler une loi automatiquement', 'remplacer un vote'], xp: 15 },
+    ],
+  },
+]
