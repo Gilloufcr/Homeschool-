@@ -1,7 +1,58 @@
 import { useState, useEffect } from 'react'
 
 // ═══════════════════════════════════════════════════════════════
-// LEVEL MAP - Clean Minecraft-themed map without pixel art
+// PIXEL STEVE - The one and only
+// ═══════════════════════════════════════════════════════════════
+
+const PixelSteve = ({ size = 4, bouncing }) => {
+  const px = size
+  const shadow = (x, y, color) => `${x * px}px ${y * px}px 0 0 ${color}`
+
+  const hair = '#3B2200'
+  const skin = '#C4935A'
+  const eye = '#FFFFFF'
+  const pupil = '#3B2200'
+  const mouth = '#6B4226'
+  const shirt = '#00AAAA'
+  const pants = '#2B2B8B'
+  const shoe = '#4A4A4A'
+
+  const pixels = [
+    shadow(1,0,hair), shadow(2,0,hair), shadow(3,0,hair), shadow(4,0,hair), shadow(5,0,hair), shadow(6,0,hair),
+    shadow(0,1,hair), shadow(1,1,hair), shadow(2,1,hair), shadow(3,1,hair), shadow(4,1,hair), shadow(5,1,hair), shadow(6,1,hair), shadow(7,1,hair),
+    shadow(0,2,hair), shadow(1,2,skin), shadow(2,2,eye), shadow(3,2,pupil), shadow(4,2,skin), shadow(5,2,pupil), shadow(6,2,eye), shadow(7,2,hair),
+    shadow(0,3,skin), shadow(1,3,skin), shadow(2,3,skin), shadow(3,3,skin), shadow(4,3,skin), shadow(5,3,skin), shadow(6,3,skin), shadow(7,3,skin),
+    shadow(0,4,skin), shadow(1,4,skin), shadow(2,4,skin), shadow(3,4,mouth), shadow(4,4,mouth), shadow(5,4,skin), shadow(6,4,skin), shadow(7,4,skin),
+    shadow(1,5,shirt), shadow(2,5,shirt), shadow(3,5,shirt), shadow(4,5,shirt), shadow(5,5,shirt), shadow(6,5,shirt),
+    shadow(0,6,shirt), shadow(1,6,shirt), shadow(2,6,shirt), shadow(3,6,shirt), shadow(4,6,shirt), shadow(5,6,shirt), shadow(6,6,shirt), shadow(7,6,shirt),
+    shadow(0,7,skin), shadow(1,7,shirt), shadow(2,7,shirt), shadow(3,7,shirt), shadow(4,7,shirt), shadow(5,7,shirt), shadow(6,7,shirt), shadow(7,7,skin),
+    shadow(1,8,pants), shadow(2,8,pants), shadow(3,8,pants), shadow(4,8,pants), shadow(5,8,pants), shadow(6,8,pants),
+    shadow(1,9,pants), shadow(2,9,pants), shadow(3,9,pants), shadow(4,9,pants), shadow(5,9,pants), shadow(6,9,pants),
+    shadow(0,10,shoe), shadow(1,10,shoe), shadow(2,10,shoe), shadow(5,10,shoe), shadow(6,10,shoe), shadow(7,10,shoe),
+  ].join(',')
+
+  return (
+    <div style={{
+      position: 'relative',
+      width: `${8 * px}px`,
+      height: `${11 * px}px`,
+      transform: `translateY(${bouncing ? '-6px' : '2px'})`,
+      transition: 'transform 0.35s ease-in-out',
+      filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.4))',
+    }}>
+      <div style={{
+        position: 'absolute', top: 0, left: 0,
+        width: `${px}px`, height: `${px}px`,
+        background: 'transparent',
+        boxShadow: pixels,
+        imageRendering: 'pixelated',
+      }} />
+    </div>
+  )
+}
+
+// ═══════════════════════════════════════════════════════════════
+// LEVEL MAP
 // ═══════════════════════════════════════════════════════════════
 
 const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLevel }) => {
@@ -191,16 +242,39 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
             {isCurrentLevel && (
               <div style={{
                 position: 'absolute',
-                top: 'clamp(-50px, -5vw, -35px)',
+                top: 'clamp(-65px, -7vw, -50px)',
                 left: '50%',
-                transform: `translateX(-50%) translateY(${bouncing ? '-6px' : '3px'})`,
-                transition: 'transform 0.35s ease-in-out',
-                fontSize: 'clamp(1.5rem, 2.5vw, 2.8rem)',
+                transform: 'translateX(-50%)',
                 zIndex: 15,
-                filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.4))',
-                animation: 'float 3s ease-in-out infinite',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
               }}>
-                {isMinecraft ? '⛏️' : (wingFrame ? '🧚' : '🧚‍♀️')}
+                {/* Name tag */}
+                <div style={{
+                  fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
+                  fontSize: isMinecraft ? 'clamp(0.3rem, 0.4vw, 0.5rem)' : 'clamp(0.55rem, 0.7vw, 0.8rem)',
+                  color: isMinecraft ? '#fff' : '#9B59B6',
+                  textShadow: isMinecraft ? '1px 1px 0 #000' : 'none',
+                  marginBottom: '3px',
+                  background: isMinecraft ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.8)',
+                  padding: isMinecraft ? '2px 6px' : '2px 8px',
+                  borderRadius: isMinecraft ? '2px' : '8px',
+                  whiteSpace: 'nowrap',
+                }}>
+                  {isMinecraft ? 'STEVE' : 'Fifi'}
+                </div>
+                {isMinecraft
+                  ? <PixelSteve size={4} bouncing={bouncing} />
+                  : <div style={{
+                      fontSize: 'clamp(1.5rem, 2.5vw, 2.8rem)',
+                      transform: `translateY(${bouncing ? '-6px' : '3px'})`,
+                      transition: 'transform 0.35s ease-in-out',
+                      filter: 'drop-shadow(0 3px 6px rgba(0,0,0,0.3))',
+                    }}>
+                      {wingFrame ? '🧚' : '🧚‍♀️'}
+                    </div>
+                }
               </div>
             )}
 
