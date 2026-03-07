@@ -5,10 +5,13 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import crypto from 'crypto'
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const app = express()
 const PORT = process.env.PORT || 3001
+const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(64).toString('hex')
 
 app.use(cors())
 app.use(express.json())
@@ -37,17 +40,40 @@ function saveJSON(file, data) {
 }
 
 function loadData() {
-  return loadJSON(DATA_FILE, { parentPin: '1234', children: [], customLessons: [] })
+  return loadJSON(DATA_FILE, { families: [] })
 }
 
 function saveData(data) {
   saveJSON(DATA_FILE, data)
 }
 
-// ─── Shared exercise cache ──────────────────────────────────────────
-// Exercises are indexed by a normalized key: subject|grade|normalizedTopic
-// This allows families to share exercises without sharing personal data
+// ─── Migration: convert old PIN-based data to families format ────────
+function migrateIfNeeded() {
+  const data = loadData()
+  if (data.parentPin && !data.families) {
+    console.log('   Migrating old PIN-based data to families format...')
+    const family = {
+      id: crypto.randomUUID(),
+      email: 'admin@homeschool.local',
+      password: bcrypt.hashSync(data.parentPin, 10),
+      name: 'Famille principale',
+      children: data.children || [],
+      customLessons: data.customLessons || [],
+      createdAt: new Date().toISOString(),
+    }
+    const newData = { families: [family] }
+    saveData(newData)
+    console.log(`   Migration OK — email: ${family.email}, mot de passe: ancien PIN (${data.parentPin})`)
+    return newData
+  }
+  if (!data.families) {
+    data.families = []
+    saveData(data)
+  }
+  return data
+}
 
+// ─── Shared exercise cache ──────────────────────────────────────────
 function loadSharedCache() {
   return loadJSON(SHARED_FILE, { exercises: [], stats: { totalGenerated: 0, tokensSaved: 0 } })
 }
@@ -57,7 +83,6 @@ function saveSharedCache(cache) {
 }
 
 function normalizeKey(subject, grade, topic) {
-  // Normalize: lowercase, trim, remove accents, collapse spaces
   const norm = topic.toLowerCase().trim()
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     .replace(/\s+/g, ' ')
@@ -65,33 +90,161 @@ function normalizeKey(subject, grade, topic) {
 }
 
 function fuzzyMatch(query, text) {
-  // Simple fuzzy: check if all query words appear in text
   const qWords = query.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/\s+/)
   const tNorm = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
   return qWords.every(w => tNorm.includes(w))
 }
 
-// ─── Auth middleware ─────────────────────────────────────────────────
-function requireParent(req, res, next) {
-  const pin = req.headers['x-parent-pin']
-  const data = loadData()
-  if (pin !== data.parentPin) {
-    return res.status(401).json({ error: 'Code parent incorrect' })
+// ─── JWT Auth middleware ─────────────────────────────────────────────
+function requireAuth(req, res, next) {
+  const authHeader = req.headers['authorization']
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Token requis' })
   }
-  next()
+  try {
+    const token = authHeader.split(' ')[1]
+    const decoded = jwt.verify(token, JWT_SECRET)
+    req.familyId = decoded.familyId
+    req.familyEmail = decoded.email
+    next()
+  } catch {
+    return res.status(401).json({ error: 'Token invalide ou expire' })
+  }
 }
 
-// ─── Family UUID ────────────────────────────────────────────────────
-// Each family gets an anonymous UUID — no PII is stored in the shared DB
-app.post('/api/family/register', (req, res) => {
-  const familyId = crypto.randomUUID()
-  res.json({ familyId })
+// Helper to get family from request
+function getFamily(req) {
+  const data = loadData()
+  return data.families.find(f => f.id === req.familyId)
+}
+
+function saveFamilyUpdate(family) {
+  const data = loadData()
+  const idx = data.families.findIndex(f => f.id === family.id)
+  if (idx >= 0) {
+    data.families[idx] = family
+    saveData(data)
+  }
+}
+
+// ─── Auth endpoints ─────────────────────────────────────────────────
+app.post('/api/auth/register', async (req, res) => {
+  const { email, password, name } = req.body
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email et mot de passe requis' })
+  }
+  if (password.length < 4) {
+    return res.status(400).json({ error: 'Le mot de passe doit faire au moins 4 caracteres' })
+  }
+
+  const data = loadData()
+  const existing = data.families.find(f => f.email.toLowerCase() === email.toLowerCase())
+  if (existing) {
+    return res.status(409).json({ error: 'Un compte existe deja avec cet email' })
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10)
+  const family = {
+    id: crypto.randomUUID(),
+    email: email.toLowerCase().trim(),
+    password: hashedPassword,
+    name: name || `Famille ${email.split('@')[0]}`,
+    children: [],
+    customLessons: [],
+    createdAt: new Date().toISOString(),
+  }
+
+  data.families.push(family)
+  saveData(data)
+
+  const token = jwt.sign(
+    { familyId: family.id, email: family.email },
+    JWT_SECRET,
+    { expiresIn: '30d' }
+  )
+
+  console.log(`   Nouveau compte: ${family.email}`)
+  res.json({
+    token,
+    family: { id: family.id, email: family.email, name: family.name },
+  })
 })
 
-// ─── Children management ────────────────────────────────────────────
-app.get('/api/children', (req, res) => {
+app.post('/api/auth/login', async (req, res) => {
+  const { email, password } = req.body
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email et mot de passe requis' })
+  }
+
   const data = loadData()
-  res.json(data.children.map(c => ({
+  const family = data.families.find(f => f.email.toLowerCase() === email.toLowerCase())
+  if (!family) {
+    return res.status(401).json({ error: 'Email ou mot de passe incorrect' })
+  }
+
+  const valid = await bcrypt.compare(password, family.password)
+  if (!valid) {
+    return res.status(401).json({ error: 'Email ou mot de passe incorrect' })
+  }
+
+  const token = jwt.sign(
+    { familyId: family.id, email: family.email },
+    JWT_SECRET,
+    { expiresIn: '30d' }
+  )
+
+  res.json({
+    token,
+    family: { id: family.id, email: family.email, name: family.name },
+  })
+})
+
+// Get current family info
+app.get('/api/auth/me', requireAuth, (req, res) => {
+  const family = getFamily(req)
+  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
+  res.json({
+    id: family.id,
+    email: family.email,
+    name: family.name,
+    childrenCount: family.children.length,
+    lessonsCount: (family.customLessons || []).length,
+  })
+})
+
+// Update family settings
+app.put('/api/auth/settings', requireAuth, async (req, res) => {
+  const { name, currentPassword, newPassword } = req.body
+  const family = getFamily(req)
+  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
+
+  if (name) {
+    family.name = name
+  }
+
+  if (newPassword) {
+    if (!currentPassword) {
+      return res.status(400).json({ error: 'Mot de passe actuel requis' })
+    }
+    const valid = await bcrypt.compare(currentPassword, family.password)
+    if (!valid) {
+      return res.status(401).json({ error: 'Mot de passe actuel incorrect' })
+    }
+    if (newPassword.length < 4) {
+      return res.status(400).json({ error: 'Le nouveau mot de passe doit faire au moins 4 caracteres' })
+    }
+    family.password = await bcrypt.hash(newPassword, 10)
+  }
+
+  saveFamilyUpdate(family)
+  res.json({ ok: true, name: family.name })
+})
+
+// ─── Children management (family-scoped) ────────────────────────────
+app.get('/api/children', requireAuth, (req, res) => {
+  const family = getFamily(req)
+  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
+  res.json(family.children.map(c => ({
     id: c.id,
     name: c.name,
     theme: c.theme,
@@ -100,12 +253,14 @@ app.get('/api/children', (req, res) => {
   })))
 })
 
-app.post('/api/children', requireParent, (req, res) => {
+app.post('/api/children', requireAuth, (req, res) => {
   const { name, theme, avatar, grade } = req.body
   if (!name || !theme) {
     return res.status(400).json({ error: 'Nom et theme requis' })
   }
-  const data = loadData()
+  const family = getFamily(req)
+  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
+
   const child = {
     id: `child-${Date.now()}`,
     name,
@@ -114,85 +269,62 @@ app.post('/api/children', requireParent, (req, res) => {
     grade: grade || 'CM2',
     createdAt: new Date().toISOString(),
   }
-  data.children.push(child)
-  saveData(data)
+  family.children.push(child)
+  saveFamilyUpdate(family)
   res.json(child)
 })
 
-app.delete('/api/children/:id', requireParent, (req, res) => {
-  const data = loadData()
-  data.children = data.children.filter(c => c.id !== req.params.id)
-  saveData(data)
+app.delete('/api/children/:id', requireAuth, (req, res) => {
+  const family = getFamily(req)
+  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
+  family.children = family.children.filter(c => c.id !== req.params.id)
+  saveFamilyUpdate(family)
   res.json({ ok: true })
 })
 
-// ─── Parent auth ────────────────────────────────────────────────────
-app.post('/api/parent/login', (req, res) => {
-  const { pin } = req.body
-  const data = loadData()
-  if (pin === data.parentPin) {
-    res.json({ ok: true })
-  } else {
-    res.status(401).json({ error: 'Code incorrect' })
-  }
+// ─── Custom lessons management (family-scoped) ──────────────────────
+app.get('/api/lessons', requireAuth, (req, res) => {
+  const family = getFamily(req)
+  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
+  res.json(family.customLessons || [])
 })
 
-app.post('/api/parent/change-pin', requireParent, (req, res) => {
-  const { newPin } = req.body
-  if (!newPin || newPin.length < 4) {
-    return res.status(400).json({ error: 'Le code doit faire au moins 4 caracteres' })
-  }
-  const data = loadData()
-  data.parentPin = newPin
-  saveData(data)
-  res.json({ ok: true })
-})
-
-// ─── Custom lessons management ──────────────────────────────────────
-app.get('/api/lessons', (req, res) => {
-  const data = loadData()
-  res.json(data.customLessons || [])
-})
-
-app.post('/api/lessons', requireParent, (req, res) => {
+app.post('/api/lessons', requireAuth, (req, res) => {
   const { lesson } = req.body
   if (!lesson) {
     return res.status(400).json({ error: 'Lesson data required' })
   }
-  const data = loadData()
+  const family = getFamily(req)
+  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
+
   const newLesson = {
     ...lesson,
     id: `custom-${Date.now()}`,
     createdAt: new Date().toISOString(),
   }
-  if (!data.customLessons) data.customLessons = []
-  data.customLessons.push(newLesson)
-  saveData(data)
+  if (!family.customLessons) family.customLessons = []
+  family.customLessons.push(newLesson)
+  saveFamilyUpdate(family)
   res.json(newLesson)
 })
 
-app.delete('/api/lessons/:id', requireParent, (req, res) => {
-  const data = loadData()
-  data.customLessons = (data.customLessons || []).filter(l => l.id !== req.params.id)
-  saveData(data)
+app.delete('/api/lessons/:id', requireAuth, (req, res) => {
+  const family = getFamily(req)
+  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
+  family.customLessons = (family.customLessons || []).filter(l => l.id !== req.params.id)
+  saveFamilyUpdate(family)
   res.json({ ok: true })
 })
 
 // ─── Shared exercise pool: Browse & Search ──────────────────────────
-// Browse all shared exercises (no auth needed — it's community data)
 app.get('/api/shared/browse', (req, res) => {
   const { subject, grade } = req.query
   const cache = loadSharedCache()
   let results = cache.exercises
 
-  if (subject) {
-    results = results.filter(e => e.subject === subject)
-  }
-  if (grade) {
-    results = results.filter(e => e.grade === grade)
-  }
+  if (subject) results = results.filter(e => e.subject === subject)
+  if (grade) results = results.filter(e => e.grade === grade)
 
-  // Return summary info (no full exercise data to keep response light)
   res.json({
     exercises: results.map(e => ({
       id: e.id,
@@ -209,7 +341,6 @@ app.get('/api/shared/browse', (req, res) => {
   })
 })
 
-// Search shared exercises by topic (fuzzy match)
 app.get('/api/shared/search', (req, res) => {
   const { subject, grade, topic } = req.query
   if (!subject || !grade || !topic) {
@@ -219,10 +350,7 @@ app.get('/api/shared/search', (req, res) => {
   const cache = loadSharedCache()
   const key = normalizeKey(subject, grade, topic)
 
-  // 1. Try exact key match
   let matches = cache.exercises.filter(e => normalizeKey(e.subject, e.grade, e.topic) === key)
-
-  // 2. If no exact match, try fuzzy match on same subject+grade
   if (matches.length === 0) {
     matches = cache.exercises.filter(e =>
       e.subject === subject && e.grade === grade && fuzzyMatch(topic, e.topic)
@@ -244,28 +372,19 @@ app.get('/api/shared/search', (req, res) => {
   })
 })
 
-// Get full exercise data for a shared exercise (for importing)
 app.get('/api/shared/:id', (req, res) => {
   const cache = loadSharedCache()
   const exercise = cache.exercises.find(e => e.id === req.params.id)
   if (!exercise) {
     return res.status(404).json({ error: 'Exercice non trouve' })
   }
-
-  // Increment usage counter
   exercise.usedBy = (exercise.usedBy || 0) + 1
   saveSharedCache(cache)
-
-  // Return full data (without family info)
-  res.json({
-    ...exercise,
-    // Strip any accidental PII
-    familyId: undefined,
-  })
+  res.json({ ...exercise, familyId: undefined })
 })
 
 // ─── AI Content Generation with Shared Cache ────────────────────────
-app.post('/api/generate', requireParent, async (req, res) => {
+app.post('/api/generate', requireAuth, async (req, res) => {
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) {
     return res.status(500).json({
@@ -273,41 +392,35 @@ app.post('/api/generate', requireParent, async (req, res) => {
     })
   }
 
-  const { subject, topic, level, count, childAge, existingQuestions, familyId } = req.body
+  const { subject, topic, level, count, childAge, existingQuestions } = req.body
 
   if (!subject || !topic) {
     return res.status(400).json({ error: 'Matiere et sujet requis' })
   }
 
-  // ── Check shared cache first ──────────────────────────────────────
   const cache = loadSharedCache()
   const key = normalizeKey(subject, level || 'CM2', topic)
   const cached = cache.exercises.find(e => normalizeKey(e.subject, e.grade, e.topic) === key)
 
   if (cached) {
-    // Cache hit! Return existing exercises — saves API tokens
     cached.usedBy = (cached.usedBy || 0) + 1
     cache.stats.tokensSaved = (cache.stats.tokensSaved || 0) + 1
     saveSharedCache(cache)
-
-    console.log(`  Cache HIT for "${topic}" (${subject}/${level}) — token saved!`)
-
+    console.log(`  Cache HIT for "${topic}" (${subject}/${level})`)
     return res.json({
       ...cached,
       fromCache: true,
-      id: `gen-${subject}-${Date.now()}`, // New ID for this family's copy
+      id: `gen-${subject}-${Date.now()}`,
     })
   }
 
   console.log(`  Cache MISS for "${topic}" (${subject}/${level}) — calling Claude API...`)
 
-  // ── No cache hit → generate with AI ───────────────────────────────
   const anthropic = new Anthropic({ apiKey })
 
-  // Build anti-redundancy section
   let antiRedundancy = ''
   if (existingQuestions && existingQuestions.length > 0) {
-    antiRedundancy = `\n\nATTENTION ANTI-REDONDANCE : Voici les questions qui existent DEJA. Tu dois generer des questions DIFFERENTES, ni identiques ni des variations mineures :\n${existingQuestions.map(q => `- "${q}"`).join('\n')}\n`
+    antiRedundancy = `\n\nATTENTION ANTI-REDONDANCE : Voici les questions qui existent DEJA. Tu dois generer des questions DIFFERENTES :\n${existingQuestions.map(q => `- "${q}"`).join('\n')}\n`
   }
 
   const prompt = `Tu es un professeur francais expert en pedagogie, specialise dans l'instruction en famille (IEF) pour enfants de ${childAge || '10-12'} ans.
@@ -324,9 +437,6 @@ CONSIGNES PEDAGOGIQUES :
 - Progression : commence facile et augmente graduellement
 - Explications claires et pedagogiques
 - Vocabulaire adapte a l'age (${childAge || '10-12'} ans)
-- Pour les maths : nombres et operations du programme ${level || 'CM2'}
-- Pour le francais : regles et textes au programme ${level || 'CM2'}
-- Pour histoire/geo/sciences : periodes et themes au programme ${level || 'CM2'}
 ${antiRedundancy}
 
 Genere exactement ${count || 5} exercices.
@@ -345,16 +455,16 @@ IMPORTANT: Reponds UNIQUEMENT avec un JSON valide, sans texte avant ou apres :
       "answer": "La bonne reponse (texte exact d'une des options)",
       "options": ["option1", "option2", "option3", "option4"],
       "xp": 15,
-      "explanation": "Explication pedagogique courte expliquant POURQUOI c'est la bonne reponse"
+      "explanation": "Explication pedagogique courte"
     }
   ]
 }
 
 Regles:
-- 4 options plausibles par exercice (pas de reponses absurdes)
+- 4 options plausibles par exercice
 - "answer" = exactement l'une des options
-- XP : 10 (facile) a 25 (difficile), varie la difficulte
-- Questions en francais, pas d'accents dans le JSON
+- XP : 10 (facile) a 25 (difficile)
+- Questions en francais
 - Explications pedagogiques et encourageantes`
 
   try {
@@ -373,7 +483,6 @@ Regles:
     const generated = JSON.parse(jsonMatch[0])
     const now = Date.now()
 
-    // Build lesson object
     const lesson = {
       id: `gen-${subject}-${now}`,
       name: generated.levelName,
@@ -393,7 +502,6 @@ Regles:
       })),
     }
 
-    // ── Save to shared cache (no PII — only exercise content) ───────
     const sharedEntry = {
       id: `shared-${subject}-${now}`,
       name: lesson.name,
@@ -412,8 +520,7 @@ Regles:
     cache.stats.totalGenerated = (cache.stats.totalGenerated || 0) + 1
     saveSharedCache(cache)
 
-    console.log(`  Saved to shared cache: "${topic}" (${subject}/${level}) — ${lesson.exercises.length} exercises`)
-
+    console.log(`  Saved to shared cache: "${topic}" (${subject}/${level})`)
     res.json({ ...lesson, fromCache: false })
   } catch (err) {
     console.error('AI generation error:', err)
@@ -446,8 +553,6 @@ app.get('/api/shared/stats', (req, res) => {
 const DIST_DIR = join(__dirname, 'dist')
 if (existsSync(DIST_DIR)) {
   app.use(express.static(DIST_DIR))
-  // SPA fallback: serve index.html for any non-API route
-  // Express 5 uses path-to-regexp v8 which requires named params
   app.use((req, res, next) => {
     if (req.method === 'GET' && !req.path.startsWith('/api/')) {
       res.sendFile(join(DIST_DIR, 'index.html'))
@@ -460,13 +565,14 @@ if (existsSync(DIST_DIR)) {
 
 // ─── Start server ───────────────────────────────────────────────────
 app.listen(PORT, '0.0.0.0', () => {
+  migrateIfNeeded()
   console.log(`🏫 HomeSchool API running on http://localhost:${PORT}`)
-  console.log(`   Parent PIN par defaut: 1234`)
+  const data = loadData()
+  console.log(`   ${data.families.length} famille(s) enregistree(s)`)
   const cache = loadSharedCache()
-  console.log(`   📚 ${cache.exercises.length} exercice(s) dans le cache partage`)
-  console.log(`   💰 ${cache.stats.tokensSaved || 0} token(s) API economise(s)`)
+  console.log(`   ${cache.exercises.length} exercice(s) dans le cache partage`)
+  console.log(`   ${cache.stats.tokensSaved || 0} token(s) API economise(s)`)
   if (!process.env.ANTHROPIC_API_KEY) {
-    console.log(`   ⚠️  ANTHROPIC_API_KEY non definie - la generation IA ne marchera pas`)
-    console.log(`   Lancez: ANTHROPIC_API_KEY=sk-... node server.js`)
+    console.log(`   ANTHROPIC_API_KEY non definie - la generation IA ne marchera pas`)
   }
 })

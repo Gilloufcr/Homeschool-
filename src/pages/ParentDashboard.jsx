@@ -5,24 +5,33 @@ import {
   deleteChild,
   getLessons,
   deleteLesson,
-  generateExercises,
   addLesson,
-  parentLogout,
 } from '../api'
 import AIGenerator from '../components/AIGenerator'
 
-export default function ParentDashboard({ onLogout, childrenProgress }) {
-  const [tab, setTab] = useState('children')
+export default function ParentDashboard({
+  family,
+  onSelectChild,
+  onNavigate,
+  onLogout,
+  onLessonsUpdate,
+  customLessons,
+}) {
+  const [tab, setTab] = useState('home')
   const [children, setChildren] = useState([])
-  const [lessons, setLessons] = useState([])
+  const [lessons, setLessons] = useState(customLessons || [])
   const [showAddChild, setShowAddChild] = useState(false)
   const [newChild, setNewChild] = useState({ name: '', theme: 'minecraft', avatar: '⛏️', grade: 'CM2' })
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
   useEffect(() => {
     loadData()
   }, [])
+
+  useEffect(() => {
+    setLessons(customLessons || [])
+  }, [customLessons])
 
   const loadData = async () => {
     try {
@@ -32,6 +41,7 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
     } catch (e) {
       setError('Impossible de charger les donnees.')
     }
+    setLoading(false)
   }
 
   const handleAddChild = async () => {
@@ -63,6 +73,7 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
     try {
       await deleteLesson(id)
       await loadData()
+      onLessonsUpdate()
     } catch (e) {
       setError(e.message)
     }
@@ -72,15 +83,25 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
     try {
       await addLesson(lesson)
       await loadData()
+      onLessonsUpdate()
       setTab('lessons')
     } catch (e) {
       setError(e.message)
     }
   }
 
-  const handleLogout = () => {
-    parentLogout()
-    onLogout()
+  const subjectColors = {
+    math: { bg: 'rgba(46,204,113,0.15)', color: '#2ECC71' },
+    french: { bg: 'rgba(93,173,226,0.15)', color: '#5DADE2' },
+    history: { bg: 'rgba(230,126,34,0.15)', color: '#E67E22' },
+    geography: { bg: 'rgba(155,89,182,0.15)', color: '#9B59B6' },
+    science: { bg: 'rgba(241,196,15,0.15)', color: '#F1C40F' },
+    english: { bg: 'rgba(231,76,60,0.15)', color: '#E74C3C' },
+  }
+
+  const subjectLabels = {
+    math: 'Maths', french: 'Francais', history: 'Histoire',
+    geography: 'Geographie', science: 'Sciences', english: 'Anglais',
   }
 
   const s = {
@@ -89,35 +110,44 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
       background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
       padding: '20px',
     },
-    container: {
-      maxWidth: '900px',
-      margin: '0 auto',
-    },
+    container: { maxWidth: '900px', margin: '0 auto' },
     header: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      marginBottom: '25px',
+      marginBottom: '8px',
       flexWrap: 'wrap',
       gap: '10px',
     },
-    title: {
+    familyName: {
       fontFamily: "'Quicksand', sans-serif",
       fontSize: 'clamp(1.2rem, 3vw, 1.8rem)',
       fontWeight: '700',
       color: 'white',
     },
-    logoutBtn: {
-      padding: '8px 20px',
-      borderRadius: '12px',
-      border: '2px solid rgba(231,76,60,0.3)',
-      background: 'rgba(231,76,60,0.1)',
-      color: '#E74C3C',
+    familyEmail: {
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: '0.85rem',
+      fontSize: '0.8rem',
+      color: 'rgba(255,255,255,0.4)',
+      marginBottom: '25px',
+    },
+    headerBtns: {
+      display: 'flex',
+      gap: '8px',
+      flexWrap: 'wrap',
+    },
+    iconBtn: (color) => ({
+      padding: '8px 16px',
+      borderRadius: '12px',
+      border: `2px solid ${color}33`,
+      background: `${color}15`,
+      color: color,
+      fontFamily: "'Quicksand', sans-serif",
+      fontSize: '0.8rem',
       fontWeight: '600',
       cursor: 'pointer',
-    },
+      transition: 'all 0.3s ease',
+    }),
     tabs: {
       display: 'flex',
       gap: '5px',
@@ -128,64 +158,94 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
       flexWrap: 'wrap',
     },
     tab: (active) => ({
-      padding: '12px 24px',
+      padding: '12px 20px',
       borderRadius: '12px',
       border: 'none',
       background: active ? 'linear-gradient(135deg, #9B59B6, #8E44AD)' : 'transparent',
       color: active ? 'white' : 'rgba(255,255,255,0.5)',
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: '0.9rem',
+      fontSize: '0.85rem',
       fontWeight: '700',
       cursor: 'pointer',
       transition: 'all 0.3s ease',
       flex: '1',
-      minWidth: '100px',
+      minWidth: '80px',
       textAlign: 'center',
     }),
-    card: {
-      padding: '20px',
-      borderRadius: '16px',
-      background: 'rgba(255,255,255,0.05)',
-      border: '1px solid rgba(255,255,255,0.1)',
+    // Children cards grid
+    childrenGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+      gap: '16px',
+      marginBottom: '20px',
+    },
+    childCard: (theme) => ({
+      padding: '25px 20px',
+      borderRadius: theme === 'minecraft' ? '6px' : '20px',
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
+      textAlign: 'center',
+      background: theme === 'minecraft'
+        ? 'linear-gradient(135deg, rgba(76,175,80,0.15), rgba(46,125,50,0.25))'
+        : 'linear-gradient(135deg, rgba(255,105,180,0.1), rgba(155,89,182,0.2))',
+      border: theme === 'minecraft'
+        ? '3px solid rgba(76,175,80,0.3)'
+        : '2px solid rgba(255,105,180,0.2)',
       backdropFilter: 'blur(10px)',
-      marginBottom: '15px',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      gap: '15px',
-      flexWrap: 'wrap',
-    },
-    cardInfo: {
-      flex: 1,
-    },
-    cardName: {
+      position: 'relative',
+    }),
+    childAvatar: { fontSize: '3rem', marginBottom: '10px', display: 'block' },
+    childName: {
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: '1.1rem',
+      fontSize: '1.2rem',
       fontWeight: '700',
       color: 'white',
       marginBottom: '4px',
     },
-    cardMeta: {
+    childMeta: {
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: '0.8rem',
+      fontSize: '0.75rem',
       color: 'rgba(255,255,255,0.5)',
     },
-    deleteBtn: {
-      padding: '8px 16px',
+    childPlayBtn: {
+      marginTop: '12px',
+      padding: '8px 20px',
       borderRadius: '10px',
       border: 'none',
-      background: 'rgba(231,76,60,0.15)',
-      color: '#E74C3C',
+      background: 'linear-gradient(135deg, #9B59B6, #8E44AD)',
+      color: 'white',
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: '0.8rem',
-      fontWeight: '600',
+      fontSize: '0.85rem',
+      fontWeight: '700',
       cursor: 'pointer',
     },
+    deleteChildBtn: {
+      position: 'absolute',
+      top: '8px',
+      right: '8px',
+      width: '26px',
+      height: '26px',
+      borderRadius: '50%',
+      border: 'none',
+      background: 'rgba(231,76,60,0.2)',
+      color: '#E74C3C',
+      fontSize: '0.7rem',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    emptyState: {
+      textAlign: 'center',
+      padding: '50px 20px',
+      color: 'rgba(255,255,255,0.4)',
+      fontFamily: "'Quicksand', sans-serif",
+    },
     addBtn: {
-      padding: '14px 28px',
-      borderRadius: '15px',
+      padding: '20px',
+      borderRadius: '20px',
       border: '2px dashed rgba(155,89,182,0.4)',
-      background: 'rgba(155,89,182,0.1)',
+      background: 'rgba(155,89,182,0.05)',
       color: '#9B59B6',
       fontFamily: "'Quicksand', sans-serif",
       fontSize: '1rem',
@@ -193,6 +253,11 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
       cursor: 'pointer',
       width: '100%',
       transition: 'all 0.3s ease',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '8px',
+      minHeight: '120px',
     },
     modal: {
       padding: '25px',
@@ -212,6 +277,7 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
       fontSize: '1rem',
       outline: 'none',
       marginBottom: '12px',
+      boxSizing: 'border-box',
     },
     themeSelector: {
       display: 'flex',
@@ -253,24 +319,42 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
       fontSize: '0.85rem',
       marginBottom: '15px',
     },
-    progressCard: {
-      padding: '15px',
-      borderRadius: '12px',
-      background: 'rgba(255,255,255,0.03)',
-      border: '1px solid rgba(255,255,255,0.08)',
-      marginTop: '8px',
-    },
-    progressItem: {
+    card: {
+      padding: '20px',
+      borderRadius: '16px',
+      background: 'rgba(255,255,255,0.05)',
+      border: '1px solid rgba(255,255,255,0.1)',
+      backdropFilter: 'blur(10px)',
+      marginBottom: '15px',
       display: 'flex',
       justifyContent: 'space-between',
+      alignItems: 'center',
+      gap: '15px',
+      flexWrap: 'wrap',
+    },
+    cardInfo: { flex: 1 },
+    cardName: {
+      fontFamily: "'Quicksand', sans-serif",
+      fontSize: '1.1rem',
+      fontWeight: '700',
+      color: 'white',
+      marginBottom: '4px',
+    },
+    cardMeta: {
       fontFamily: "'Quicksand', sans-serif",
       fontSize: '0.8rem',
-      color: 'rgba(255,255,255,0.6)',
-      padding: '4px 0',
+      color: 'rgba(255,255,255,0.5)',
     },
-    progressValue: {
-      color: '#9B59B6',
-      fontWeight: '700',
+    deleteBtn: {
+      padding: '8px 16px',
+      borderRadius: '10px',
+      border: 'none',
+      background: 'rgba(231,76,60,0.15)',
+      color: '#E74C3C',
+      fontFamily: "'Quicksand', sans-serif",
+      fontSize: '0.8rem',
+      fontWeight: '600',
+      cursor: 'pointer',
     },
     lessonTag: {
       display: 'inline-block',
@@ -284,33 +368,22 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
     },
   }
 
-  const subjectColors = {
-    math: { bg: 'rgba(46,204,113,0.15)', color: '#2ECC71' },
-    french: { bg: 'rgba(93,173,226,0.15)', color: '#5DADE2' },
-    history: { bg: 'rgba(230,126,34,0.15)', color: '#E67E22' },
-    geography: { bg: 'rgba(155,89,182,0.15)', color: '#9B59B6' },
-    science: { bg: 'rgba(241,196,15,0.15)', color: '#F1C40F' },
-    english: { bg: 'rgba(231,76,60,0.15)', color: '#E74C3C' },
-  }
-
-  const subjectLabels = {
-    math: 'Maths',
-    french: 'Francais',
-    history: 'Histoire',
-    geography: 'Geographie',
-    science: 'Sciences',
-    english: 'Anglais',
-  }
-
   return (
     <div style={s.page}>
       <div style={s.container}>
+        {/* Header */}
         <div style={s.header}>
-          <div style={s.title}>🎓 Espace Parent</div>
-          <button style={s.logoutBtn} onClick={handleLogout}>
-            Deconnexion
-          </button>
+          <div style={s.familyName}>{family?.name || 'Tableau de bord'}</div>
+          <div style={s.headerBtns}>
+            <button style={s.iconBtn('#9B59B6')} onClick={() => onNavigate('settings')}>
+              Parametres
+            </button>
+            <button style={s.iconBtn('#E74C3C')} onClick={onLogout}>
+              Deconnexion
+            </button>
+          </div>
         </div>
+        <div style={s.familyEmail}>{family?.email}</div>
 
         {error && (
           <div style={s.error}>
@@ -319,68 +392,92 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
               onClick={() => setError('')}
               style={{ float: 'right', background: 'none', border: 'none', color: '#E74C3C', cursor: 'pointer' }}
             >
-              ✕
+              X
             </button>
           </div>
         )}
 
+        {/* Tabs */}
         <div style={s.tabs}>
           {[
-            { id: 'children', label: '👧 Enfants' },
-            { id: 'lessons', label: '📚 Lecons' },
-            { id: 'generate', label: '🤖 Generer (IA)' },
+            { id: 'home', label: 'Enfants' },
+            { id: 'children', label: 'Gerer' },
+            { id: 'lessons', label: 'Lecons' },
+            { id: 'generate', label: 'Generer (IA)' },
           ].map((t) => (
-            <button
-              key={t.id}
-              style={s.tab(tab === t.id)}
-              onClick={() => setTab(t.id)}
-            >
+            <button key={t.id} style={s.tab(tab === t.id)} onClick={() => setTab(t.id)}>
               {t.label}
             </button>
           ))}
         </div>
 
-        {/* ─── Children tab ──────────────────────────────────── */}
-        {tab === 'children' && (
+        {/* ─── Home tab: Children cards to launch exercises ─── */}
+        {tab === 'home' && (
           <div>
-            {children.map((child) => {
-              const progress = childrenProgress?.[child.id]
-              return (
-                <div key={child.id} style={s.card}>
-                  <div style={{ fontSize: '2rem' }}>{child.avatar}</div>
-                  <div style={s.cardInfo}>
-                    <div style={s.cardName}>{child.name}</div>
-                    <div style={s.cardMeta}>
-                      {child.theme === 'minecraft' ? 'Mode Minecraft' : 'Mode Feerie'}
+            {children.length === 0 ? (
+              <div style={s.emptyState}>
+                <div style={{ fontSize: '3rem', marginBottom: '15px' }}>👧</div>
+                <div style={{ fontSize: '1.1rem', marginBottom: '8px', color: 'rgba(255,255,255,0.6)' }}>
+                  Aucun enfant pour le moment
+                </div>
+                <div style={{ fontSize: '0.85rem' }}>
+                  Allez dans l'onglet "Gerer" pour ajouter un profil enfant
+                </div>
+              </div>
+            ) : (
+              <div style={s.childrenGrid}>
+                {children.map((child) => (
+                  <div
+                    key={child.id}
+                    style={s.childCard(child.theme)}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)'
+                      e.currentTarget.style.boxShadow = child.theme === 'minecraft'
+                        ? '0 10px 30px rgba(76,175,80,0.3)'
+                        : '0 10px 30px rgba(255,105,180,0.2)'
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.transform = 'none'
+                      e.currentTarget.style.boxShadow = 'none'
+                    }}
+                  >
+                    <span style={s.childAvatar}>{child.avatar}</span>
+                    <div style={s.childName}>{child.name}</div>
+                    <div style={s.childMeta}>
+                      {child.theme === 'minecraft' ? 'Minecraft' : 'Feerie'}
                       {child.grade && ` • ${child.grade}`}
                     </div>
-                    {progress && (
-                      <div style={s.progressCard}>
-                        <div style={s.progressItem}>
-                          <span>Niveau</span>
-                          <span style={s.progressValue}>{progress.level}</span>
-                        </div>
-                        <div style={s.progressItem}>
-                          <span>XP Total</span>
-                          <span style={s.progressValue}>{progress.xp}</span>
-                        </div>
-                        <div style={s.progressItem}>
-                          <span>Exercices</span>
-                          <span style={s.progressValue}>{progress.completedExercises?.length || 0}</span>
-                        </div>
-                        <div style={s.progressItem}>
-                          <span>Serie</span>
-                          <span style={s.progressValue}>{progress.streak} jour(s)</span>
-                        </div>
-                      </div>
-                    )}
+                    <button
+                      style={s.childPlayBtn}
+                      onClick={() => onSelectChild(child)}
+                    >
+                      Commencer
+                    </button>
                   </div>
-                  <button style={s.deleteBtn} onClick={() => handleDeleteChild(child.id, child.name)}>
-                    Supprimer
-                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ─── Manage children tab ─── */}
+        {tab === 'children' && (
+          <div>
+            {children.map((child) => (
+              <div key={child.id} style={s.card}>
+                <div style={{ fontSize: '2rem' }}>{child.avatar}</div>
+                <div style={s.cardInfo}>
+                  <div style={s.cardName}>{child.name}</div>
+                  <div style={s.cardMeta}>
+                    {child.theme === 'minecraft' ? 'Mode Minecraft' : 'Mode Feerie'}
+                    {child.grade && ` • ${child.grade}`}
+                  </div>
                 </div>
-              )
-            })}
+                <button style={s.deleteBtn} onClick={() => handleDeleteChild(child.id, child.name)}>
+                  Supprimer
+                </button>
+              </div>
+            ))}
 
             {showAddChild ? (
               <div style={s.modal}>
@@ -397,13 +494,13 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
                     style={s.themeOption(newChild.theme === 'minecraft')}
                     onClick={() => setNewChild({ ...newChild, theme: 'minecraft', avatar: '⛏️' })}
                   >
-                    ⛏️ Minecraft
+                    Minecraft
                   </button>
                   <button
                     style={s.themeOption(newChild.theme === 'lalilo')}
                     onClick={() => setNewChild({ ...newChild, theme: 'lalilo', avatar: '🦋' })}
                   >
-                    🦋 Feerie
+                    Feerie
                   </button>
                 </div>
                 <div style={{ marginBottom: '15px' }}>
@@ -448,17 +545,18 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
           </div>
         )}
 
-        {/* ─── Lessons tab ──────────────────────────────────── */}
+        {/* ─── Lessons tab ─── */}
         {tab === 'lessons' && (
           <div>
             {lessons.length === 0 ? (
-              <div style={{
-                textAlign: 'center',
-                padding: '40px',
-                color: 'rgba(255,255,255,0.4)',
-                fontFamily: "'Quicksand', sans-serif",
-              }}>
-                Aucune lecon personnalisee. Utilisez l'onglet "Generer (IA)" pour en creer !
+              <div style={s.emptyState}>
+                <div style={{ fontSize: '3rem', marginBottom: '15px' }}>📚</div>
+                <div style={{ fontSize: '1.1rem', marginBottom: '8px', color: 'rgba(255,255,255,0.6)' }}>
+                  Aucune lecon personnalisee
+                </div>
+                <div style={{ fontSize: '0.85rem' }}>
+                  Utilisez l'onglet "Generer (IA)" pour en creer !
+                </div>
               </div>
             ) : (
               lessons.map((lesson) => (
@@ -487,7 +585,7 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
                           background: 'rgba(241,196,15,0.15)',
                           color: '#F1C40F',
                         }}>
-                          🤖 IA
+                          IA
                         </span>
                       )}
                     </div>
@@ -501,7 +599,7 @@ export default function ParentDashboard({ onLogout, childrenProgress }) {
           </div>
         )}
 
-        {/* ─── AI Generator tab ──────────────────────────────── */}
+        {/* ─── AI Generator tab ─── */}
         {tab === 'generate' && (
           <AIGenerator onGenerated={handleLessonGenerated} existingLessons={lessons} />
         )}
