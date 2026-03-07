@@ -17,6 +17,45 @@ const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(64).toString('he
 app.use(cors())
 app.use(express.json())
 
+// ─── Anti-bot protection ────────────────────────────────────────────
+// Rate limiter: max attempts per IP within a time window
+function createRateLimiter(maxAttempts, windowMs) {
+  const attempts = new Map()
+  // Cleanup expired entries every 5 minutes
+  setInterval(() => {
+    const now = Date.now()
+    for (const [ip, data] of attempts) {
+      if (now - data.firstAttempt > windowMs) attempts.delete(ip)
+    }
+  }, 5 * 60 * 1000).unref()
+
+  return (req, res, next) => {
+    const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip
+    const now = Date.now()
+    const data = attempts.get(ip)
+
+    if (!data || now - data.firstAttempt > windowMs) {
+      attempts.set(ip, { count: 1, firstAttempt: now })
+      return next()
+    }
+
+    if (data.count >= maxAttempts) {
+      const retryAfter = Math.ceil((windowMs - (now - data.firstAttempt)) / 1000)
+      return res.status(429).json({
+        error: `Trop de tentatives. Reessayez dans ${Math.ceil(retryAfter / 60)} minute(s).`,
+      })
+    }
+
+    data.count++
+    next()
+  }
+}
+
+// 3 registrations per IP per 15 minutes
+const registerLimiter = createRateLimiter(3, 15 * 60 * 1000)
+// 10 login attempts per IP per 15 minutes
+const loginLimiter = createRateLimiter(10, 15 * 60 * 1000)
+
 // ─── Privacy helpers ────────────────────────────────────────────────
 function hashFamilyId(familyId) {
   return crypto.createHash('sha256').update(familyId + (process.env.JWT_SECRET || 'salt')).digest('hex').slice(0, 16)
@@ -78,11 +117,29 @@ function requireAuth(req, res, next) {
 }
 
 // ─── Auth endpoints ─────────────────────────────────────────────────
-app.post('/api/auth/register', async (req, res) => {
-  const { email, password, name } = req.body
+app.post('/api/auth/register', registerLimiter, async (req, res) => {
+  const { email, password, name, website, _formTs } = req.body
+
+  // Honeypot: invisible "website" field — bots fill it, humans don't
+  if (website) {
+    // Silently reject (don't reveal it's a bot trap)
+    return res.status(400).json({ error: 'Email et mot de passe requis' })
+  }
+
+  // Timing check: form must take at least 2 seconds to fill
+  if (_formTs && (Date.now() - _formTs) < 2000) {
+    return res.status(400).json({ error: 'Veuillez patienter avant de soumettre' })
+  }
+
   if (!email || !password) {
     return res.status(400).json({ error: 'Email et mot de passe requis' })
   }
+
+  // Basic email format validation
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ error: 'Format email invalide' })
+  }
+
   if (password.length < 4) {
     return res.status(400).json({ error: 'Le mot de passe doit faire au moins 4 caracteres' })
   }
@@ -104,7 +161,7 @@ app.post('/api/auth/register', async (req, res) => {
   res.json({ token, family: { id, email: email.toLowerCase(), name: familyName } })
 })
 
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/auth/login', loginLimiter, async (req, res) => {
   const { email, password } = req.body
   if (!email || !password) {
     return res.status(400).json({ error: 'Email et mot de passe requis' })

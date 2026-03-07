@@ -56,10 +56,10 @@ async function request(path, options = {}) {
 }
 
 // ─── Auth ───────────────────────────────────────────────────────────
-export const authRegister = async (email, password, name) => {
+export const authRegister = async (email, password, name, { honeypot, formTs } = {}) => {
   const data = await request('/api/auth/register', {
     method: 'POST',
-    body: JSON.stringify({ email, password, name }),
+    body: JSON.stringify({ email, password, name, website: honeypot, _formTs: formTs }),
   })
   setToken(data.token)
   setSavedFamily(data.family)

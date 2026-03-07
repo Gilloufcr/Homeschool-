@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { authLogin, authRegister } from '../api'
 
 export default function AuthPage({ onAuth }) {
@@ -7,8 +7,10 @@ export default function AuthPage({ onAuth }) {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [familyName, setFamilyName] = useState('')
+  const [honeypot, setHoneypot] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const formOpenedAt = useRef(Date.now())
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -36,7 +38,9 @@ export default function AuthPage({ onAuth }) {
         const data = await authLogin(email, password)
         onAuth(data.family)
       } else {
-        const data = await authRegister(email, password, familyName || undefined)
+        const data = await authRegister(email, password, familyName || undefined, {
+          honeypot, formTs: formOpenedAt.current,
+        })
         onAuth(data.family)
       }
     } catch (err) {
@@ -211,6 +215,20 @@ export default function AuthPage({ onAuth }) {
         {error && <div style={s.error}>{error}</div>}
 
         <form onSubmit={handleSubmit}>
+          {/* Honeypot: invisible to humans, bots auto-fill it */}
+          <div style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, overflow: 'hidden' }} aria-hidden="true">
+            <label htmlFor="website">Website</label>
+            <input
+              id="website"
+              name="website"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+            />
+          </div>
+
           {mode === 'register' && (
             <div style={s.inputGroup}>
               <label style={s.label}>Nom de la famille (optionnel)</label>
