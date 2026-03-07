@@ -10,7 +10,7 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
 
   const s = {
     card: {
-      maxWidth: '650px',
+      maxWidth: '900px',
       margin: '0 auto',
       borderRadius: isMinecraft ? '0' : '24px',
       background: isMinecraft
@@ -34,7 +34,7 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
     },
     title: {
       fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.65rem' : '1.2rem',
+      fontSize: isMinecraft ? 'clamp(0.65rem, 0.9vw, 1.2rem)' : 'clamp(1.2rem, 1.5vw, 1.8rem)',
       fontWeight: '700',
       color: isMinecraft ? '#FFD700' : '#333',
       textShadow: isMinecraft ? '1px 1px 0 #000' : 'none',
@@ -42,7 +42,7 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
     },
     subtitle: {
       fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.35rem' : '0.75rem',
+      fontSize: isMinecraft ? 'clamp(0.35rem, 0.6vw, 0.8rem)' : 'clamp(0.75rem, 1vw, 1.1rem)',
       color: isMinecraft ? '#aaa' : '#888',
     },
     body: {
@@ -56,7 +56,7 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
     },
     pageTitle: {
       fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.55rem' : '1.05rem',
+      fontSize: isMinecraft ? 'clamp(0.55rem, 0.8vw, 1.1rem)' : 'clamp(1.05rem, 1.3vw, 1.6rem)',
       fontWeight: '700',
       color: isMinecraft ? '#7CFC00' : '#9B59B6',
       textAlign: 'center',
@@ -65,10 +65,10 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
     },
     content: {
       fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.4rem' : '0.9rem',
+      fontSize: isMinecraft ? 'clamp(0.4rem, 0.65vw, 0.9rem)' : 'clamp(0.9rem, 1.15vw, 1.35rem)',
       lineHeight: isMinecraft ? '2' : '1.7',
       color: isMinecraft ? '#ddd' : '#444',
-      marginBottom: '16px',
+      marginBottom: 'clamp(16px, 1.5vw, 24px)',
     },
     highlight: {
       display: 'inline-block',
@@ -77,7 +77,7 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
       background: isMinecraft ? 'rgba(255,215,0,0.15)' : 'rgba(155,89,182,0.08)',
       border: isMinecraft ? '2px solid #FFD700' : '2px solid rgba(155,89,182,0.15)',
       fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.4rem' : '0.85rem',
+      fontSize: isMinecraft ? 'clamp(0.4rem, 0.65vw, 0.9rem)' : 'clamp(0.85rem, 1.1vw, 1.25rem)',
       fontWeight: '700',
       color: isMinecraft ? '#FFD700' : '#9B59B6',
       margin: '4px',
@@ -88,7 +88,7 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
       background: isMinecraft ? 'rgba(76,175,80,0.15)' : 'rgba(46,204,113,0.08)',
       border: isMinecraft ? '2px solid #4CAF50' : '2px solid rgba(46,204,113,0.15)',
       fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.38rem' : '0.82rem',
+      fontSize: isMinecraft ? 'clamp(0.38rem, 0.6vw, 0.85rem)' : 'clamp(0.82rem, 1.05vw, 1.2rem)',
       lineHeight: isMinecraft ? '2' : '1.6',
       color: isMinecraft ? '#7CFC00' : '#27AE60',
       marginBottom: '16px',
@@ -99,7 +99,7 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
       background: isMinecraft ? 'rgba(93,173,226,0.1)' : 'rgba(93,173,226,0.06)',
       border: isMinecraft ? '2px solid #5DADE2' : '2px solid rgba(93,173,226,0.15)',
       fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.38rem' : '0.85rem',
+      fontSize: isMinecraft ? 'clamp(0.38rem, 0.6vw, 0.85rem)' : 'clamp(0.85rem, 1.05vw, 1.2rem)',
       lineHeight: isMinecraft ? '2' : '1.6',
       color: isMinecraft ? '#5DADE2' : '#2980B9',
       marginBottom: '16px',
@@ -127,7 +127,7 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
         ? '#fff'
         : (isMinecraft ? '#aaa' : '#9B59B6'),
       fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.45rem' : '0.85rem',
+      fontSize: isMinecraft ? 'clamp(0.45rem, 0.7vw, 0.95rem)' : 'clamp(0.85rem, 1.1vw, 1.25rem)',
       fontWeight: '700',
       cursor: 'pointer',
       transition: 'all 0.2s ease',

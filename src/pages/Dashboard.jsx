@@ -57,7 +57,7 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
 
   const pageStyle = {
     minHeight: '100vh',
-    padding: '20px',
+    padding: 'clamp(16px, 2.5vw, 40px)',
     background: isMinecraft
       ? 'linear-gradient(180deg, #87CEEB 0%, #a8d8ea 40%, #4CAF50 60%, #2E7D32 100%)'
       : 'linear-gradient(135deg, #fff5f9 0%, #f0e6ff 50%, #e6f3ff 100%)',
@@ -67,28 +67,21 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '20px',
+    marginBottom: 'clamp(16px, 2vw, 28px)',
     flexWrap: 'wrap',
     gap: '10px',
   }
 
   const greetingStyle = {
     fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-    fontSize: isMinecraft ? '0.8rem' : '1.4rem',
+    fontSize: isMinecraft ? 'clamp(0.8rem, 1.2vw, 1.4rem)' : 'clamp(1.4rem, 1.8vw, 2.2rem)',
     fontWeight: '700',
     color: isMinecraft ? '#FFD700' : '#333',
     textShadow: isMinecraft ? '2px 2px 0 #000' : 'none',
   }
 
-  const statsGrid = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
-    gap: '12px',
-    marginBottom: '25px',
-  }
-
   const statCardStyle = () => ({
-    padding: isMinecraft ? '12px' : '15px',
+    padding: isMinecraft ? 'clamp(10px, 1.2vw, 18px)' : 'clamp(12px, 1.5vw, 22px)',
     borderRadius: isMinecraft ? '0' : '15px',
     background: isMinecraft ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.9)',
     border: isMinecraft ? '3px solid #555' : '2px solid rgba(155,89,182,0.1)',
@@ -98,20 +91,20 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
 
   const statValueStyle = {
     fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-    fontSize: isMinecraft ? '1rem' : '1.5rem',
+    fontSize: isMinecraft ? 'clamp(1rem, 1.5vw, 1.8rem)' : 'clamp(1.5rem, 2vw, 2.5rem)',
     fontWeight: '700',
     color: isMinecraft ? '#7CFC00' : '#9B59B6',
   }
 
   const statLabelStyle = {
     fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-    fontSize: isMinecraft ? '0.45rem' : '0.75rem',
+    fontSize: isMinecraft ? 'clamp(0.45rem, 0.6vw, 0.8rem)' : 'clamp(0.75rem, 0.9vw, 1.1rem)',
     color: isMinecraft ? '#aaa' : '#888',
     marginTop: '4px',
   }
 
   const subjectCardStyle = (subject) => ({
-    padding: isMinecraft ? '15px' : '18px',
+    padding: isMinecraft ? 'clamp(12px, 1.5vw, 22px)' : 'clamp(16px, 2vw, 28px)',
     borderRadius: isMinecraft ? '0' : '18px',
     cursor: 'pointer',
     transition: 'all 0.3s ease',
@@ -120,23 +113,23 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
     boxShadow: isMinecraft ? 'none' : '0 4px 15px rgba(0,0,0,0.08)',
     display: 'flex',
     alignItems: 'center',
-    gap: '15px',
+    gap: 'clamp(12px, 1.5vw, 22px)',
   })
 
   const logoutBtnStyle = {
-    padding: isMinecraft ? '8px 12px' : '8px 16px',
+    padding: isMinecraft ? 'clamp(8px, 1vw, 14px) clamp(12px, 1.5vw, 20px)' : 'clamp(8px, 1vw, 14px) clamp(16px, 2vw, 28px)',
     borderRadius: isMinecraft ? '0' : '12px',
     border: isMinecraft ? '2px outset #777' : 'none',
     background: isMinecraft ? '#555' : 'rgba(231,76,60,0.1)',
     color: isMinecraft ? '#fff' : '#E74C3C',
     fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-    fontSize: isMinecraft ? '0.5rem' : '0.85rem',
+    fontSize: isMinecraft ? 'clamp(0.5rem, 0.7vw, 0.9rem)' : 'clamp(0.85rem, 1vw, 1.2rem)',
     fontWeight: '700',
     cursor: 'pointer',
   }
 
   const badgeToggleStyle = {
-    padding: isMinecraft ? '6px 10px' : '8px 16px',
+    padding: isMinecraft ? 'clamp(6px, 0.8vw, 12px) clamp(10px, 1.2vw, 18px)' : 'clamp(8px, 1vw, 14px) clamp(16px, 2vw, 28px)',
     borderRadius: isMinecraft ? '0' : '12px',
     border: isMinecraft ? '2px outset #777' : '2px solid rgba(155,89,182,0.2)',
     background: showBadges
@@ -144,11 +137,13 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
       : 'transparent',
     color: isMinecraft ? '#FFD700' : '#9B59B6',
     fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-    fontSize: isMinecraft ? '0.45rem' : '0.8rem',
+    fontSize: isMinecraft ? 'clamp(0.45rem, 0.65vw, 0.85rem)' : 'clamp(0.8rem, 1vw, 1.2rem)',
     fontWeight: '600',
     cursor: 'pointer',
     transition: 'all 0.3s ease',
   }
+
+  const iconSize = 'clamp(40px, 4.5vw, 65px)'
 
   return (
     <div style={pageStyle}>
@@ -169,7 +164,7 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
 
         <XPBar xp={progress.xp} level={progress.level} theme={profile.theme} />
 
-        <div className="stats-grid">
+        <div className="stats-grid" style={{ marginTop: 'clamp(12px, 1.5vw, 24px)', marginBottom: 'clamp(16px, 2vw, 28px)' }}>
           <div style={statCardStyle()}>
             <div style={statValueStyle}>{progress.level}</div>
             <div style={statLabelStyle}>{isMinecraft ? 'NIVEAU' : 'Niveau'}</div>
@@ -191,7 +186,7 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
         {/* Optional badges section */}
         {showBadges && (
           <div style={{
-            marginBottom: '25px',
+            marginBottom: 'clamp(20px, 2.5vw, 35px)',
             borderRadius: isMinecraft ? '0' : '20px',
             background: isMinecraft ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.9)',
             border: isMinecraft ? '3px solid #555' : '2px solid rgba(155,89,182,0.1)',
@@ -206,7 +201,7 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
         <div
           onClick={() => onNavigate('map')}
           style={{
-            padding: isMinecraft ? '16px' : '20px',
+            padding: isMinecraft ? 'clamp(14px, 1.8vw, 26px)' : 'clamp(18px, 2.2vw, 32px)',
             borderRadius: isMinecraft ? '0' : '20px',
             background: isMinecraft
               ? 'linear-gradient(135deg, rgba(0,0,0,0.7), rgba(39,60,30,0.8))'
@@ -215,10 +210,10 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
               ? '3px solid #4CAF50'
               : '2px solid rgba(93,173,226,0.3)',
             cursor: 'pointer',
-            marginBottom: '25px',
+            marginBottom: 'clamp(20px, 2.5vw, 35px)',
             display: 'flex',
             alignItems: 'center',
-            gap: '15px',
+            gap: 'clamp(12px, 1.5vw, 22px)',
             transition: 'all 0.3s ease',
             boxShadow: isMinecraft ? 'none' : '0 4px 15px rgba(93,173,226,0.15)',
             animation: 'slideUp 0.4s ease-out',
@@ -235,15 +230,15 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
           }}
         >
           <div style={{
-            fontSize: '2.5rem',
+            fontSize: 'clamp(2rem, 3vw, 3.5rem)',
             animation: 'float 3s ease-in-out infinite',
           }}>
             🗺️
           </div>
-          <div>
+          <div style={{ flex: 1 }}>
             <div style={{
               fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-              fontSize: isMinecraft ? '0.6rem' : '1.1rem',
+              fontSize: isMinecraft ? 'clamp(0.6rem, 0.9vw, 1.1rem)' : 'clamp(1.1rem, 1.4vw, 1.7rem)',
               fontWeight: '700',
               color: isMinecraft ? '#7CFC00' : '#2C3E50',
               marginBottom: '4px',
@@ -252,7 +247,7 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
             </div>
             <div style={{
               fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-              fontSize: isMinecraft ? '0.35rem' : '0.8rem',
+              fontSize: isMinecraft ? 'clamp(0.35rem, 0.55vw, 0.75rem)' : 'clamp(0.8rem, 1vw, 1.2rem)',
               color: isMinecraft ? '#aaa' : '#7F8C8D',
               lineHeight: isMinecraft ? '1.6' : '1.4',
             }}>
@@ -262,9 +257,8 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
             </div>
           </div>
           <div style={{
-            marginLeft: 'auto',
             fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-            fontSize: isMinecraft ? '0.5rem' : '0.9rem',
+            fontSize: isMinecraft ? 'clamp(0.5rem, 0.7vw, 0.9rem)' : 'clamp(0.9rem, 1.1vw, 1.4rem)',
             color: isMinecraft ? '#FFD700' : '#5DADE2',
             fontWeight: '700',
           }}>
@@ -274,10 +268,10 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
 
         <div style={{
           fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-          fontSize: isMinecraft ? '0.7rem' : '1.2rem',
+          fontSize: isMinecraft ? 'clamp(0.7rem, 1vw, 1.3rem)' : 'clamp(1.2rem, 1.5vw, 1.8rem)',
           fontWeight: '700',
           color: isMinecraft ? '#FFD700' : '#333',
-          marginBottom: '15px',
+          marginBottom: 'clamp(12px, 1.5vw, 22px)',
           textShadow: isMinecraft ? '1px 1px 0 #000' : 'none',
         }}>
           {isMinecraft ? '> MATIERES' : 'Choisis ta matiere'}
@@ -304,14 +298,14 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
               }}
             >
               <div style={{
-                width: '50px',
-                height: '50px',
+                width: iconSize,
+                height: iconSize,
                 borderRadius: isMinecraft ? '0' : '14px',
                 background: subject.color,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '1.6rem',
+                fontSize: 'clamp(1.4rem, 2vw, 2.4rem)',
                 border: isMinecraft ? `2px solid ${subject.border}` : 'none',
                 flexShrink: 0,
               }}>
@@ -320,7 +314,7 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
               <div>
                 <div style={{
                   fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-                  fontSize: isMinecraft ? '0.6rem' : '1rem',
+                  fontSize: isMinecraft ? 'clamp(0.6rem, 0.85vw, 1.1rem)' : 'clamp(1rem, 1.3vw, 1.5rem)',
                   fontWeight: '700',
                   color: isMinecraft ? '#fff' : '#333',
                   marginBottom: '3px',
@@ -329,7 +323,7 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
                 </div>
                 <div style={{
                   fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-                  fontSize: isMinecraft ? '0.4rem' : '0.75rem',
+                  fontSize: isMinecraft ? 'clamp(0.4rem, 0.6vw, 0.8rem)' : 'clamp(0.75rem, 0.95vw, 1.15rem)',
                   color: isMinecraft ? '#aaa' : '#888',
                   lineHeight: isMinecraft ? '1.6' : '1.4',
                 }}>

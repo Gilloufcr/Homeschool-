@@ -4,12 +4,14 @@ const XPBar = ({ xp, level, theme }) => {
 
   const isMinecraft = theme === 'minecraft'
 
+  const badgeSize = 'clamp(40px, 4vw, 60px)'
+
   const styles = {
     container: {
       display: 'flex',
       alignItems: 'center',
-      gap: '12px',
-      padding: '10px 20px',
+      gap: 'clamp(10px, 1.2vw, 18px)',
+      padding: 'clamp(8px, 1.2vw, 16px) clamp(16px, 2vw, 28px)',
       borderRadius: isMinecraft ? '0' : '20px',
       background: isMinecraft
         ? 'rgba(0,0,0,0.7)'
@@ -18,14 +20,14 @@ const XPBar = ({ xp, level, theme }) => {
       boxShadow: isMinecraft ? 'none' : '0 2px 10px rgba(0,0,0,0.1)',
     },
     levelBadge: {
-      minWidth: '45px',
-      height: '45px',
+      minWidth: badgeSize,
+      height: badgeSize,
       borderRadius: isMinecraft ? '0' : '50%',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       fontWeight: '700',
-      fontSize: isMinecraft ? '0.7rem' : '1.1rem',
+      fontSize: isMinecraft ? 'clamp(0.7rem, 0.9vw, 1.2rem)' : 'clamp(1.1rem, 1.4vw, 1.7rem)',
       fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
       background: isMinecraft
         ? 'linear-gradient(135deg, #FFD700, #FFA000)'
@@ -35,7 +37,7 @@ const XPBar = ({ xp, level, theme }) => {
     },
     barOuter: {
       flex: 1,
-      height: isMinecraft ? '16px' : '20px',
+      height: isMinecraft ? 'clamp(14px, 1.5vw, 24px)' : 'clamp(18px, 2vw, 28px)',
       background: isMinecraft ? '#333' : '#f0e6ff',
       borderRadius: isMinecraft ? '0' : '10px',
       overflow: 'hidden',
@@ -52,10 +54,10 @@ const XPBar = ({ xp, level, theme }) => {
     },
     xpText: {
       fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.6rem' : '0.85rem',
+      fontSize: isMinecraft ? 'clamp(0.6rem, 0.8vw, 1rem)' : 'clamp(0.85rem, 1.1vw, 1.3rem)',
       fontWeight: '700',
       color: isMinecraft ? '#7CFC00' : '#9B59B6',
-      minWidth: '70px',
+      minWidth: 'clamp(65px, 7vw, 100px)',
       textAlign: 'right',
     },
   }
