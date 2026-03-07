@@ -298,51 +298,21 @@ const FairyLandscape = ({ height }) => (
       </g>
     ))}
 
-    {/* Unicorn on the left hill */}
-    <g transform={`translate(65, ${height * 0.42}) scale(0.9)`}>
-      {/* Body */}
-      <ellipse cx="0" cy="0" rx="22" ry="14" fill="white" />
-      {/* Head */}
-      <ellipse cx="22" cy="-12" rx="10" ry="8" fill="white" />
-      {/* Horn */}
-      <polygon points="28,-22 30,-36 32,-22" fill="#FFD700" />
-      <polygon points="29,-22 30,-33 31,-22" fill="#FFF176" opacity="0.6" />
-      {/* Eye */}
-      <circle cx="27" cy="-13" r="2" fill="#9B59B6" />
-      {/* Mane */}
-      <path d="M16,-18 Q12,-26 18,-24 Q14,-20 20,-18" fill="#FF69B4" opacity="0.7" />
-      <path d="M12,-15 Q8,-22 14,-20 Q10,-16 16,-14" fill="#DDA0DD" opacity="0.7" />
-      {/* Legs */}
-      <rect x="-12" y="10" width="5" height="16" fill="white" rx="2" />
-      <rect x="-2" y="10" width="5" height="16" fill="white" rx="2" />
-      <rect x="6" y="10" width="5" height="16" fill="white" rx="2" />
-      <rect x="14" y="10" width="5" height="16" fill="white" rx="2" />
-      {/* Tail */}
-      <path d="M-22,0 Q-34,-8 -30,-18 Q-26,-10 -22,-4" fill="#FF69B4" opacity="0.6" strokeWidth="0" />
-      <path d="M-22,-2 Q-32,-12 -28,-20" fill="none" stroke="#DDA0DD" strokeWidth="3" opacity="0.5" />
-      {/* Sparkles around unicorn */}
-      <circle cx="-15" cy="-30" r="3" fill="url(#sparkle)" />
-      <circle cx="35" cy="-35" r="2" fill="url(#sparkle)" />
-      <circle cx="-25" cy="-15" r="2" fill="url(#sparkle)" />
-    </g>
+    {/* Unicorns as emoji (foreignObject for proper emoji rendering) */}
+    <foreignObject x="35" y={height * 0.36} width="80" height="80">
+      <div xmlns="http://www.w3.org/1999/xhtml" style={{ fontSize: '3rem', textAlign: 'center', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' }}>🦄</div>
+    </foreignObject>
+    <foreignObject x="700" y={height * 0.38} width="80" height="80">
+      <div xmlns="http://www.w3.org/1999/xhtml" style={{ fontSize: '2.5rem', textAlign: 'center', transform: 'scaleX(-1)', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' }}>🦄</div>
+    </foreignObject>
 
-    {/* Unicorn on the right */}
-    <g transform={`translate(735, ${height * 0.44}) scale(-0.8, 0.8)`}>
-      <ellipse cx="0" cy="0" rx="22" ry="14" fill="#FAFAFA" />
-      <ellipse cx="22" cy="-12" rx="10" ry="8" fill="#FAFAFA" />
-      <polygon points="28,-22 30,-36 32,-22" fill="#C084FC" />
-      <polygon points="29,-22 30,-33 31,-22" fill="#E0B0FF" opacity="0.6" />
-      <circle cx="27" cy="-13" r="2" fill="#FF69B4" />
-      <path d="M16,-18 Q12,-26 18,-24 Q14,-20 20,-18" fill="#87CEEB" opacity="0.7" />
-      <path d="M12,-15 Q8,-22 14,-20 Q10,-16 16,-14" fill="#C084FC" opacity="0.7" />
-      <rect x="-12" y="10" width="5" height="16" fill="#FAFAFA" rx="2" />
-      <rect x="-2" y="10" width="5" height="16" fill="#FAFAFA" rx="2" />
-      <rect x="6" y="10" width="5" height="16" fill="#FAFAFA" rx="2" />
-      <rect x="14" y="10" width="5" height="16" fill="#FAFAFA" rx="2" />
-      <path d="M-22,0 Q-34,-8 -30,-18 Q-26,-10 -22,-4" fill="#87CEEB" opacity="0.6" />
-      <circle cx="-15" cy="-30" r="3" fill="url(#sparkle)" />
-      <circle cx="35" cy="-35" r="2" fill="url(#sparkle)" />
-    </g>
+    {/* Sparkles around unicorns */}
+    {[
+      { x: 45, y: height * 0.34 }, { x: 100, y: height * 0.33 },
+      { x: 720, y: height * 0.35 }, { x: 770, y: height * 0.36 },
+    ].map((s, i) => (
+      <circle key={`usp-${i}`} cx={s.x} cy={s.y} r="3" fill="url(#sparkle)" />
+    ))}
 
     {/* Butterflies */}
     {[
