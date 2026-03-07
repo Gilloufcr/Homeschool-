@@ -1,12 +1,13 @@
 import express from 'express'
 import cors from 'cors'
 import Anthropic from '@anthropic-ai/sdk'
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
+import { existsSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import crypto from 'crypto'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import { db, stmts, migrateFromJSON } from './database.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -16,70 +17,11 @@ const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(64).toString('he
 app.use(cors())
 app.use(express.json())
 
-// ─── Data persistence (JSON files) ──────────────────────────────────
-const DATA_DIR = join(__dirname, 'data')
-const DATA_FILE = join(DATA_DIR, 'app-data.json')
-const SHARED_FILE = join(DATA_DIR, 'shared-exercises.json')
-
-function ensureDir(dir) {
-  if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
-}
-
-function loadJSON(file, fallback) {
-  if (!existsSync(file)) {
-    ensureDir(dirname(file))
-    writeFileSync(file, JSON.stringify(fallback, null, 2))
-    return fallback
-  }
-  return JSON.parse(readFileSync(file, 'utf-8'))
-}
-
-function saveJSON(file, data) {
-  ensureDir(dirname(file))
-  writeFileSync(file, JSON.stringify(data, null, 2))
-}
-
-function loadData() {
-  return loadJSON(DATA_FILE, { families: [] })
-}
-
-function saveData(data) {
-  saveJSON(DATA_FILE, data)
-}
-
-// ─── Migration: convert old PIN-based data to families format ────────
-function migrateIfNeeded() {
-  const data = loadData()
-  if (data.parentPin && !data.families) {
-    console.log('   Migrating old PIN-based data to families format...')
-    const family = {
-      id: crypto.randomUUID(),
-      email: 'admin@homeschool.local',
-      password: bcrypt.hashSync(data.parentPin, 10),
-      name: 'Famille principale',
-      children: data.children || [],
-      customLessons: data.customLessons || [],
-      createdAt: new Date().toISOString(),
-    }
-    const newData = { families: [family] }
-    saveData(newData)
-    console.log(`   Migration OK — email: ${family.email}, mot de passe: ancien PIN (${data.parentPin})`)
-    return newData
-  }
-  if (!data.families) {
-    data.families = []
-    saveData(data)
-  }
-  return data
-}
-
 // ─── Privacy helpers ────────────────────────────────────────────────
-// Hash family IDs for file names so progress files can't be linked to families
 function hashFamilyId(familyId) {
   return crypto.createHash('sha256').update(familyId + (process.env.JWT_SECRET || 'salt')).digest('hex').slice(0, 16)
 }
 
-// Encrypt sensitive data (TND profiles) with family-scoped key
 function encryptTND(data, familyId) {
   if (!data) return null
   const key = crypto.createHash('sha256').update(familyId + JWT_SECRET).digest()
@@ -104,28 +46,7 @@ function decryptTND(encrypted, familyId) {
   }
 }
 
-// ─── Progress persistence (exercise results per family) ─────────────
-function progressFile(familyId) {
-  return join(DATA_DIR, `progress-${hashFamilyId(familyId)}.json`)
-}
-
-function loadProgress(familyId) {
-  return loadJSON(progressFile(familyId), { children: {} })
-}
-
-function saveProgress(familyId, data) {
-  saveJSON(progressFile(familyId), data)
-}
-
-// ─── Shared exercise cache ──────────────────────────────────────────
-function loadSharedCache() {
-  return loadJSON(SHARED_FILE, { exercises: [], stats: { totalGenerated: 0, tokensSaved: 0 } })
-}
-
-function saveSharedCache(cache) {
-  saveJSON(SHARED_FILE, cache)
-}
-
+// ─── Shared cache helpers ───────────────────────────────────────────
 function normalizeKey(subject, grade, topic) {
   const norm = topic.toLowerCase().trim()
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -156,21 +77,6 @@ function requireAuth(req, res, next) {
   }
 }
 
-// Helper to get family from request
-function getFamily(req) {
-  const data = loadData()
-  return data.families.find(f => f.id === req.familyId)
-}
-
-function saveFamilyUpdate(family) {
-  const data = loadData()
-  const idx = data.families.findIndex(f => f.id === family.id)
-  if (idx >= 0) {
-    data.families[idx] = family
-    saveData(data)
-  }
-}
-
 // ─── Auth endpoints ─────────────────────────────────────────────────
 app.post('/api/auth/register', async (req, res) => {
   const { email, password, name } = req.body
@@ -181,37 +87,21 @@ app.post('/api/auth/register', async (req, res) => {
     return res.status(400).json({ error: 'Le mot de passe doit faire au moins 4 caracteres' })
   }
 
-  const data = loadData()
-  const existing = data.families.find(f => f.email.toLowerCase() === email.toLowerCase())
+  const existing = stmts.findFamilyByEmail.get(email.toLowerCase())
   if (existing) {
     return res.status(409).json({ error: 'Un compte existe deja avec cet email' })
   }
 
   const hashedPassword = await bcrypt.hash(password, 10)
-  const family = {
-    id: crypto.randomUUID(),
-    email: email.toLowerCase().trim(),
-    password: hashedPassword,
-    name: name || `Famille ${email.split('@')[0]}`,
-    children: [],
-    customLessons: [],
-    createdAt: new Date().toISOString(),
-  }
+  const id = crypto.randomUUID()
+  const now = new Date().toISOString()
+  const familyName = name || `Famille ${email.split('@')[0]}`
 
-  data.families.push(family)
-  saveData(data)
+  stmts.insertFamily.run(id, email.toLowerCase().trim(), hashedPassword, familyName, now)
 
-  const token = jwt.sign(
-    { familyId: family.id, email: family.email },
-    JWT_SECRET,
-    { expiresIn: '30d' }
-  )
-
-  console.log(`   Nouveau compte: ${family.email}`)
-  res.json({
-    token,
-    family: { id: family.id, email: family.email, name: family.name },
-  })
+  const token = jwt.sign({ familyId: id, email: email.toLowerCase() }, JWT_SECRET, { expiresIn: '30d' })
+  console.log(`   Nouveau compte: ${email}`)
+  res.json({ token, family: { id, email: email.toLowerCase(), name: familyName } })
 })
 
 app.post('/api/auth/login', async (req, res) => {
@@ -220,8 +110,7 @@ app.post('/api/auth/login', async (req, res) => {
     return res.status(400).json({ error: 'Email et mot de passe requis' })
   }
 
-  const data = loadData()
-  const family = data.families.find(f => f.email.toLowerCase() === email.toLowerCase())
+  const family = stmts.findFamilyByEmail.get(email.toLowerCase())
   if (!family) {
     return res.status(401).json({ error: 'Email ou mot de passe incorrect' })
   }
@@ -231,39 +120,33 @@ app.post('/api/auth/login', async (req, res) => {
     return res.status(401).json({ error: 'Email ou mot de passe incorrect' })
   }
 
-  const token = jwt.sign(
-    { familyId: family.id, email: family.email },
-    JWT_SECRET,
-    { expiresIn: '30d' }
-  )
-
-  res.json({
-    token,
-    family: { id: family.id, email: family.email, name: family.name },
-  })
+  const token = jwt.sign({ familyId: family.id, email: family.email }, JWT_SECRET, { expiresIn: '30d' })
+  res.json({ token, family: { id: family.id, email: family.email, name: family.name } })
 })
 
-// Get current family info
 app.get('/api/auth/me', requireAuth, (req, res) => {
-  const family = getFamily(req)
+  const family = stmts.findFamilyById.get(req.familyId)
   if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
+
+  const childrenCount = stmts.getChildren.all(req.familyId).length
+  const lessonsCount = stmts.getLessons.all(req.familyId).length
+
   res.json({
     id: family.id,
     email: family.email,
     name: family.name,
-    childrenCount: family.children.length,
-    lessonsCount: (family.customLessons || []).length,
+    childrenCount,
+    lessonsCount,
   })
 })
 
-// Update family settings
 app.put('/api/auth/settings', requireAuth, async (req, res) => {
   const { name, currentPassword, newPassword } = req.body
-  const family = getFamily(req)
+  const family = stmts.findFamilyById.get(req.familyId)
   if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
 
   if (name) {
-    family.name = name
+    stmts.updateFamilyName.run(name, req.familyId)
   }
 
   if (newPassword) {
@@ -277,24 +160,23 @@ app.put('/api/auth/settings', requireAuth, async (req, res) => {
     if (newPassword.length < 4) {
       return res.status(400).json({ error: 'Le nouveau mot de passe doit faire au moins 4 caracteres' })
     }
-    family.password = await bcrypt.hash(newPassword, 10)
+    const hashed = await bcrypt.hash(newPassword, 10)
+    stmts.updateFamilyPassword.run(hashed, req.familyId)
   }
 
-  saveFamilyUpdate(family)
-  res.json({ ok: true, name: family.name })
+  res.json({ ok: true, name: name || family.name })
 })
 
 // ─── Children management (family-scoped) ────────────────────────────
 app.get('/api/children', requireAuth, (req, res) => {
-  const family = getFamily(req)
-  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
-  res.json(family.children.map(c => ({
+  const children = stmts.getChildren.all(req.familyId)
+  res.json(children.map(c => ({
     id: c.id,
     name: c.name,
     theme: c.theme,
     avatar: c.avatar,
     grade: c.grade || 'CM2',
-    accessibility: decryptTND(c._encryptedAccessibility, req.familyId) || null,
+    accessibility: decryptTND(c.encrypted_accessibility, req.familyId) || null,
   })))
 })
 
@@ -303,55 +185,40 @@ app.post('/api/children', requireAuth, (req, res) => {
   if (!name || !theme) {
     return res.status(400).json({ error: 'Nom et theme requis' })
   }
-  const family = getFamily(req)
-  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
 
-  const child = {
-    id: `child-${Date.now()}`,
-    name,
-    theme,
-    avatar: avatar || (theme === 'minecraft' ? '⛏️' : '🦋'),
-    grade: grade || 'CM2',
-    createdAt: new Date().toISOString(),
-  }
-  family.children.push(child)
-  saveFamilyUpdate(family)
-  res.json(child)
+  const id = `child-${Date.now()}`
+  const now = new Date().toISOString()
+  const childAvatar = avatar || (theme === 'minecraft' ? '⛏️' : '🦋')
+  const childGrade = grade || 'CM2'
+
+  stmts.insertChild.run(id, req.familyId, name, theme, childAvatar, childGrade, now)
+  res.json({ id, name, theme, avatar: childAvatar, grade: childGrade, createdAt: now })
 })
 
 app.delete('/api/children/:id', requireAuth, (req, res) => {
-  const family = getFamily(req)
-  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
-  family.children = family.children.filter(c => c.id !== req.params.id)
-  saveFamilyUpdate(family)
+  stmts.deleteChild.run(req.params.id, req.familyId)
   res.json({ ok: true })
 })
 
-// ─── Update child profile (TND / accessibility) ─────────────────────
 app.put('/api/children/:id', requireAuth, (req, res) => {
-  const family = getFamily(req)
-  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
-  const child = family.children.find(c => c.id === req.params.id)
+  const child = stmts.findChild.get(req.params.id, req.familyId)
   if (!child) return res.status(404).json({ error: 'Enfant non trouve' })
 
   const { name, theme, avatar, grade, accessibility } = req.body
-  if (name !== undefined) child.name = name
-  if (theme !== undefined) child.theme = theme
-  if (avatar !== undefined) child.avatar = avatar
-  if (grade !== undefined) child.grade = grade
-  if (accessibility !== undefined) {
-    // Store encrypted - never in plain text in the database
-    child._encryptedAccessibility = encryptTND(accessibility, req.familyId)
-    // Remove any legacy plain-text field
-    delete child.accessibility
-  }
+  const newName = name !== undefined ? name : child.name
+  const newTheme = theme !== undefined ? theme : child.theme
+  const newAvatar = avatar !== undefined ? avatar : child.avatar
+  const newGrade = grade !== undefined ? grade : child.grade
+  const newEncrypted = accessibility !== undefined
+    ? encryptTND(accessibility, req.familyId)
+    : child.encrypted_accessibility
 
-  saveFamilyUpdate(family)
-  // Return decrypted data only to the authenticated family
+  stmts.updateChild.run(newName, newTheme, newAvatar, newGrade, newEncrypted, req.params.id, req.familyId)
+
   res.json({
-    id: child.id, name: child.name, theme: child.theme,
-    avatar: child.avatar, grade: child.grade,
-    accessibility: decryptTND(child._encryptedAccessibility, req.familyId),
+    id: child.id, name: newName, theme: newTheme,
+    avatar: newAvatar, grade: newGrade,
+    accessibility: decryptTND(newEncrypted, req.familyId),
   })
 })
 
@@ -362,77 +229,76 @@ app.post('/api/progress/exercise', requireAuth, (req, res) => {
     return res.status(400).json({ error: 'childId et exerciseId requis' })
   }
 
-  const progress = loadProgress(req.familyId)
-  if (!progress.children[childId]) {
-    progress.children[childId] = { exercises: [] }
-  }
+  const familyHash = hashFamilyId(req.familyId)
+  stmts.insertProgress.run(
+    familyHash, childId, exerciseId,
+    subject || 'unknown', grade || '', question || '',
+    String(givenAnswer ?? ''), String(correctAnswer ?? ''),
+    isCorrect ? 1 : 0, duration || 0,
+    levelName || '', new Date().toISOString()
+  )
 
-  progress.children[childId].exercises.push({
-    exerciseId,
-    subject: subject || 'unknown',
-    grade: grade || '',
-    question: question || '',
-    givenAnswer: String(givenAnswer ?? ''),
-    correctAnswer: String(correctAnswer ?? ''),
-    isCorrect: !!isCorrect,
-    duration: duration || 0,
-    levelName: levelName || '',
-    timestamp: new Date().toISOString(),
-  })
-
-  saveProgress(req.familyId, progress)
   res.json({ ok: true })
 })
 
 app.get('/api/progress/:childId', requireAuth, (req, res) => {
-  const progress = loadProgress(req.familyId)
-  const childData = progress.children[req.params.childId]
-  if (!childData) return res.json({ exercises: [] })
-
+  const familyHash = hashFamilyId(req.familyId)
   const { subject, from, to } = req.query
-  let exercises = childData.exercises
 
-  if (subject) exercises = exercises.filter(e => e.subject === subject)
-  if (from) exercises = exercises.filter(e => e.timestamp >= from)
-  if (to) exercises = exercises.filter(e => e.timestamp <= to)
+  const rows = stmts.getProgressFiltered.all(
+    familyHash, req.params.childId,
+    subject || null, subject || null,
+    from || null, from || null,
+    to || null, to || null
+  )
 
-  res.json({ exercises })
+  res.json({
+    exercises: rows.map(r => ({
+      exerciseId: r.exercise_id,
+      subject: r.subject,
+      grade: r.grade,
+      question: r.question,
+      givenAnswer: r.given_answer,
+      correctAnswer: r.correct_answer,
+      isCorrect: !!r.is_correct,
+      duration: r.duration,
+      levelName: r.level_name,
+      timestamp: r.timestamp,
+    }))
+  })
 })
 
 app.get('/api/progress/:childId/summary', requireAuth, (req, res) => {
-  const progress = loadProgress(req.familyId)
-  const childData = progress.children[req.params.childId]
-  if (!childData) {
-    return res.json({ total: 0, correct: 0, subjects: {}, byDate: {} })
-  }
-
+  const familyHash = hashFamilyId(req.familyId)
   const { from, to } = req.query
-  let exercises = childData.exercises
-  if (from) exercises = exercises.filter(e => e.timestamp >= from)
-  if (to) exercises = exercises.filter(e => e.timestamp <= to)
+
+  const rows = stmts.getProgressFiltered.all(
+    familyHash, req.params.childId,
+    null, null,
+    from || null, from || null,
+    to || null, to || null
+  )
 
   const subjects = {}
   const byDate = {}
 
-  for (const ex of exercises) {
-    // Per subject
+  for (const ex of rows) {
     if (!subjects[ex.subject]) {
       subjects[ex.subject] = { total: 0, correct: 0, totalDuration: 0 }
     }
     subjects[ex.subject].total++
-    if (ex.isCorrect) subjects[ex.subject].correct++
+    if (ex.is_correct) subjects[ex.subject].correct++
     subjects[ex.subject].totalDuration += ex.duration || 0
 
-    // Per date
     const date = ex.timestamp.split('T')[0]
     if (!byDate[date]) byDate[date] = { total: 0, correct: 0 }
     byDate[date].total++
-    if (ex.isCorrect) byDate[date].correct++
+    if (ex.is_correct) byDate[date].correct++
   }
 
   res.json({
-    total: exercises.length,
-    correct: exercises.filter(e => e.isCorrect).length,
+    total: rows.length,
+    correct: rows.filter(e => e.is_correct).length,
     subjects,
     byDate,
   })
@@ -440,9 +306,8 @@ app.get('/api/progress/:childId/summary', requireAuth, (req, res) => {
 
 // ─── Custom lessons management (family-scoped) ──────────────────────
 app.get('/api/lessons', requireAuth, (req, res) => {
-  const family = getFamily(req)
-  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
-  res.json(family.customLessons || [])
+  const lessons = stmts.getLessons.all(req.familyId)
+  res.json(lessons.map(l => JSON.parse(l.data_json)))
 })
 
 app.post('/api/lessons', requireAuth, (req, res) => {
@@ -450,54 +315,53 @@ app.post('/api/lessons', requireAuth, (req, res) => {
   if (!lesson) {
     return res.status(400).json({ error: 'Lesson data required' })
   }
-  const family = getFamily(req)
-  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
 
   const newLesson = {
     ...lesson,
     id: `custom-${Date.now()}`,
     createdAt: new Date().toISOString(),
   }
-  if (!family.customLessons) family.customLessons = []
-  family.customLessons.push(newLesson)
-  saveFamilyUpdate(family)
+
+  stmts.insertLesson.run(newLesson.id, req.familyId, JSON.stringify(newLesson), newLesson.createdAt)
   res.json(newLesson)
 })
 
 app.delete('/api/lessons/:id', requireAuth, (req, res) => {
-  const family = getFamily(req)
-  if (!family) return res.status(404).json({ error: 'Famille non trouvee' })
-  family.customLessons = (family.customLessons || []).filter(l => l.id !== req.params.id)
-  saveFamilyUpdate(family)
+  stmts.deleteLesson.run(req.params.id, req.familyId)
   res.json({ ok: true })
 })
 
 // ─── Shared exercise pool: Browse & Search ──────────────────────────
 app.get('/api/shared/browse', (req, res) => {
   const { subject, grade, adaptation } = req.query
-  const cache = loadSharedCache()
-  let results = cache.exercises
+  let all = stmts.getAllShared.all()
 
-  if (subject) results = results.filter(e => e.subject === subject)
-  if (grade) results = results.filter(e => e.grade === grade)
-  // Filter by anonymous adaptation tag (e.g. ?adaptation=dyslexia)
-  if (adaptation) results = results.filter(e => e.adaptations && e.adaptations.includes(adaptation))
+  if (subject) all = all.filter(e => e.subject === subject)
+  if (grade) all = all.filter(e => e.grade === grade)
+  if (adaptation) {
+    all = all.filter(e => {
+      const adaptations = JSON.parse(e.adaptations_json || '[]')
+      return adaptations.includes(adaptation)
+    })
+  }
+
+  const totalGenerated = stmts.getStat.get('totalGenerated')?.value || 0
+  const tokensSaved = stmts.getStat.get('tokensSaved')?.value || 0
 
   res.json({
-    exercises: results.map(e => ({
+    exercises: all.map(e => ({
       id: e.id,
       subject: e.subject,
       grade: e.grade,
       topic: e.topic,
       name: e.name,
       description: e.description,
-      exerciseCount: e.exercises?.length || 0,
-      createdAt: e.createdAt,
-      usedBy: e.usedBy || 0,
-      // Expose anonymous adaptation tags (no personal data)
-      adaptations: e.adaptations || [],
+      exerciseCount: JSON.parse(e.exercises_json || '[]').length,
+      createdAt: e.created_at,
+      usedBy: e.used_by || 0,
+      adaptations: JSON.parse(e.adaptations_json || '[]'),
     })),
-    stats: cache.stats,
+    stats: { totalGenerated, tokensSaved },
   })
 })
 
@@ -507,12 +371,12 @@ app.get('/api/shared/search', (req, res) => {
     return res.status(400).json({ error: 'subject, grade et topic requis' })
   }
 
-  const cache = loadSharedCache()
+  const all = stmts.getAllShared.all()
   const key = normalizeKey(subject, grade, topic)
 
-  let matches = cache.exercises.filter(e => normalizeKey(e.subject, e.grade, e.topic) === key)
+  let matches = all.filter(e => normalizeKey(e.subject, e.grade, e.topic) === key)
   if (matches.length === 0) {
-    matches = cache.exercises.filter(e =>
+    matches = all.filter(e =>
       e.subject === subject && e.grade === grade && fuzzyMatch(topic, e.topic)
     )
   }
@@ -525,22 +389,34 @@ app.get('/api/shared/search', (req, res) => {
       topic: e.topic,
       name: e.name,
       description: e.description,
-      exerciseCount: e.exercises?.length || 0,
-      createdAt: e.createdAt,
+      exerciseCount: JSON.parse(e.exercises_json || '[]').length,
+      createdAt: e.created_at,
     })),
     exactMatch: matches.length > 0 && normalizeKey(matches[0].subject, matches[0].grade, matches[0].topic) === key,
   })
 })
 
 app.get('/api/shared/:id', (req, res) => {
-  const cache = loadSharedCache()
-  const exercise = cache.exercises.find(e => e.id === req.params.id)
+  const exercise = stmts.getSharedById.get(req.params.id)
   if (!exercise) {
     return res.status(404).json({ error: 'Exercice non trouve' })
   }
-  exercise.usedBy = (exercise.usedBy || 0) + 1
-  saveSharedCache(cache)
-  res.json({ ...exercise, familyId: undefined })
+  stmts.incrementSharedUsage.run(req.params.id)
+
+  res.json({
+    id: exercise.id,
+    subject: exercise.subject,
+    grade: exercise.grade,
+    topic: exercise.topic,
+    name: exercise.name,
+    nameMinecraft: exercise.name_minecraft,
+    nameLalilo: exercise.name_lalilo,
+    description: exercise.description,
+    exercises: JSON.parse(exercise.exercises_json || '[]'),
+    usedBy: (exercise.used_by || 0) + 1,
+    createdAt: exercise.created_at,
+    adaptations: JSON.parse(exercise.adaptations_json || '[]'),
+  })
 })
 
 // ─── AI Content Generation with Shared Cache ────────────────────────
@@ -558,19 +434,28 @@ app.post('/api/generate', requireAuth, async (req, res) => {
     return res.status(400).json({ error: 'Matiere et sujet requis' })
   }
 
-  const cache = loadSharedCache()
+  // Check shared cache
+  const all = stmts.getAllShared.all()
   const key = normalizeKey(subject, level || 'CM2', topic)
-  const cached = cache.exercises.find(e => normalizeKey(e.subject, e.grade, e.topic) === key)
+  const cached = all.find(e => normalizeKey(e.subject, e.grade, e.topic) === key)
 
   if (cached) {
-    cached.usedBy = (cached.usedBy || 0) + 1
-    cache.stats.tokensSaved = (cache.stats.tokensSaved || 0) + 1
-    saveSharedCache(cache)
+    stmts.incrementSharedUsage.run(cached.id)
+    stmts.incrementStat.run('tokensSaved')
     console.log(`  Cache HIT for "${topic}" (${subject}/${level})`)
+
+    const exercises = JSON.parse(cached.exercises_json || '[]')
     return res.json({
-      ...cached,
-      fromCache: true,
       id: `gen-${subject}-${Date.now()}`,
+      name: cached.name,
+      nameMinecraft: cached.name_minecraft,
+      nameLalilo: cached.name_lalilo,
+      description: cached.description,
+      subject: cached.subject,
+      grade: cached.grade,
+      topic: cached.topic,
+      exercises,
+      fromCache: true,
     })
   }
 
@@ -665,33 +550,20 @@ ${accessibilityProfiles.includes('dyslexia') ? '- Questions courtes avec vocabul
       })),
     }
 
-    // Shared cache entry: NEVER store personal data, family IDs, or identifiable TND profiles
-    // Only store anonymous adaptation tags so other families can find adapted exercises
+    // Anonymous adaptation tags for shared cache (no personal data)
     const adaptationTags = (accessibilityProfiles && accessibilityProfiles.length > 0)
-      ? [...accessibilityProfiles].sort() // anonymous: just which adaptations, no who
+      ? [...accessibilityProfiles].sort()
       : []
 
-    const sharedEntry = {
-      id: `shared-${subject}-${now}`,
-      name: lesson.name,
-      nameMinecraft: lesson.nameMinecraft,
-      nameLalilo: lesson.nameLalilo,
-      description: lesson.description,
-      subject,
-      grade: level || 'CM2',
-      topic,
-      exercises: lesson.exercises,
-      createdAt: new Date().toISOString(),
-      usedBy: 1,
-      // Anonymous adaptation metadata (no personal data, no family link)
-      ...(adaptationTags.length > 0 ? { adaptations: adaptationTags } : {}),
-    }
+    const sharedId = `shared-${subject}-${now}`
+    stmts.insertShared.run(
+      sharedId, subject, level || 'CM2', topic,
+      lesson.name || '', lesson.nameMinecraft || '', lesson.nameLalilo || '',
+      lesson.description || '', JSON.stringify(lesson.exercises),
+      JSON.stringify(adaptationTags), 1, new Date().toISOString()
+    )
+    stmts.incrementStat.run('totalGenerated')
 
-    cache.exercises.push(sharedEntry)
-    cache.stats.totalGenerated = (cache.stats.totalGenerated || 0) + 1
-    saveSharedCache(cache)
-
-    // Log without any personal or TND data
     console.log(`  Saved to shared cache: "${topic}" (${subject}/${level})`)
     res.json({ ...lesson, fromCache: false })
   } catch (err) {
@@ -702,9 +574,9 @@ ${accessibilityProfiles.includes('dyslexia') ? '- Questions courtes avec vocabul
 
 // ─── Shared pool stats ──────────────────────────────────────────────
 app.get('/api/shared/stats', (req, res) => {
-  const cache = loadSharedCache()
+  const all = stmts.getAllShared.all()
   const subjects = {}
-  for (const ex of cache.exercises) {
+  for (const ex of all) {
     const key = ex.subject
     if (!subjects[key]) subjects[key] = { count: 0, grades: new Set() }
     subjects[key].count++
@@ -712,9 +584,9 @@ app.get('/api/shared/stats', (req, res) => {
   }
 
   res.json({
-    totalExercises: cache.exercises.length,
-    totalGenerated: cache.stats.totalGenerated || 0,
-    tokensSaved: cache.stats.tokensSaved || 0,
+    totalExercises: all.length,
+    totalGenerated: stmts.getStat.get('totalGenerated')?.value || 0,
+    tokensSaved: stmts.getStat.get('tokensSaved')?.value || 0,
     subjects: Object.fromEntries(
       Object.entries(subjects).map(([k, v]) => [k, { count: v.count, grades: [...v.grades] }])
     ),
@@ -737,13 +609,18 @@ if (existsSync(DIST_DIR)) {
 
 // ─── Start server ───────────────────────────────────────────────────
 app.listen(PORT, '0.0.0.0', () => {
-  migrateIfNeeded()
+  // Auto-migrate from JSON files if DB is empty
+  migrateFromJSON(hashFamilyId)
+
+  const familyCount = db.prepare('SELECT COUNT(*) as c FROM families').get().c
+  const sharedCount = db.prepare('SELECT COUNT(*) as c FROM shared_exercises').get().c
+  const tokensSaved = stmts.getStat.get('tokensSaved')?.value || 0
+
   console.log(`🏫 HomeSchool API running on http://localhost:${PORT}`)
-  const data = loadData()
-  console.log(`   ${data.families.length} famille(s) enregistree(s)`)
-  const cache = loadSharedCache()
-  console.log(`   ${cache.exercises.length} exercice(s) dans le cache partage`)
-  console.log(`   ${cache.stats.tokensSaved || 0} token(s) API economise(s)`)
+  console.log(`   Base de donnees: SQLite (WAL mode)`)
+  console.log(`   ${familyCount} famille(s) enregistree(s)`)
+  console.log(`   ${sharedCount} exercice(s) dans le cache partage`)
+  console.log(`   ${tokensSaved} token(s) API economise(s)`)
   if (!process.env.ANTHROPIC_API_KEY) {
     console.log(`   ANTHROPIC_API_KEY non definie - la generation IA ne marchera pas`)
   }
