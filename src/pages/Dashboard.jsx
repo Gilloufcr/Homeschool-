@@ -1,5 +1,6 @@
 import XPBar from '../components/XPBar'
 import BadgeDisplay from '../components/BadgeDisplay'
+import UKFlag from '../components/UKFlag'
 
 const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, onLogout }) => {
   const isMinecraft = profile.theme === 'minecraft'
@@ -49,7 +50,7 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
     {
       id: 'english',
       name: 'Anglais',
-      icon: '🇬🇧',
+      icon: <UKFlag size="1.6em" />,
       desc: isMinecraft ? 'Apprends l\'enchantement anglais' : 'Parle la langue de Shakespeare',
       color: isMinecraft ? 'linear-gradient(135deg, #C62828, #B71C1C)' : 'linear-gradient(135deg, #E74C3C, #C0392B)',
       border: isMinecraft ? '#C62828' : '#E74C3C',

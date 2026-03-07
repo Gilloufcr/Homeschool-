@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { generateExercises, searchSharedExercises, browseSharedExercises, getSharedExercise, getSharedStats } from '../api'
 import { getTopicSuggestions } from '../data/curriculum'
+import UKFlag from './UKFlag'
 
 const SUBJECTS = [
   { id: 'math', label: 'Mathematiques', icon: '🔢' },
@@ -8,7 +9,7 @@ const SUBJECTS = [
   { id: 'history', label: 'Histoire', icon: '🏛️' },
   { id: 'geography', label: 'Geographie', icon: '🌍' },
   { id: 'science', label: 'Sciences', icon: '🔬' },
-  { id: 'english', label: 'Anglais', icon: '🇬🇧' },
+  { id: 'english', label: 'Anglais', icon: <UKFlag size="1em" /> },
 ]
 
 const LEVELS = [
