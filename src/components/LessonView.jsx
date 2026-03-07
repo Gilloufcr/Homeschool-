@@ -14,12 +14,13 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
       margin: '0 auto',
       borderRadius: '24px',
       background: isMinecraft
-        ? 'rgba(0,0,0,0.7)'
+        ? 'rgba(20,20,30,0.8)'
         : 'rgba(255,255,255,0.95)',
       border: isMinecraft
-        ? '3px solid #555'
+        ? '1px solid rgba(255,255,255,0.08)'
         : '2px solid rgba(155,89,182,0.15)',
-      boxShadow: isMinecraft ? 'none' : '0 4px 20px rgba(0,0,0,0.08)',
+      boxShadow: isMinecraft ? '0 6px 24px rgba(0,0,0,0.35)' : '0 4px 20px rgba(0,0,0,0.08)',
+      backdropFilter: 'blur(8px)',
       overflow: 'hidden',
       animation: 'slideUp 0.3s ease-out',
     },
@@ -34,7 +35,7 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
     },
     title: {
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? 'clamp(0.65rem, 0.9vw, 1.2rem)' : 'clamp(1.2rem, 1.5vw, 1.8rem)',
+      fontSize: 'clamp(1.2rem, 1.5vw, 1.8rem)',
       fontWeight: '700',
       color: isMinecraft ? '#FFD700' : '#333',
       textShadow: isMinecraft ? '1px 1px 0 #000' : 'none',
@@ -42,7 +43,7 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
     },
     subtitle: {
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? 'clamp(0.35rem, 0.6vw, 0.8rem)' : 'clamp(0.75rem, 1vw, 1.1rem)',
+      fontSize: 'clamp(0.75rem, 1vw, 1.1rem)',
       color: isMinecraft ? '#aaa' : '#888',
     },
     body: {
@@ -56,7 +57,7 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
     },
     pageTitle: {
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? 'clamp(0.55rem, 0.8vw, 1.1rem)' : 'clamp(1.05rem, 1.3vw, 1.6rem)',
+      fontSize: 'clamp(1.05rem, 1.3vw, 1.6rem)',
       fontWeight: '700',
       color: isMinecraft ? '#7CFC00' : '#9B59B6',
       textAlign: 'center',
@@ -65,8 +66,8 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
     },
     content: {
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? 'clamp(0.4rem, 0.65vw, 0.9rem)' : 'clamp(0.9rem, 1.15vw, 1.35rem)',
-      lineHeight: isMinecraft ? '2' : '1.7',
+      fontSize: 'clamp(0.9rem, 1.15vw, 1.35rem)',
+      lineHeight: '1.7',
       color: isMinecraft ? '#ddd' : '#444',
       marginBottom: 'clamp(16px, 1.5vw, 24px)',
     },
@@ -77,7 +78,7 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
       background: isMinecraft ? 'rgba(255,215,0,0.15)' : 'rgba(155,89,182,0.08)',
       border: isMinecraft ? '2px solid #FFD700' : '2px solid rgba(155,89,182,0.15)',
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? 'clamp(0.4rem, 0.65vw, 0.9rem)' : 'clamp(0.85rem, 1.1vw, 1.25rem)',
+      fontSize: 'clamp(0.85rem, 1.1vw, 1.25rem)',
       fontWeight: '700',
       color: isMinecraft ? '#FFD700' : '#9B59B6',
       margin: '4px',
@@ -88,8 +89,8 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
       background: isMinecraft ? 'rgba(76,175,80,0.15)' : 'rgba(46,204,113,0.08)',
       border: isMinecraft ? '2px solid #4CAF50' : '2px solid rgba(46,204,113,0.15)',
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? 'clamp(0.38rem, 0.6vw, 0.85rem)' : 'clamp(0.82rem, 1.05vw, 1.2rem)',
-      lineHeight: isMinecraft ? '2' : '1.6',
+      fontSize: 'clamp(0.82rem, 1.05vw, 1.2rem)',
+      lineHeight: '1.6',
       color: isMinecraft ? '#7CFC00' : '#27AE60',
       marginBottom: '16px',
     },
@@ -99,8 +100,8 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
       background: isMinecraft ? 'rgba(93,173,226,0.1)' : 'rgba(93,173,226,0.06)',
       border: isMinecraft ? '2px solid #5DADE2' : '2px solid rgba(93,173,226,0.15)',
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? 'clamp(0.38rem, 0.6vw, 0.85rem)' : 'clamp(0.85rem, 1.05vw, 1.2rem)',
-      lineHeight: isMinecraft ? '2' : '1.6',
+      fontSize: 'clamp(0.85rem, 1.05vw, 1.2rem)',
+      lineHeight: '1.6',
       color: isMinecraft ? '#5DADE2' : '#2980B9',
       marginBottom: '16px',
     },
@@ -127,7 +128,7 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
         ? '#fff'
         : (isMinecraft ? '#aaa' : '#9B59B6'),
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? 'clamp(0.45rem, 0.7vw, 0.95rem)' : 'clamp(0.85rem, 1.1vw, 1.25rem)',
+      fontSize: 'clamp(0.85rem, 1.1vw, 1.25rem)',
       fontWeight: '700',
       cursor: 'pointer',
       transition: 'all 0.2s ease',
@@ -137,8 +138,8 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
       gap: '6px',
     },
     dot: (active) => ({
-      width: isMinecraft ? '8px' : '10px',
-      height: isMinecraft ? '8px' : '10px',
+      width: '10px',
+      height: '10px',
       borderRadius: '50%',
       background: active
         ? (isMinecraft ? '#FFD700' : '#9B59B6')
@@ -153,12 +154,10 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
     <div style={s.card}>
       <div style={s.header}>
         <div style={s.title}>
-          {isMinecraft ? '> ' : ''}{lesson.title}
+          {lesson.title}
         </div>
         <div style={s.subtitle}>
-          {isMinecraft
-            ? `PAGE ${currentPage + 1}/${pages.length}`
-            : `Page ${currentPage + 1} sur ${pages.length}`}
+          Page {currentPage + 1} sur {pages.length}
         </div>
       </div>
 
@@ -182,7 +181,7 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
       <div style={s.nav}>
         {currentPage > 0 ? (
           <button style={s.navBtn(false)} onClick={() => setCurrentPage(p => p - 1)}>
-            {isMinecraft ? '< PREC.' : 'Precedent'}
+            ← Precedent
           </button>
         ) : <div />}
 
@@ -194,11 +193,11 @@ export default function LessonView({ lesson, theme, onStartExercises }) {
 
         {isLastPage ? (
           <button style={s.navBtn(true)} onClick={onStartExercises}>
-            {isMinecraft ? 'EXERCICES >' : 'Exercices !'}
+            Exercices →
           </button>
         ) : (
           <button style={s.navBtn(true)} onClick={() => setCurrentPage(p => p + 1)}>
-            {isMinecraft ? 'SUITE >' : 'Suivant'}
+            Suivant →
           </button>
         )}
       </div>

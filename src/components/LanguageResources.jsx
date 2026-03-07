@@ -42,24 +42,25 @@ export default function LanguageResources({ subject, levelId, theme }) {
       padding: '18px',
       borderRadius: '18px',
       background: isMinecraft
-        ? 'rgba(0,0,0,0.6)'
+        ? 'rgba(20,20,30,0.7)'
         : 'rgba(255,255,255,0.95)',
       border: isMinecraft
-        ? '3px solid #5DADE2'
+        ? '1px solid rgba(93,173,226,0.2)'
         : '2px solid rgba(93,173,226,0.2)',
-      boxShadow: isMinecraft ? 'none' : '0 2px 12px rgba(0,0,0,0.06)',
+      boxShadow: isMinecraft ? '0 4px 16px rgba(0,0,0,0.2)' : '0 2px 12px rgba(0,0,0,0.06)',
+      backdropFilter: 'blur(8px)',
     },
     title: {
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.5rem' : '1rem',
+      fontSize: 'clamp(0.9rem, 1.1vw, 1rem)',
       fontWeight: '700',
       color: isMinecraft ? '#5DADE2' : '#2980B9',
       marginBottom: '12px',
-      textShadow: isMinecraft ? '1px 1px 0 #000' : 'none',
+      textShadow: isMinecraft ? '1px 1px 2px rgba(0,0,0,0.3)' : 'none',
     },
     sectionTitle: {
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.4rem' : '0.8rem',
+      fontSize: 'clamp(0.75rem, 0.9vw, 0.85rem)',
       fontWeight: '700',
       color: isMinecraft ? '#FFD700' : '#666',
       marginBottom: '8px',
@@ -87,24 +88,24 @@ export default function LanguageResources({ subject, levelId, theme }) {
     },
     videoTitle: {
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.35rem' : '0.8rem',
+      fontSize: 'clamp(0.75rem, 0.9vw, 0.85rem)',
       fontWeight: '700',
       color: isMinecraft ? '#fff' : '#333',
       marginBottom: '2px',
     },
     videoMeta: {
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.3rem' : '0.65rem',
+      fontSize: 'clamp(0.6rem, 0.75vw, 0.7rem)',
       color: isMinecraft ? '#aaa' : '#888',
     },
     playBtn: {
-      padding: isMinecraft ? '4px 8px' : '6px 12px',
+      padding: '6px 12px',
       borderRadius: '8px',
       border: 'none',
       background: isMinecraft ? '#E74C3C' : '#E74C3C',
       color: 'white',
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.3rem' : '0.65rem',
+      fontSize: 'clamp(0.6rem, 0.75vw, 0.7rem)',
       fontWeight: '700',
       cursor: 'pointer',
       flexShrink: 0,
@@ -121,20 +122,20 @@ export default function LanguageResources({ subject, levelId, theme }) {
     },
     wordText: {
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.35rem' : '0.85rem',
+      fontSize: 'clamp(0.8rem, 0.95vw, 0.9rem)',
       fontWeight: '700',
       color: isMinecraft ? '#7CFC00' : '#27AE60',
       flex: 1,
     },
     wordTranslation: {
       fontFamily: "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.3rem' : '0.7rem',
+      fontSize: 'clamp(0.65rem, 0.8vw, 0.75rem)',
       color: isMinecraft ? '#aaa' : '#888',
       flex: 1,
     },
     speakBtn: (playing) => ({
-      width: isMinecraft ? '28px' : '34px',
-      height: isMinecraft ? '28px' : '34px',
+      width: '34px',
+      height: '34px',
       borderRadius: '50%',
       border: 'none',
       background: playing
@@ -155,14 +156,14 @@ export default function LanguageResources({ subject, levelId, theme }) {
   return (
     <div style={s.container}>
       <div style={s.title}>
-        {isMinecraft ? '> RESSOURCES' : '🎓 Ressources'}
+        🎓 Ressources
       </div>
 
       {/* Pronunciation section */}
       {words.length > 0 && speechOk && (
         <>
           <div style={s.sectionTitle}>
-            🔊 {isMinecraft ? 'PRONONCIATION' : 'Ecouter et repeter'}
+            🔊 Ecouter et repeter
           </div>
           {words.map((w, i) => (
             <div key={i} style={s.wordCard}>
@@ -184,7 +185,7 @@ export default function LanguageResources({ subject, levelId, theme }) {
       {videos.length > 0 && (
         <>
           <div style={s.sectionTitle}>
-            🎬 {isMinecraft ? 'VIDEOS' : 'Videos educatives'}
+            🎬 Videos educatives
           </div>
           {videos.map((v, i) => (
             <a
