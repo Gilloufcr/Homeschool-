@@ -1,4 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
   <rect width="192" height="192" rx="32" fill="#9B59B6"/>
-  <text x="96" y="110" font-size="100" text-anchor="middle" font-family="serif">📚</text>
+  <!-- House roof -->
+  <polygon points="96,30 160,80 32,80" fill="#F1C40F"/>
+  <!-- House body -->
+  <rect x="48" y="80" width="96" height="60" fill="#FFFFFF"/>
+  <!-- Door -->
+  <rect x="80" y="100" width="32" height="40" rx="4" fill="#3498DB"/>
+  <!-- Book at bottom -->
+  <g transform="translate(96,160)">
+    <rect x="-32" y="-16" width="28" height="20" rx="2" fill="#E74C3C" transform="rotate(-8)"/>
+    <rect x="4" y="-16" width="28" height="20" rx="2" fill="#2ECC71" transform="rotate(8)"/>
+    <rect x="-4" y="-18" width="8" height="22" rx="1" fill="#F39C12"/>
+  </g>
+  <!-- Window -->
+  <rect x="56" y="90" width="16" height="16" rx="2" fill="#87CEEB"/>
+  <line x1="64" y1="90" x2="64" y2="106" stroke="#FFFFFF" stroke-width="2"/>
+  <line x1="56" y1="98" x2="72" y2="98" stroke="#FFFFFF" stroke-width="2"/>
 </svg>
