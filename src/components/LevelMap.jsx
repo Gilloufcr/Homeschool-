@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 // ═══════════════════════════════════════════════════════════════
-// PIXEL STEVE - The one and only
+// PIXEL STEVE - The one and only (DO NOT TOUCH)
 // ═══════════════════════════════════════════════════════════════
 
 const PixelSteve = ({ size = 4, bouncing }) => {
@@ -50,6 +50,346 @@ const PixelSteve = ({ size = 4, bouncing }) => {
     </div>
   )
 }
+
+// ═══════════════════════════════════════════════════════════════
+// LANDSCAPE BACKGROUNDS (SVG-based scenery)
+// ═══════════════════════════════════════════════════════════════
+
+const MinecraftLandscape = ({ height }) => (
+  <svg
+    viewBox={`0 0 800 ${height}`}
+    preserveAspectRatio="xMidYMid slice"
+    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
+  >
+    <defs>
+      {/* Sky gradient */}
+      <linearGradient id="mcSky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#4A90D9" />
+        <stop offset="35%" stopColor="#87CEEB" />
+        <stop offset="60%" stopColor="#A8E4A0" />
+        <stop offset="100%" stopColor="#5B8C3E" />
+      </linearGradient>
+      {/* Sun glow */}
+      <radialGradient id="sunGlow" cx="85%" cy="8%" r="12%">
+        <stop offset="0%" stopColor="#FFE066" stopOpacity="1" />
+        <stop offset="50%" stopColor="#FFD700" stopOpacity="0.4" />
+        <stop offset="100%" stopColor="#FFD700" stopOpacity="0" />
+      </radialGradient>
+      {/* Grass texture pattern */}
+      <linearGradient id="grassDark" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#6AAF50" />
+        <stop offset="100%" stopColor="#4A8C3F" />
+      </linearGradient>
+      <linearGradient id="dirtLayer" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#8B6914" />
+        <stop offset="100%" stopColor="#6B4F1A" />
+      </linearGradient>
+      <linearGradient id="stoneLayer" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#808080" />
+        <stop offset="100%" stopColor="#606060" />
+      </linearGradient>
+    </defs>
+
+    {/* Sky background */}
+    <rect width="800" height={height} fill="url(#mcSky)" />
+    <rect width="800" height={height} fill="url(#sunGlow)" />
+
+    {/* Sun */}
+    <circle cx="680" cy={Math.min(60, height * 0.06)} r="30" fill="#FFE066" opacity="0.9" />
+    <circle cx="680" cy={Math.min(60, height * 0.06)} r="40" fill="#FFD700" opacity="0.2" />
+
+    {/* Clouds */}
+    {[
+      { x: 80, y: Math.min(40, height * 0.04), s: 1 },
+      { x: 300, y: Math.min(70, height * 0.07), s: 0.8 },
+      { x: 550, y: Math.min(30, height * 0.03), s: 1.2 },
+      { x: 700, y: Math.min(90, height * 0.09), s: 0.7 },
+      { x: 150, y: Math.min(height * 0.15, 150), s: 0.9 },
+    ].map((c, i) => (
+      <g key={`cloud-${i}`} opacity="0.85" transform={`translate(${c.x}, ${c.y}) scale(${c.s})`}>
+        <ellipse cx="0" cy="0" rx="40" ry="16" fill="white" />
+        <ellipse cx="-25" cy="4" rx="25" ry="12" fill="white" />
+        <ellipse cx="25" cy="4" rx="28" ry="14" fill="white" />
+        <ellipse cx="0" cy="8" rx="35" ry="10" fill="white" />
+      </g>
+    ))}
+
+    {/* Far mountains/hills */}
+    <path d={`M0,${height * 0.35} Q100,${height * 0.22} 200,${height * 0.3} T400,${height * 0.25} T600,${height * 0.32} T800,${height * 0.28} L800,${height * 0.45} L0,${height * 0.45} Z`}
+      fill="#6B9E4F" opacity="0.5" />
+    <path d={`M0,${height * 0.4} Q150,${height * 0.3} 250,${height * 0.38} T500,${height * 0.33} T750,${height * 0.36} L800,${height * 0.5} L0,${height * 0.5} Z`}
+      fill="#5D8E42" opacity="0.6" />
+
+    {/* Rolling green hills (main terrain) */}
+    <path d={`M0,${height * 0.55} Q100,${height * 0.48} 200,${height * 0.52} Q350,${height * 0.44} 500,${height * 0.5} Q650,${height * 0.46} 800,${height * 0.53} L800,${height} L0,${height} Z`}
+      fill="url(#grassDark)" />
+
+    {/* Grass highlight strip */}
+    <path d={`M0,${height * 0.55} Q100,${height * 0.48} 200,${height * 0.52} Q350,${height * 0.44} 500,${height * 0.5} Q650,${height * 0.46} 800,${height * 0.53} L800,${height * 0.58} Q650,${height * 0.51} 500,${height * 0.55} Q350,${height * 0.49} 200,${height * 0.57} Q100,${height * 0.53} 0,${height * 0.6} Z`}
+      fill="#7CC462" opacity="0.6" />
+
+    {/* Dirt layer */}
+    <rect x="0" y={height * 0.75} width="800" height={height * 0.12} fill="url(#dirtLayer)" />
+
+    {/* Stone layer */}
+    <rect x="0" y={height * 0.87} width="800" height={height * 0.13} fill="url(#stoneLayer)" />
+
+    {/* Stone texture lines */}
+    {[0.88, 0.91, 0.94, 0.97].map((y, i) => (
+      <line key={`stone-${i}`} x1={i * 100 + 50} y1={height * y} x2={i * 100 + 250} y2={height * y}
+        stroke="#555" strokeWidth="1" opacity="0.3" />
+    ))}
+
+    {/* Diamond ore sparkles in stone */}
+    {[
+      { x: 120, y: height * 0.92 }, { x: 450, y: height * 0.95 },
+      { x: 650, y: height * 0.9 }, { x: 300, y: height * 0.93 },
+    ].map((d, i) => (
+      <g key={`dia-${i}`}>
+        <rect x={d.x} y={d.y} width="8" height="8" fill="#4FC3F7" opacity="0.7" rx="1" />
+        <rect x={d.x + 2} y={d.y + 2} width="4" height="4" fill="#B3E5FC" opacity="0.9" rx="1" />
+      </g>
+    ))}
+
+    {/* Trees on hills */}
+    {[
+      { x: 40, y: height * 0.5, s: 1.2 },
+      { x: 120, y: height * 0.47, s: 1 },
+      { x: 700, y: height * 0.48, s: 1.3 },
+      { x: 760, y: height * 0.51, s: 0.9 },
+      { x: 30, y: height * 0.65, s: 1.1 },
+      { x: 770, y: height * 0.68, s: 1.0 },
+      { x: 55, y: height * 0.78, s: 0.8 },
+      { x: 745, y: height * 0.8, s: 0.9 },
+    ].map((t, i) => (
+      <g key={`tree-${i}`} transform={`translate(${t.x}, ${t.y}) scale(${t.s})`}>
+        {/* Trunk */}
+        <rect x="-4" y="-5" width="8" height="20" fill="#6B4226" rx="2" />
+        {/* Leaves */}
+        <ellipse cx="0" cy="-18" rx="18" ry="16" fill="#2E7D32" />
+        <ellipse cx="-8" cy="-12" rx="12" ry="10" fill="#388E3C" />
+        <ellipse cx="8" cy="-12" rx="12" ry="10" fill="#388E3C" />
+        <ellipse cx="0" cy="-25" rx="10" ry="8" fill="#43A047" />
+      </g>
+    ))}
+
+    {/* Flowers on grass */}
+    {[
+      { x: 90, y: height * 0.54, c: '#FF6B6B' },
+      { x: 180, y: height * 0.56, c: '#FFD93D' },
+      { x: 620, y: height * 0.52, c: '#FF6B6B' },
+      { x: 720, y: height * 0.55, c: '#C084FC' },
+      { x: 60, y: height * 0.62, c: '#FFD93D' },
+      { x: 740, y: height * 0.63, c: '#FF6B6B' },
+    ].map((f, i) => (
+      <g key={`flower-${i}`}>
+        <line x1={f.x} y1={f.y} x2={f.x} y2={f.y + 10} stroke="#4CAF50" strokeWidth="2" />
+        <circle cx={f.x} cy={f.y} r="4" fill={f.c} />
+        <circle cx={f.x} cy={f.y} r="2" fill="#FFE082" />
+      </g>
+    ))}
+
+    {/* Lava pool glow at bottom */}
+    <ellipse cx="400" cy={height - 8} rx="60" ry="8" fill="#FF6600" opacity="0.3" />
+    <ellipse cx="400" cy={height - 8} rx="30" ry="5" fill="#FF9900" opacity="0.4" />
+  </svg>
+)
+
+const FairyLandscape = ({ height }) => (
+  <svg
+    viewBox={`0 0 800 ${height}`}
+    preserveAspectRatio="xMidYMid slice"
+    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
+  >
+    <defs>
+      {/* Dreamy sky */}
+      <linearGradient id="fairySky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#E8D5F5" />
+        <stop offset="25%" stopColor="#F0E6FF" />
+        <stop offset="50%" stopColor="#E6F3FF" />
+        <stop offset="75%" stopColor="#D4F5D4" />
+        <stop offset="100%" stopColor="#C8F0C8" />
+      </linearGradient>
+      {/* Rainbow gradient */}
+      <linearGradient id="rainbow" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stopColor="#FF6B6B" />
+        <stop offset="17%" stopColor="#FFA07A" />
+        <stop offset="33%" stopColor="#FFD700" />
+        <stop offset="50%" stopColor="#7CFC00" />
+        <stop offset="67%" stopColor="#00CED1" />
+        <stop offset="83%" stopColor="#9B59B6" />
+        <stop offset="100%" stopColor="#FF69B4" />
+      </linearGradient>
+      <linearGradient id="rainbow2" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stopColor="#FF69B4" stopOpacity="0.6" />
+        <stop offset="17%" stopColor="#FF6B6B" stopOpacity="0.6" />
+        <stop offset="33%" stopColor="#FFD700" stopOpacity="0.6" />
+        <stop offset="50%" stopColor="#7CFC00" stopOpacity="0.6" />
+        <stop offset="67%" stopColor="#00CED1" stopOpacity="0.6" />
+        <stop offset="83%" stopColor="#9B59B6" stopOpacity="0.6" />
+        <stop offset="100%" stopColor="#FF69B4" stopOpacity="0.6" />
+      </linearGradient>
+      {/* Sparkle */}
+      <radialGradient id="sparkle">
+        <stop offset="0%" stopColor="#FFD700" stopOpacity="0.8" />
+        <stop offset="100%" stopColor="#FFD700" stopOpacity="0" />
+      </radialGradient>
+    </defs>
+
+    {/* Sky */}
+    <rect width="800" height={height} fill="url(#fairySky)" />
+
+    {/* Big rainbow arc */}
+    <path d={`M 50,${height * 0.25} Q 400,${-height * 0.15} 750,${height * 0.25}`}
+      fill="none" stroke="url(#rainbow)" strokeWidth="14" opacity="0.35" strokeLinecap="round" />
+    <path d={`M 60,${height * 0.25} Q 400,${-height * 0.12} 740,${height * 0.25}`}
+      fill="none" stroke="url(#rainbow2)" strokeWidth="8" opacity="0.25" strokeLinecap="round" />
+
+    {/* Soft clouds */}
+    {[
+      { x: 100, y: height * 0.08, s: 1.3 },
+      { x: 350, y: height * 0.05, s: 1 },
+      { x: 600, y: height * 0.1, s: 1.5 },
+      { x: 200, y: height * 0.18, s: 0.8 },
+      { x: 700, y: height * 0.15, s: 1.1 },
+    ].map((c, i) => (
+      <g key={`fc-${i}`} opacity="0.6" transform={`translate(${c.x}, ${c.y}) scale(${c.s})`}>
+        <ellipse cx="0" cy="0" rx="45" ry="18" fill="white" />
+        <ellipse cx="-28" cy="5" rx="28" ry="14" fill="white" />
+        <ellipse cx="28" cy="5" rx="30" ry="16" fill="white" />
+        <ellipse cx="0" cy="10" rx="38" ry="12" fill="white" />
+      </g>
+    ))}
+
+    {/* Rolling meadow hills */}
+    <path d={`M0,${height * 0.5} Q100,${height * 0.42} 200,${height * 0.48} Q350,${height * 0.38} 500,${height * 0.45} Q650,${height * 0.4} 800,${height * 0.47} L800,${height} L0,${height} Z`}
+      fill="#A8E6A0" />
+    <path d={`M0,${height * 0.55} Q150,${height * 0.5} 300,${height * 0.54} Q450,${height * 0.47} 600,${height * 0.52} Q750,${height * 0.48} 800,${height * 0.55} L800,${height} L0,${height} Z`}
+      fill="#90D890" opacity="0.7" />
+    {/* Lighter grass highlight */}
+    <path d={`M0,${height * 0.58} Q200,${height * 0.53} 400,${height * 0.57} Q600,${height * 0.52} 800,${height * 0.58} L800,${height * 0.65} Q600,${height * 0.6} 400,${height * 0.64} Q200,${height * 0.6} 0,${height * 0.65} Z`}
+      fill="#B8F0B0" opacity="0.4" />
+
+    {/* Flowers scattered on meadow */}
+    {[
+      { x: 60, y: height * 0.54, c: '#FF69B4', r: 5 },
+      { x: 140, y: height * 0.52, c: '#FFD700', r: 4 },
+      { x: 230, y: height * 0.56, c: '#DDA0DD', r: 5 },
+      { x: 350, y: height * 0.5, c: '#FF69B4', r: 4 },
+      { x: 470, y: height * 0.53, c: '#87CEEB', r: 5 },
+      { x: 560, y: height * 0.49, c: '#FFD700', r: 4 },
+      { x: 650, y: height * 0.55, c: '#FF69B4', r: 5 },
+      { x: 730, y: height * 0.51, c: '#DDA0DD', r: 4 },
+      { x: 80, y: height * 0.63, c: '#FFD700', r: 3 },
+      { x: 720, y: height * 0.62, c: '#FF69B4', r: 4 },
+      { x: 50, y: height * 0.72, c: '#DDA0DD', r: 3 },
+      { x: 750, y: height * 0.73, c: '#87CEEB', r: 4 },
+    ].map((f, i) => (
+      <g key={`ff-${i}`}>
+        <line x1={f.x} y1={f.y} x2={f.x} y2={f.y + 12} stroke="#6DB86D" strokeWidth="2" />
+        {/* Petals */}
+        {[0, 72, 144, 216, 288].map((a, j) => (
+          <circle key={j}
+            cx={f.x + Math.cos(a * Math.PI / 180) * f.r * 0.7}
+            cy={f.y + Math.sin(a * Math.PI / 180) * f.r * 0.7}
+            r={f.r * 0.55} fill={f.c} opacity="0.8" />
+        ))}
+        <circle cx={f.x} cy={f.y} r={f.r * 0.4} fill="#FFE082" />
+      </g>
+    ))}
+
+    {/* Unicorn on the left hill */}
+    <g transform={`translate(65, ${height * 0.42}) scale(0.9)`}>
+      {/* Body */}
+      <ellipse cx="0" cy="0" rx="22" ry="14" fill="white" />
+      {/* Head */}
+      <ellipse cx="22" cy="-12" rx="10" ry="8" fill="white" />
+      {/* Horn */}
+      <polygon points="28,-22 30,-36 32,-22" fill="#FFD700" />
+      <polygon points="29,-22 30,-33 31,-22" fill="#FFF176" opacity="0.6" />
+      {/* Eye */}
+      <circle cx="27" cy="-13" r="2" fill="#9B59B6" />
+      {/* Mane */}
+      <path d="M16,-18 Q12,-26 18,-24 Q14,-20 20,-18" fill="#FF69B4" opacity="0.7" />
+      <path d="M12,-15 Q8,-22 14,-20 Q10,-16 16,-14" fill="#DDA0DD" opacity="0.7" />
+      {/* Legs */}
+      <rect x="-12" y="10" width="5" height="16" fill="white" rx="2" />
+      <rect x="-2" y="10" width="5" height="16" fill="white" rx="2" />
+      <rect x="6" y="10" width="5" height="16" fill="white" rx="2" />
+      <rect x="14" y="10" width="5" height="16" fill="white" rx="2" />
+      {/* Tail */}
+      <path d="M-22,0 Q-34,-8 -30,-18 Q-26,-10 -22,-4" fill="#FF69B4" opacity="0.6" strokeWidth="0" />
+      <path d="M-22,-2 Q-32,-12 -28,-20" fill="none" stroke="#DDA0DD" strokeWidth="3" opacity="0.5" />
+      {/* Sparkles around unicorn */}
+      <circle cx="-15" cy="-30" r="3" fill="url(#sparkle)" />
+      <circle cx="35" cy="-35" r="2" fill="url(#sparkle)" />
+      <circle cx="-25" cy="-15" r="2" fill="url(#sparkle)" />
+    </g>
+
+    {/* Unicorn on the right */}
+    <g transform={`translate(735, ${height * 0.44}) scale(-0.8, 0.8)`}>
+      <ellipse cx="0" cy="0" rx="22" ry="14" fill="#FAFAFA" />
+      <ellipse cx="22" cy="-12" rx="10" ry="8" fill="#FAFAFA" />
+      <polygon points="28,-22 30,-36 32,-22" fill="#C084FC" />
+      <polygon points="29,-22 30,-33 31,-22" fill="#E0B0FF" opacity="0.6" />
+      <circle cx="27" cy="-13" r="2" fill="#FF69B4" />
+      <path d="M16,-18 Q12,-26 18,-24 Q14,-20 20,-18" fill="#87CEEB" opacity="0.7" />
+      <path d="M12,-15 Q8,-22 14,-20 Q10,-16 16,-14" fill="#C084FC" opacity="0.7" />
+      <rect x="-12" y="10" width="5" height="16" fill="#FAFAFA" rx="2" />
+      <rect x="-2" y="10" width="5" height="16" fill="#FAFAFA" rx="2" />
+      <rect x="6" y="10" width="5" height="16" fill="#FAFAFA" rx="2" />
+      <rect x="14" y="10" width="5" height="16" fill="#FAFAFA" rx="2" />
+      <path d="M-22,0 Q-34,-8 -30,-18 Q-26,-10 -22,-4" fill="#87CEEB" opacity="0.6" />
+      <circle cx="-15" cy="-30" r="3" fill="url(#sparkle)" />
+      <circle cx="35" cy="-35" r="2" fill="url(#sparkle)" />
+    </g>
+
+    {/* Butterflies */}
+    {[
+      { x: 180, y: height * 0.3, c: '#FF69B4' },
+      { x: 620, y: height * 0.25, c: '#DDA0DD' },
+      { x: 400, y: height * 0.35, c: '#87CEEB' },
+    ].map((b, i) => (
+      <g key={`bf-${i}`} transform={`translate(${b.x}, ${b.y})`} opacity="0.6">
+        <ellipse cx="-6" cy="-3" rx="6" ry="4" fill={b.c} />
+        <ellipse cx="6" cy="-3" rx="6" ry="4" fill={b.c} />
+        <ellipse cx="-4" cy="2" rx="4" ry="3" fill={b.c} opacity="0.7" />
+        <ellipse cx="4" cy="2" rx="4" ry="3" fill={b.c} opacity="0.7" />
+        <rect x="-1" y="-4" width="2" height="10" fill="#333" rx="1" />
+      </g>
+    ))}
+
+    {/* Sparkle stars scattered */}
+    {[
+      { x: 100, y: height * 0.12 }, { x: 300, y: height * 0.08 },
+      { x: 500, y: height * 0.14 }, { x: 700, y: height * 0.06 },
+      { x: 250, y: height * 0.22 }, { x: 550, y: height * 0.2 },
+    ].map((s, i) => (
+      <g key={`star-${i}`} opacity="0.4">
+        <line x1={s.x - 5} y1={s.y} x2={s.x + 5} y2={s.y} stroke="#FFD700" strokeWidth="1.5" />
+        <line x1={s.x} y1={s.y - 5} x2={s.x} y2={s.y + 5} stroke="#FFD700" strokeWidth="1.5" />
+        <line x1={s.x - 3} y1={s.y - 3} x2={s.x + 3} y2={s.y + 3} stroke="#FFD700" strokeWidth="1" />
+        <line x1={s.x + 3} y1={s.y - 3} x2={s.x - 3} y2={s.y + 3} stroke="#FFD700" strokeWidth="1" />
+      </g>
+    ))}
+
+    {/* Little mushroom houses */}
+    <g transform={`translate(740, ${height * 0.58})`}>
+      <rect x="-5" y="0" width="10" height="12" fill="#F5F5DC" rx="2" />
+      <ellipse cx="0" cy="-2" rx="14" ry="10" fill="#FF6B6B" />
+      <circle cx="-5" cy="-5" r="3" fill="white" opacity="0.7" />
+      <circle cx="5" cy="-2" r="2" fill="white" opacity="0.7" />
+      <rect x="-2" y="5" width="4" height="6" fill="#8B6914" rx="1" />
+    </g>
+    <g transform={`translate(55, ${height * 0.6}) scale(0.7)`}>
+      <rect x="-5" y="0" width="10" height="12" fill="#F5F5DC" rx="2" />
+      <ellipse cx="0" cy="-2" rx="14" ry="10" fill="#DDA0DD" />
+      <circle cx="-5" cy="-5" r="3" fill="white" opacity="0.7" />
+      <circle cx="5" cy="-2" r="2" fill="white" opacity="0.7" />
+      <rect x="-2" y="5" width="4" height="6" fill="#8B6914" rx="1" />
+    </g>
+  </svg>
+)
 
 // ═══════════════════════════════════════════════════════════════
 // LEVEL MAP
@@ -107,55 +447,27 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
   const mcIcons = ['⛏️', '🔨', '🗡️', '🌀', '🏰']
   const fairyIcons = ['🌸', '🌈', '🦋', '✨', '👑']
 
-  // Decoration emojis
-  const mcDecos = [
-    { emoji: '🌲', x: '6%', y: '10%', size: 'clamp(1.4rem, 2vw, 2.5rem)' },
-    { emoji: '💎', x: '90%', y: '20%', size: 'clamp(1.2rem, 1.8vw, 2.2rem)' },
-    { emoji: '🌲', x: '92%', y: '45%', size: 'clamp(1.6rem, 2.2vw, 2.8rem)' },
-    { emoji: '🪨', x: '4%', y: '55%', size: 'clamp(1.3rem, 1.8vw, 2.2rem)' },
-    { emoji: '🍄', x: '8%', y: '75%', size: 'clamp(1.2rem, 1.6vw, 2rem)' },
-    { emoji: '🌲', x: '88%', y: '70%', size: 'clamp(1.4rem, 2vw, 2.5rem)' },
-    { emoji: '⭐', x: '93%', y: '88%', size: 'clamp(1.1rem, 1.5vw, 1.8rem)' },
-    { emoji: '🌲', x: '5%', y: '38%', size: 'clamp(1.5rem, 2vw, 2.6rem)' },
-  ]
-  const fairyDecos = [
-    { emoji: '🌷', x: '6%', y: '12%', size: 'clamp(1.3rem, 1.8vw, 2.2rem)' },
-    { emoji: '☁️', x: '85%', y: '5%', size: 'clamp(1.8rem, 2.5vw, 3rem)' },
-    { emoji: '🌻', x: '90%', y: '22%', size: 'clamp(1.2rem, 1.6vw, 2rem)' },
-    { emoji: '🍄', x: '4%', y: '40%', size: 'clamp(1.3rem, 1.8vw, 2.2rem)' },
-    { emoji: '☁️', x: '12%', y: '28%', size: 'clamp(1.5rem, 2vw, 2.5rem)' },
-    { emoji: '🌼', x: '92%', y: '52%', size: 'clamp(1.1rem, 1.5vw, 1.8rem)' },
-    { emoji: '🌺', x: '5%', y: '65%', size: 'clamp(1.2rem, 1.6vw, 2rem)' },
-    { emoji: '🏡', x: '88%', y: '80%', size: 'clamp(1.5rem, 2vw, 2.5rem)' },
-    { emoji: '🌈', x: '50%', y: '2%', size: 'clamp(2rem, 3vw, 3.5rem)' },
-  ]
-
-  const decos = isMinecraft ? mcDecos : fairyDecos
+  // Font family - modern for both themes now
+  const fontMain = "'Quicksand', 'Nunito', sans-serif"
 
   return (
     <div style={{
       position: 'relative',
       width: '100%',
       height: `${totalHeight}px`,
-      background: isMinecraft
-        ? 'linear-gradient(180deg, #6BB3E0 0%, #87CEEB 30%, #7EC97B 70%, #4A8C3F 100%)'
-        : 'linear-gradient(180deg, #FFF5F9 0%, #F0E6FF 30%, #E6F3FF 60%, #F5E6FF 100%)',
-      borderRadius: isMinecraft ? '8px' : '24px',
+      borderRadius: isMinecraft ? '12px' : '24px',
       border: isMinecraft ? '3px solid #5D4E37' : '2px solid rgba(155,89,182,0.15)',
       overflow: 'hidden',
       boxShadow: isMinecraft
-        ? '0 4px 20px rgba(0,0,0,0.3), inset 0 0 60px rgba(0,0,0,0.1)'
+        ? '0 6px 30px rgba(0,0,0,0.4), inset 0 0 80px rgba(0,0,0,0.05)'
         : '0 5px 30px rgba(155,89,182,0.1)',
     }}>
 
-      {/* ─── Decorations ─────────────────────────────────── */}
-      {decos.map((d, i) => (
-        <div key={`deco-${i}`} style={{
-          position: 'absolute', left: d.x, top: d.y,
-          fontSize: d.size, opacity: 0.5, pointerEvents: 'none', zIndex: 1,
-          filter: isMinecraft ? 'none' : 'none',
-        }}>{d.emoji}</div>
-      ))}
+      {/* ─── LANDSCAPE BACKGROUND ────────────────────────── */}
+      {isMinecraft
+        ? <MinecraftLandscape height={totalHeight} />
+        : <FairyLandscape height={totalHeight} />
+      }
 
       {/* ─── SVG PATH ─────────────────────────────────────── */}
       <svg
@@ -166,6 +478,16 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
           zIndex: 2, pointerEvents: 'none',
         }}
       >
+        <defs>
+          <linearGradient id="pathGoldGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#FFD700" />
+            <stop offset="100%" stopColor="#C8A76C" />
+          </linearGradient>
+          <linearGradient id="pathFairyGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#DDA0DD" />
+            <stop offset="100%" stopColor="#C9A0DC" />
+          </linearGradient>
+        </defs>
         {levels.map((level, idx) => {
           if (idx === 0) return null
           const from = getNodePosition(idx - 1, levels.length)
@@ -184,31 +506,31 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
               {/* Path shadow */}
               <path d={pathD} fill="none"
                 stroke={isMinecraft ? '#3D2E1A' : '#D4B8E8'}
-                strokeWidth="20"
+                strokeWidth="22"
                 strokeLinecap="round"
-                opacity="0.3"
+                opacity="0.25"
               />
               {/* Main path */}
               <path d={pathD} fill="none"
                 stroke={prevStatus.allDone
-                  ? (isMinecraft ? '#C8A76C' : '#C9A0DC')
+                  ? (isMinecraft ? 'url(#pathGoldGrad)' : 'url(#pathFairyGrad)')
                   : (isMinecraft ? '#8B7355' : '#E8D5F5')}
-                strokeWidth={isMinecraft ? '12' : '12'}
+                strokeWidth="14"
                 strokeLinecap="round"
                 strokeDasharray={status.unlocked ? 'none' : '10 10'}
                 opacity={status.unlocked ? 1 : 0.4}
               />
               {/* Dots along path */}
-              {[0.25, 0.5, 0.75].map((t) => {
+              {[0.2, 0.4, 0.6, 0.8].map((t) => {
                 const cx = fromX + (toX - fromX) * t
                 const cy = from.y + (to.y - from.y) * t
                 return (
                   <circle key={t} cx={cx} cy={cy}
-                    r={isMinecraft ? '4' : '3'}
+                    r={isMinecraft ? '5' : '4'}
                     fill={status.unlocked
                       ? (isMinecraft ? '#FFD700' : '#DDA0DD')
                       : (isMinecraft ? '#555' : '#ccc')}
-                    opacity={status.unlocked ? 0.7 : 0.3}
+                    opacity={status.unlocked ? 0.8 : 0.3}
                   />
                 )
               })}
@@ -259,15 +581,17 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
               }}>
                 {/* Name tag */}
                 <div style={{
-                  fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-                  fontSize: isMinecraft ? 'clamp(0.3rem, 0.4vw, 0.5rem)' : 'clamp(0.55rem, 0.7vw, 0.8rem)',
-                  color: isMinecraft ? '#fff' : '#9B59B6',
-                  textShadow: isMinecraft ? '1px 1px 0 #000' : 'none',
+                  fontFamily: fontMain,
+                  fontSize: 'clamp(0.55rem, 0.7vw, 0.8rem)',
+                  fontWeight: '800',
+                  color: isMinecraft ? '#FFD700' : '#9B59B6',
+                  textShadow: isMinecraft ? '0 1px 3px rgba(0,0,0,0.8)' : 'none',
                   marginBottom: '3px',
-                  background: isMinecraft ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.8)',
-                  padding: isMinecraft ? '2px 6px' : '2px 8px',
-                  borderRadius: isMinecraft ? '2px' : '8px',
+                  background: isMinecraft ? 'rgba(0,0,0,0.55)' : 'rgba(255,255,255,0.8)',
+                  padding: '2px 8px',
+                  borderRadius: '8px',
                   whiteSpace: 'nowrap',
+                  letterSpacing: isMinecraft ? '1px' : '0',
                 }}>
                   {isMinecraft ? 'STEVE' : 'Fifi'}
                 </div>
@@ -285,43 +609,48 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
               </div>
             )}
 
-            {/* Node circle/square */}
+            {/* Node circle */}
             <div style={{
-              width: 'clamp(54px, 6vw, 80px)',
-              height: 'clamp(54px, 6vw, 80px)',
-              borderRadius: isMinecraft ? '8px' : '50%',
+              width: 'clamp(56px, 6.5vw, 84px)',
+              height: 'clamp(56px, 6.5vw, 84px)',
+              borderRadius: isMinecraft ? '14px' : '50%',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 'clamp(1.3rem, 2vw, 2rem)',
+              fontSize: 'clamp(1.4rem, 2.2vw, 2.2rem)',
               background: !status.unlocked
-                ? (isMinecraft ? '#6B6B6B' : 'rgba(200,200,200,0.8)')
+                ? (isMinecraft
+                  ? 'linear-gradient(145deg, #7A7A7A, #555555)'
+                  : 'linear-gradient(145deg, #D5D5D5, #BABABA)')
                 : status.allDone
                   ? (isMinecraft
-                    ? 'linear-gradient(135deg, #4CAF50, #388E3C)'
-                    : 'linear-gradient(135deg, #2ECC71, #27AE60)')
+                    ? 'linear-gradient(145deg, #66BB6A, #388E3C)'
+                    : 'linear-gradient(145deg, #2ECC71, #27AE60)')
                   : isCurrentLevel
                     ? (isMinecraft
-                      ? 'linear-gradient(135deg, #FFD700, #FFA000)'
-                      : 'linear-gradient(135deg, #FF69B4, #E91E93)')
+                      ? 'linear-gradient(145deg, #FFEB3B, #FFA000)'
+                      : 'linear-gradient(145deg, #FF69B4, #E91E93)')
                     : (isMinecraft
-                      ? 'linear-gradient(135deg, #8B6914, #A0522D)'
-                      : 'linear-gradient(135deg, #DDA0DD, #BA55D3)'),
+                      ? 'linear-gradient(145deg, #A0722D, #7A5520)'
+                      : 'linear-gradient(145deg, #DDA0DD, #BA55D3)'),
               border: isCurrentLevel
                 ? (isMinecraft ? '3px solid #FFD700' : '3px solid #FF69B4')
                 : status.allDone
-                  ? (isMinecraft ? '3px solid #4CAF50' : '3px solid #2ECC71')
-                  : (isMinecraft ? '3px solid rgba(139,105,20,0.5)' : '3px solid rgba(155,89,182,0.3)'),
+                  ? (isMinecraft ? '3px solid #66BB6A' : '3px solid #2ECC71')
+                  : status.unlocked
+                    ? (isMinecraft ? '3px solid rgba(160,114,45,0.7)' : '3px solid rgba(155,89,182,0.3)')
+                    : (isMinecraft ? '3px solid #666' : '3px solid #ccc'),
               boxShadow: isCurrentLevel
                 ? (isMinecraft
-                  ? '0 0 20px rgba(255,215,0,0.6), 0 4px 12px rgba(0,0,0,0.3)'
+                  ? '0 0 25px rgba(255,215,0,0.7), 0 6px 16px rgba(0,0,0,0.35)'
                   : '0 0 20px rgba(255,105,180,0.5), 0 4px 15px rgba(155,89,182,0.2)')
                 : status.unlocked
                   ? (isMinecraft
-                    ? '0 3px 10px rgba(0,0,0,0.3)'
+                    ? '0 4px 14px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15)'
                     : '0 3px 10px rgba(0,0,0,0.15)')
                   : '0 2px 6px rgba(0,0,0,0.1)',
               transition: 'all 0.3s ease',
               animation: isCurrentLevel ? 'nodePulse 2s ease-in-out infinite' : 'none',
               margin: '0 auto',
+              backdropFilter: isMinecraft ? 'none' : 'blur(4px)',
             }}>
               {!status.unlocked
                 ? '🔒'
@@ -333,19 +662,20 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
             {/* Progress bar */}
             {status.unlocked && !status.allDone && pct > 0 && (
               <div style={{
-                width: 'clamp(50px, 5.5vw, 76px)',
-                height: 'clamp(5px, 0.5vw, 8px)',
-                background: isMinecraft ? 'rgba(0,0,0,0.4)' : 'rgba(155,89,182,0.15)',
-                borderRadius: isMinecraft ? '3px' : '4px',
-                margin: '6px auto 0',
+                width: 'clamp(52px, 6vw, 80px)',
+                height: 'clamp(6px, 0.6vw, 9px)',
+                background: isMinecraft ? 'rgba(0,0,0,0.45)' : 'rgba(155,89,182,0.15)',
+                borderRadius: '5px',
+                margin: '7px auto 0',
                 overflow: 'hidden',
+                border: isMinecraft ? '1px solid rgba(255,255,255,0.1)' : 'none',
               }}>
                 <div style={{
                   width: `${pct}%`, height: '100%',
                   background: isMinecraft
                     ? 'linear-gradient(90deg, #7CFC00, #32CD32)'
                     : 'linear-gradient(90deg, #FF69B4, #9B59B6)',
-                  borderRadius: isMinecraft ? '3px' : '4px',
+                  borderRadius: '5px',
                   transition: 'width 0.3s ease',
                 }} />
               </div>
@@ -353,19 +683,20 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
 
             {/* Label */}
             <div style={{
-              marginTop: '6px',
-              fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-              fontSize: isMinecraft ? 'clamp(0.4rem, 0.55vw, 0.7rem)' : 'clamp(0.7rem, 0.9vw, 1rem)',
-              fontWeight: '700',
+              marginTop: '7px',
+              fontFamily: fontMain,
+              fontSize: 'clamp(0.7rem, 0.9vw, 1.05rem)',
+              fontWeight: '800',
               color: isMinecraft ? '#FFD700' : '#6B3FA0',
               textShadow: isMinecraft
-                ? '1px 1px 2px rgba(0,0,0,0.8)'
+                ? '0 1px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.4)'
                 : '0 1px 3px rgba(255,255,255,0.8)',
               maxWidth: 'clamp(90px, 10vw, 160px)',
               lineHeight: '1.3',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
+              letterSpacing: isMinecraft ? '0.5px' : '0',
             }}>
               {name}
             </div>
@@ -373,19 +704,20 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
             {/* Score */}
             <div style={{
               marginTop: '2px',
-              fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-              fontSize: isMinecraft ? 'clamp(0.35rem, 0.5vw, 0.6rem)' : 'clamp(0.65rem, 0.8vw, 0.9rem)',
+              fontFamily: fontMain,
+              fontSize: 'clamp(0.6rem, 0.75vw, 0.9rem)',
+              fontWeight: '700',
               color: !status.unlocked
-                ? (isMinecraft ? '#888' : '#aaa')
+                ? (isMinecraft ? '#999' : '#aaa')
                 : status.allDone
                   ? (isMinecraft ? '#7CFC00' : '#27AE60')
-                  : (isMinecraft ? '#ccc' : '#9B59B6'),
-              fontWeight: '600',
+                  : (isMinecraft ? 'rgba(255,255,255,0.85)' : '#9B59B6'),
+              textShadow: isMinecraft ? '0 1px 3px rgba(0,0,0,0.7)' : 'none',
             }}>
               {!status.unlocked
-                ? (isMinecraft ? `VERROU.` : 'Verrouille')
+                ? (isMinecraft ? 'Verrouille' : 'Verrouille')
                 : status.allDone
-                  ? (isMinecraft ? 'COMPLETE!' : 'Termine !')
+                  ? (isMinecraft ? 'Termine !' : 'Termine !')
                   : `${status.completed}/${status.total}`}
             </div>
           </div>
@@ -395,14 +727,17 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
       {/* ─── START / FINISH MARKERS ───────────────────────── */}
       <div style={{
         position: 'absolute', bottom: '16px', left: '50%', transform: 'translateX(-50%)',
-        fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-        fontSize: isMinecraft ? 'clamp(0.45rem, 0.65vw, 0.8rem)' : 'clamp(0.75rem, 0.95vw, 1.1rem)',
+        fontFamily: fontMain,
+        fontSize: 'clamp(0.75rem, 0.95vw, 1.1rem)',
+        fontWeight: '800',
         color: isMinecraft ? '#7CFC00' : '#9B59B6',
-        textShadow: isMinecraft ? '1px 1px 2px rgba(0,0,0,0.6)' : 'none',
-        opacity: 0.7, zIndex: 5, whiteSpace: 'nowrap',
-        background: isMinecraft ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.6)',
-        padding: isMinecraft ? '5px 14px' : '4px 14px',
-        borderRadius: isMinecraft ? '4px' : '12px',
+        textShadow: isMinecraft ? '0 1px 4px rgba(0,0,0,0.7)' : 'none',
+        opacity: 0.85, zIndex: 5, whiteSpace: 'nowrap',
+        background: isMinecraft ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.7)',
+        padding: '6px 18px',
+        borderRadius: '12px',
+        backdropFilter: 'blur(4px)',
+        letterSpacing: isMinecraft ? '1px' : '0',
       }}>
         {isMinecraft ? 'DEPART' : 'Depart de l\'aventure'}
       </div>
@@ -410,13 +745,16 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
       <div style={{
         position: 'absolute', top: '12px', left: '50%', transform: 'translateX(-50%)',
         zIndex: 5, display: 'flex', alignItems: 'center', gap: '6px',
-        fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-        fontSize: isMinecraft ? 'clamp(0.4rem, 0.6vw, 0.75rem)' : 'clamp(0.7rem, 0.9vw, 1rem)',
+        fontFamily: fontMain,
+        fontSize: 'clamp(0.75rem, 0.95vw, 1.1rem)',
+        fontWeight: '800',
         color: isMinecraft ? '#FFD700' : '#9B59B6',
-        textShadow: isMinecraft ? '1px 1px 2px rgba(0,0,0,0.6)' : 'none',
-        background: isMinecraft ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.6)',
-        padding: isMinecraft ? '5px 14px' : '4px 14px',
-        borderRadius: isMinecraft ? '4px' : '12px',
+        textShadow: isMinecraft ? '0 1px 4px rgba(0,0,0,0.7)' : 'none',
+        background: isMinecraft ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.7)',
+        padding: '6px 18px',
+        borderRadius: '12px',
+        backdropFilter: 'blur(4px)',
+        letterSpacing: isMinecraft ? '1px' : '0',
       }}>
         {isMinecraft ? '🏴 BOSS FINAL' : '🏆 Arrivee'}
       </div>
