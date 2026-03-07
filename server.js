@@ -73,9 +73,40 @@ function migrateIfNeeded() {
   return data
 }
 
+// ─── Privacy helpers ────────────────────────────────────────────────
+// Hash family IDs for file names so progress files can't be linked to families
+function hashFamilyId(familyId) {
+  return crypto.createHash('sha256').update(familyId + (process.env.JWT_SECRET || 'salt')).digest('hex').slice(0, 16)
+}
+
+// Encrypt sensitive data (TND profiles) with family-scoped key
+function encryptTND(data, familyId) {
+  if (!data) return null
+  const key = crypto.createHash('sha256').update(familyId + JWT_SECRET).digest()
+  const iv = crypto.randomBytes(16)
+  const cipher = crypto.createCipheriv('aes-256-cbc', key, iv)
+  let encrypted = cipher.update(JSON.stringify(data), 'utf8', 'hex')
+  encrypted += cipher.final('hex')
+  return iv.toString('hex') + ':' + encrypted
+}
+
+function decryptTND(encrypted, familyId) {
+  if (!encrypted || typeof encrypted !== 'string' || !encrypted.includes(':')) return null
+  try {
+    const key = crypto.createHash('sha256').update(familyId + JWT_SECRET).digest()
+    const [ivHex, data] = encrypted.split(':')
+    const decipher = crypto.createDecipheriv('aes-256-cbc', key, Buffer.from(ivHex, 'hex'))
+    let decrypted = decipher.update(data, 'hex', 'utf8')
+    decrypted += decipher.final('utf8')
+    return JSON.parse(decrypted)
+  } catch {
+    return null
+  }
+}
+
 // ─── Progress persistence (exercise results per family) ─────────────
 function progressFile(familyId) {
-  return join(DATA_DIR, `progress-${familyId}.json`)
+  return join(DATA_DIR, `progress-${hashFamilyId(familyId)}.json`)
 }
 
 function loadProgress(familyId) {
@@ -263,7 +294,7 @@ app.get('/api/children', requireAuth, (req, res) => {
     theme: c.theme,
     avatar: c.avatar,
     grade: c.grade || 'CM2',
-    accessibility: c.accessibility || null,
+    accessibility: decryptTND(c._encryptedAccessibility, req.familyId) || null,
   })))
 })
 
@@ -308,10 +339,20 @@ app.put('/api/children/:id', requireAuth, (req, res) => {
   if (theme !== undefined) child.theme = theme
   if (avatar !== undefined) child.avatar = avatar
   if (grade !== undefined) child.grade = grade
-  if (accessibility !== undefined) child.accessibility = accessibility
+  if (accessibility !== undefined) {
+    // Store encrypted - never in plain text in the database
+    child._encryptedAccessibility = encryptTND(accessibility, req.familyId)
+    // Remove any legacy plain-text field
+    delete child.accessibility
+  }
 
   saveFamilyUpdate(family)
-  res.json(child)
+  // Return decrypted data only to the authenticated family
+  res.json({
+    id: child.id, name: child.name, theme: child.theme,
+    avatar: child.avatar, grade: child.grade,
+    accessibility: decryptTND(child._encryptedAccessibility, req.familyId),
+  })
 })
 
 // ─── Progress tracking (exercise results) ────────────────────────────
@@ -433,12 +474,14 @@ app.delete('/api/lessons/:id', requireAuth, (req, res) => {
 
 // ─── Shared exercise pool: Browse & Search ──────────────────────────
 app.get('/api/shared/browse', (req, res) => {
-  const { subject, grade } = req.query
+  const { subject, grade, adaptation } = req.query
   const cache = loadSharedCache()
   let results = cache.exercises
 
   if (subject) results = results.filter(e => e.subject === subject)
   if (grade) results = results.filter(e => e.grade === grade)
+  // Filter by anonymous adaptation tag (e.g. ?adaptation=dyslexia)
+  if (adaptation) results = results.filter(e => e.adaptations && e.adaptations.includes(adaptation))
 
   res.json({
     exercises: results.map(e => ({
@@ -451,6 +494,8 @@ app.get('/api/shared/browse', (req, res) => {
       exerciseCount: e.exercises?.length || 0,
       createdAt: e.createdAt,
       usedBy: e.usedBy || 0,
+      // Expose anonymous adaptation tags (no personal data)
+      adaptations: e.adaptations || [],
     })),
     stats: cache.stats,
   })
@@ -620,6 +665,12 @@ ${accessibilityProfiles.includes('dyslexia') ? '- Questions courtes avec vocabul
       })),
     }
 
+    // Shared cache entry: NEVER store personal data, family IDs, or identifiable TND profiles
+    // Only store anonymous adaptation tags so other families can find adapted exercises
+    const adaptationTags = (accessibilityProfiles && accessibilityProfiles.length > 0)
+      ? [...accessibilityProfiles].sort() // anonymous: just which adaptations, no who
+      : []
+
     const sharedEntry = {
       id: `shared-${subject}-${now}`,
       name: lesson.name,
@@ -632,12 +683,15 @@ ${accessibilityProfiles.includes('dyslexia') ? '- Questions courtes avec vocabul
       exercises: lesson.exercises,
       createdAt: new Date().toISOString(),
       usedBy: 1,
+      // Anonymous adaptation metadata (no personal data, no family link)
+      ...(adaptationTags.length > 0 ? { adaptations: adaptationTags } : {}),
     }
 
     cache.exercises.push(sharedEntry)
     cache.stats.totalGenerated = (cache.stats.totalGenerated || 0) + 1
     saveSharedCache(cache)
 
+    // Log without any personal or TND data
     console.log(`  Saved to shared cache: "${topic}" (${subject}/${level})`)
     res.json({ ...lesson, fromCache: false })
   } catch (err) {
