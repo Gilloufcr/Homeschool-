@@ -525,19 +525,26 @@ app.post('/api/generate', requireAuth, async (req, res) => {
     antiRedundancy = `\n\nATTENTION ANTI-REDONDANCE : Voici les questions qui existent DEJA. Tu dois generer des questions DIFFERENTES :\n${existingQuestions.map(q => `- "${q}"`).join('\n')}\n`
   }
 
-  const prompt = `Tu es un professeur francais expert en pedagogie, specialise dans l'instruction en famille (IEF) pour enfants de ${childAge || '10-12'} ans.
+  const prompt = `Tu es un professeur francais creatif et bienveillant, specialise dans l'instruction en famille (IEF) pour enfants de ${childAge || '10-12'} ans.
 
-Tu generes des exercices pour une application d'apprentissage qui suit les PROGRAMMES OFFICIELS DE L'EDUCATION NATIONALE francaise.
+Tu generes des exercices LUDIQUES et ENGAGEANTS pour une application d'apprentissage qui suit les PROGRAMMES OFFICIELS DE L'EDUCATION NATIONALE francaise.
 
 MATIERE : ${subject}
 THEME : "${topic}"
 NIVEAU : ${level || 'CM2'}
 
+STYLE OBLIGATOIRE — EXERCICES FUN ET IMMERSIFS :
+- Chaque question doit etre mise en scene dans un SCENARIO AMUSANT : aventure, enquete, jeu, voyage, experience scientifique, histoire interactive...
+- Utilise des personnages, des situations concretes, des mises en situation engageantes
+- INTERDIT : les questions scolaires classiques ("Combien font...", "Conjuguez...", "Quel est...")
+- A LA PLACE : "Tu ramasses 487 gemmes dans une grotte et 356 dans une autre. Combien en as-tu ?", "Dans ton histoire, des oiseaux magiques ___ dans le ciel. Quel verbe choisir ?"
+- L'enfant doit se sentir dans un JEU, pas dans un examen
+- Varie les scenarios : potions, dragons, voyages dans le temps, detectives, explorateurs, scientifiques fous, chefs cuisiniers, super-heros...
+
 CONSIGNES PEDAGOGIQUES :
 - Exercices conformes au programme officiel du ${level || 'CM2'} de l'Education nationale
 - Difficulte adaptee au niveau scolaire
 - Progression : commence facile et augmente graduellement
-- Explications claires et pedagogiques
 - Vocabulaire adapte a l'age (${childAge || '10-12'} ans)
 ${antiRedundancy}
 
@@ -553,11 +560,11 @@ IMPORTANT: Reponds UNIQUEMENT avec un JSON valide, sans texte avant ou apres :
   "exercises": [
     {
       "type": "choice",
-      "question": "La question claire et precise",
+      "question": "La question ludique avec mise en scene",
       "answer": "La bonne reponse (texte exact d'une des options)",
       "options": ["option1", "option2", "option3", "option4"],
       "xp": 15,
-      "explanation": "Explication pedagogique courte"
+      "explanation": "Explication pedagogique courte et encourageante"
     }
   ]
 }
@@ -566,7 +573,7 @@ Regles:
 - 4 options plausibles par exercice
 - "answer" = exactement l'une des options
 - XP : 10 (facile) a 25 (difficile)
-- Questions en francais
+- Questions en francais, toujours dans un scenario ludique
 - Explications pedagogiques et encourageantes${accessibilityProfiles && accessibilityProfiles.length > 0 ? `
 
 ADAPTATIONS TND REQUISES (${accessibilityProfiles.join(', ')}) :
