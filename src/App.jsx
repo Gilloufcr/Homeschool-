@@ -14,7 +14,7 @@ import { englishLevels } from './data/englishExercises'
 import { emcLevels } from './data/emcExercises'
 import { useProgress } from './hooks/useProgress'
 import { isLoggedIn, getSavedFamily, authLogout, getLessons } from './api'
-import { lessons as lessonContent } from './data/lessonContent'
+import { lessons as lessonContent } from './data/lessons'
 import './App.css'
 
 function attachLessons(levels) {
