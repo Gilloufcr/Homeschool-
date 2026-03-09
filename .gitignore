@@ -12,7 +12,13 @@ dist
 dist-ssr
 *.local
 .env
+rclone.conf
 data/app-data.json
+data/*.db
+data/*.db-wal
+data/*.db-shm
+data/progress-*.json
+data/shared-exercises.json
 
 # Editor directories and files
 .vscode/*

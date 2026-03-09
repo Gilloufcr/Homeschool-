@@ -1,84 +1,101 @@
 import { useState, useEffect } from 'react'
-import LoginScreen from './components/LoginScreen'
+import AuthPage from './components/AuthPage'
+import ParentDashboard from './pages/ParentDashboard'
 import Dashboard from './pages/Dashboard'
 import SubjectPage from './pages/SubjectPage'
 import InteractiveMap from './pages/InteractiveMap'
-import ParentDashboard from './pages/ParentDashboard'
+import SettingsPage from './pages/SettingsPage'
 import { mathLevels } from './data/mathExercises'
 import { frenchLevels } from './data/frenchExercises'
 import { historyLevels } from './data/historyExercises'
 import { geographyLevels } from './data/geographyExercises'
 import { scienceLevels } from './data/scienceExercises'
 import { englishLevels } from './data/englishExercises'
+import { emcLevels } from './data/emcExercises'
 import { useProgress } from './hooks/useProgress'
-import { parentLogin, getLessons } from './api'
+import { isLoggedIn, getSavedFamily, authLogout, getLessons } from './api'
+import { lessons as lessonContent } from './data/lessonContent'
 import './App.css'
 
+function attachLessons(levels) {
+  return levels.map(level => ({
+    ...level,
+    lesson: lessonContent[level.id] || null,
+  }))
+}
+
 const BUILTIN_LEVELS = {
-  math: mathLevels,
-  french: frenchLevels,
-  history: historyLevels,
-  geography: geographyLevels,
-  science: scienceLevels,
-  english: englishLevels,
+  math: attachLessons(mathLevels),
+  french: attachLessons(frenchLevels),
+  history: attachLessons(historyLevels),
+  geography: attachLessons(geographyLevels),
+  science: attachLessons(scienceLevels),
+  english: attachLessons(englishLevels),
+  emc: attachLessons(emcLevels),
 }
 
 function App() {
-  const [profile, setProfile] = useState(() => {
-    const saved = localStorage.getItem('homeschool_profile')
-    return saved ? JSON.parse(saved) : null
-  })
-  const [isParent, setIsParent] = useState(false)
-  const [currentPage, setCurrentPage] = useState('dashboard')
+  const [authenticated, setAuthenticated] = useState(isLoggedIn())
+  const [family, setFamily] = useState(getSavedFamily())
+  const [selectedChild, setSelectedChild] = useState(null)
+  const [currentPage, setCurrentPage] = useState('parent-dashboard')
   const [customLessons, setCustomLessons] = useState([])
   const [showBadges, setShowBadges] = useState(() => {
     return localStorage.getItem('homeschool_show_badges') === 'true'
   })
 
   const { progress, addXP, completeExercise, updateStreak, isCompleted } = useProgress(
-    profile?.id || 'default'
+    selectedChild?.id || 'default'
   )
 
-  // Load custom AI-generated lessons from server
+  // Load custom lessons when authenticated
   useEffect(() => {
-    loadCustomLessons()
-  }, [])
+    if (authenticated) {
+      loadCustomLessons()
+    }
+  }, [authenticated])
 
   const loadCustomLessons = async () => {
     try {
       const lessons = await getLessons()
       setCustomLessons(lessons)
     } catch {
-      // Server not running — only built-in lessons available
+      // Token might be expired
     }
   }
 
   useEffect(() => {
-    if (profile) {
-      localStorage.setItem('homeschool_profile', JSON.stringify(profile))
+    if (selectedChild) {
       updateStreak()
     }
-  }, [profile])
+  }, [selectedChild])
 
   useEffect(() => {
     localStorage.setItem('homeschool_show_badges', showBadges)
   }, [showBadges])
 
-  const handleSelectChild = (child) => {
-    setProfile(child)
-    setCurrentPage('dashboard')
-  }
-
-  const handleParentLogin = async (pin) => {
-    await parentLogin(pin)
-    setIsParent(true)
+  const handleAuth = (familyData) => {
+    setAuthenticated(true)
+    setFamily(familyData)
+    setCurrentPage('parent-dashboard')
   }
 
   const handleLogout = () => {
-    setProfile(null)
-    setIsParent(false)
-    localStorage.removeItem('homeschool_profile')
-    setCurrentPage('dashboard')
+    authLogout()
+    setAuthenticated(false)
+    setFamily(null)
+    setSelectedChild(null)
+    setCurrentPage('parent-dashboard')
+  }
+
+  const handleSelectChild = (child) => {
+    setSelectedChild(child)
+    setCurrentPage('child-dashboard')
+  }
+
+  const handleBackToParent = () => {
+    setSelectedChild(null)
+    setCurrentPage('parent-dashboard')
   }
 
   const handleExerciseComplete = (exerciseId, xp, subject) => {
@@ -88,68 +105,80 @@ function App() {
     }
   }
 
-  // Merge built-in levels + custom AI-generated lessons for a subject
   const getLevelsForSubject = (subject) => {
-    const builtin = BUILTIN_LEVELS[subject] || []
+    const grade = selectedChild?.grade || 'CM2'
+    const builtin = (BUILTIN_LEVELS[subject] || []).filter(l => l.grade === grade)
     const custom = customLessons.filter(l => l.subject === subject)
     return [...builtin, ...custom]
   }
 
-  // Not logged in — show login / child selection screen
-  if (!profile && !isParent) {
+  // Not authenticated -> show auth page
+  if (!authenticated) {
+    return <AuthPage onAuth={handleAuth} />
+  }
+
+  // Settings page
+  if (currentPage === 'settings') {
     return (
-      <LoginScreen
-        onSelectChild={handleSelectChild}
-        onParentLogin={handleParentLogin}
+      <SettingsPage
+        family={family}
+        onBack={() => setCurrentPage('parent-dashboard')}
+        onLogout={handleLogout}
+        onFamilyUpdate={(updated) => setFamily(prev => ({ ...prev, ...updated }))}
       />
     )
   }
 
-  // Parent dashboard
-  if (isParent) {
+  // Parent dashboard (children cards + navigation)
+  if (!selectedChild || currentPage === 'parent-dashboard') {
     return (
       <ParentDashboard
-        onLogout={() => { setIsParent(false) }}
+        family={family}
+        onSelectChild={handleSelectChild}
+        onNavigate={setCurrentPage}
+        onLogout={handleLogout}
+        onLessonsUpdate={loadCustomLessons}
+        customLessons={customLessons}
       />
     )
   }
 
-  // Interactive map
+  // Interactive map for child
   if (currentPage === 'map') {
     return (
       <InteractiveMap
-        profile={profile}
+        profile={selectedChild}
         progress={progress}
         onComplete={handleExerciseComplete}
-        onBack={() => setCurrentPage('dashboard')}
+        onBack={() => setCurrentPage('child-dashboard')}
       />
     )
   }
 
-  // Subject pages
-  const subjects = ['math', 'french', 'history', 'geography', 'science', 'english']
+  // Subject pages for child
+  const subjects = ['math', 'french', 'history', 'geography', 'science', 'english', 'emc']
   if (subjects.includes(currentPage)) {
     return (
       <SubjectPage
-        profile={profile}
+        profile={selectedChild}
         subject={currentPage}
         levels={getLevelsForSubject(currentPage)}
         progress={progress}
         onComplete={handleExerciseComplete}
-        onBack={() => setCurrentPage('dashboard')}
+        onBack={() => setCurrentPage('child-dashboard')}
       />
     )
   }
 
-  // Main dashboard
+  // Child dashboard
   return (
     <Dashboard
-      profile={profile}
+      profile={selectedChild}
       progress={progress}
       showBadges={showBadges}
       onToggleBadges={() => setShowBadges(!showBadges)}
       onNavigate={setCurrentPage}
-      onLogout={handleLogout}
+      onLogout={handleBackToParent}
     />
   )
 }

@@ -1,0 +1,19 @@
+# ─── HomeSchool Adventures - Docker Compose (simple, sans SSL) ────────
+# Utiliser ce fichier pour demarrer rapidement sans domaine/SSL :
+#   docker compose -f docker-compose.yml up -d --build
+
+services:
+  homeschool:
+    build: .
+    container_name: homeschool-app
+    restart: unless-stopped
+    ports:
+      - "80:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - RCLONE_REMOTE=${RCLONE_REMOTE:-}
+    volumes:
+      - ./data:/app/data
+      - ./rclone.conf:/app/rclone.conf:ro

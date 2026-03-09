@@ -1,0 +1,2 @@
+# Backup every day at 2:00 AM
+0 2 * * * /bin/sh /app/backup.sh >> /proc/1/fd/1 2>&1

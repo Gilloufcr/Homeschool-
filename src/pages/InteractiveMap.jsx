@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import confetti from 'canvas-confetti'
+import { recordExercise } from '../api'
 import {
   historyMapPoints,
   geographyMapPoints,
@@ -69,6 +70,20 @@ export default function InteractiveMap({ profile, progress, onComplete, onBack }
     const correct = answer === point.quiz.answer
     setQuizResult(correct)
 
+    // Record to server
+    recordExercise({
+      childId: profile?.id,
+      exerciseId: `map-${point.id}`,
+      subject: mode === 'history' ? 'history' : 'geography',
+      grade: profile?.grade || '',
+      question: point.quiz.question,
+      givenAnswer: String(answer),
+      correctAnswer: String(point.quiz.answer),
+      isCorrect: correct,
+      duration: 0,
+      levelName: 'Carte interactive',
+    }).catch(() => {})
+
     if (correct) {
       confetti({
         particleCount: 80,
@@ -93,65 +108,70 @@ export default function InteractiveMap({ profile, progress, onComplete, onBack }
     setQuizResult(null)
   }
 
+  const font = "'Quicksand', sans-serif"
+
   // Styles
   const s = {
     page: {
       minHeight: '100vh',
       background: isMinecraft
-        ? 'linear-gradient(180deg, #87CEEB 0%, #4CAF50 100%)'
+        ? 'linear-gradient(180deg, #87CEEB 0%, #a8d8a8 40%, #4CAF50 70%, #3E8E41 100%)'
         : 'linear-gradient(135deg, #fff5f9 0%, #f0e6ff 50%, #e6f3ff 100%)',
-      padding: '15px',
+      padding: 'clamp(15px, 2vw, 30px)',
     },
     container: {
-      maxWidth: '1000px',
+      maxWidth: '1400px',
       margin: '0 auto',
     },
     header: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      marginBottom: '12px',
+      marginBottom: 'clamp(12px, 1.5vw, 20px)',
       flexWrap: 'wrap',
       gap: '8px',
     },
     title: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.7rem' : '1.3rem',
+      fontFamily: font,
+      fontSize: 'clamp(1.3rem, 2vw, 2rem)',
       fontWeight: '700',
       color: isMinecraft ? '#FFD700' : '#333',
-      textShadow: isMinecraft ? '2px 2px 0 #000' : 'none',
+      textShadow: isMinecraft ? '2px 2px 4px rgba(0,0,0,0.3)' : 'none',
     },
     backBtn: {
-      padding: isMinecraft ? '8px 12px' : '8px 18px',
-      borderRadius: isMinecraft ? '0' : '12px',
-      border: isMinecraft ? '2px outset #777' : 'none',
-      background: isMinecraft ? '#555' : 'rgba(155,89,182,0.1)',
+      padding: '10px 22px',
+      borderRadius: '14px',
+      border: 'none',
+      background: isMinecraft ? 'rgba(20,20,30,0.7)' : 'rgba(155,89,182,0.1)',
+      backdropFilter: 'blur(8px)',
       color: isMinecraft ? '#fff' : '#9B59B6',
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.5rem' : '0.85rem',
+      fontFamily: font,
+      fontSize: 'clamp(0.85rem, 1vw, 1rem)',
       fontWeight: '700',
       cursor: 'pointer',
+      transition: 'all 0.2s ease',
     },
     modeToggle: {
       display: 'flex',
-      gap: '5px',
-      marginBottom: '12px',
+      gap: '8px',
+      marginBottom: 'clamp(12px, 1.5vw, 20px)',
     },
     modeBtn: (active) => ({
       flex: 1,
-      padding: isMinecraft ? '10px' : '12px',
-      borderRadius: isMinecraft ? '0' : '14px',
+      padding: 'clamp(10px, 1.2vw, 16px)',
+      borderRadius: '16px',
       border: isMinecraft
-        ? `3px solid ${active ? '#FFD700' : '#555'}`
+        ? `2px solid ${active ? '#FFD700' : 'rgba(255,255,255,0.1)'}`
         : `2px solid ${active ? '#9B59B6' : 'rgba(155,89,182,0.15)'}`,
       background: active
         ? (isMinecraft ? 'rgba(255,215,0,0.15)' : 'rgba(155,89,182,0.1)')
-        : (isMinecraft ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.8)'),
+        : (isMinecraft ? 'rgba(20,20,30,0.6)' : 'rgba(255,255,255,0.8)'),
+      backdropFilter: 'blur(8px)',
       color: active
         ? (isMinecraft ? '#FFD700' : '#9B59B6')
         : (isMinecraft ? '#aaa' : '#888'),
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.5rem' : '0.9rem',
+      fontFamily: font,
+      fontSize: 'clamp(0.9rem, 1.1vw, 1.15rem)',
       fontWeight: '700',
       cursor: 'pointer',
       textAlign: 'center',
@@ -159,52 +179,54 @@ export default function InteractiveMap({ profile, progress, onComplete, onBack }
     }),
     filters: {
       display: 'flex',
-      gap: '6px',
-      marginBottom: '12px',
+      gap: '8px',
+      marginBottom: 'clamp(12px, 1.5vw, 20px)',
       flexWrap: 'wrap',
     },
     filterBtn: (active, color) => ({
-      padding: isMinecraft ? '5px 8px' : '6px 14px',
-      borderRadius: isMinecraft ? '0' : '20px',
+      padding: '8px 16px',
+      borderRadius: '20px',
       border: `2px solid ${active ? color : 'transparent'}`,
-      background: active ? `${color}22` : (isMinecraft ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.7)'),
-      color: active ? color : (isMinecraft ? '#aaa' : '#888'),
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.35rem' : '0.75rem',
+      background: active ? `${color}22` : (isMinecraft ? 'rgba(20,20,30,0.5)' : 'rgba(255,255,255,0.7)'),
+      backdropFilter: 'blur(4px)',
+      color: active ? color : (isMinecraft ? '#ccc' : '#888'),
+      fontFamily: font,
+      fontSize: 'clamp(0.75rem, 0.9vw, 0.95rem)',
       fontWeight: '600',
       cursor: 'pointer',
       transition: 'all 0.2s ease',
     }),
     mapWrapper: {
-      borderRadius: isMinecraft ? '0' : '20px',
+      borderRadius: '20px',
       overflow: 'hidden',
-      border: isMinecraft ? '4px solid #555' : '2px solid rgba(155,89,182,0.15)',
-      boxShadow: isMinecraft ? 'none' : '0 4px 20px rgba(0,0,0,0.1)',
-      height: '55vh',
-      minHeight: '350px',
+      border: isMinecraft ? '2px solid rgba(255,255,255,0.1)' : '2px solid rgba(155,89,182,0.15)',
+      boxShadow: isMinecraft ? '0 8px 32px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.1)',
+      height: 'clamp(400px, 65vh, 700px)',
     },
     stats: {
       display: 'flex',
       justifyContent: 'center',
-      gap: '20px',
-      marginTop: '12px',
-      padding: '12px',
-      borderRadius: isMinecraft ? '0' : '15px',
-      background: isMinecraft ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.9)',
-      border: isMinecraft ? '3px solid #555' : '2px solid rgba(155,89,182,0.1)',
+      gap: 'clamp(20px, 4vw, 50px)',
+      marginTop: 'clamp(12px, 1.5vw, 20px)',
+      padding: 'clamp(12px, 1.5vw, 20px)',
+      borderRadius: '18px',
+      background: isMinecraft ? 'rgba(20,20,30,0.75)' : 'rgba(255,255,255,0.9)',
+      backdropFilter: 'blur(8px)',
+      border: isMinecraft ? '1px solid rgba(255,255,255,0.08)' : '2px solid rgba(155,89,182,0.1)',
+      boxShadow: isMinecraft ? '0 4px 16px rgba(0,0,0,0.2)' : 'none',
     },
     statItem: {
       textAlign: 'center',
     },
     statValue: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.8rem' : '1.3rem',
+      fontFamily: font,
+      fontSize: 'clamp(1.3rem, 1.8vw, 2rem)',
       fontWeight: '700',
       color: isMinecraft ? '#7CFC00' : '#9B59B6',
     },
     statLabel: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.35rem' : '0.7rem',
+      fontFamily: font,
+      fontSize: 'clamp(0.7rem, 0.9vw, 0.9rem)',
       color: isMinecraft ? '#aaa' : '#888',
       marginTop: '2px',
     },
@@ -295,10 +317,10 @@ export default function InteractiveMap({ profile, progress, onComplete, onBack }
       <div style={s.container}>
         <div style={s.header}>
           <div style={s.title}>
-            {isMinecraft ? '> CARTE INTERACTIVE' : 'Carte Interactive'}
+            {isMinecraft ? '🗺️ Carte Interactive' : '🗺️ Carte Interactive'}
           </div>
           <button style={s.backBtn} onClick={onBack}>
-            {isMinecraft ? '< RETOUR' : 'Retour'}
+            ← Retour
           </button>
         </div>
 
@@ -308,13 +330,13 @@ export default function InteractiveMap({ profile, progress, onComplete, onBack }
             style={s.modeBtn(mode === 'history')}
             onClick={() => { setMode('history'); setFilter('all'); resetQuiz() }}
           >
-            🏛️ {isMinecraft ? 'HISTOIRE' : 'Histoire'}
+            🏛️ Histoire
           </button>
           <button
             style={s.modeBtn(mode === 'geography')}
             onClick={() => { setMode('geography'); setFilter('all'); resetQuiz() }}
           >
-            🌍 {isMinecraft ? 'GEOGRAPHIE' : 'Geographie'}
+            🌍 Geographie
           </button>
         </div>
 
@@ -445,17 +467,17 @@ export default function InteractiveMap({ profile, progress, onComplete, onBack }
         <div style={s.stats}>
           <div style={s.statItem}>
             <div style={s.statValue}>{discoveredInMode}</div>
-            <div style={s.statLabel}>{isMinecraft ? 'DECOUVERTS' : 'Decouverts'}</div>
+            <div style={s.statLabel}>Decouverts</div>
           </div>
           <div style={s.statItem}>
             <div style={s.statValue}>{totalInMode}</div>
-            <div style={s.statLabel}>{isMinecraft ? 'A EXPLORER' : 'A explorer'}</div>
+            <div style={s.statLabel}>A explorer</div>
           </div>
           <div style={s.statItem}>
             <div style={s.statValue}>
               {totalInMode > 0 ? Math.round((discoveredInMode / totalInMode) * 100) : 0}%
             </div>
-            <div style={s.statLabel}>{isMinecraft ? 'PROGRES' : 'Progression'}</div>
+            <div style={s.statLabel}>Progression</div>
           </div>
         </div>
       </div>

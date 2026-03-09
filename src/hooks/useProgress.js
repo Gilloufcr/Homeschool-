@@ -7,6 +7,10 @@ const DEFAULT_PROGRESS = {
   subjectProgress: {
     math: { current: 0, total: 0 },
     french: { current: 0, total: 0 },
+    history: { current: 0, total: 0 },
+    geography: { current: 0, total: 0 },
+    science: { current: 0, total: 0 },
+    english: { current: 0, total: 0 },
   },
   streak: 0,
   lastPlayed: null,
@@ -21,6 +25,13 @@ export function useProgress(profileId) {
     return saved ? JSON.parse(saved) : { ...DEFAULT_PROGRESS }
   })
 
+  // Reload progress when switching child profiles
+  useEffect(() => {
+    const saved = localStorage.getItem(storageKey)
+    setProgress(saved ? JSON.parse(saved) : { ...DEFAULT_PROGRESS })
+  }, [storageKey])
+
+  // Save progress to localStorage on every change
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(progress))
   }, [progress, storageKey])
@@ -44,11 +55,12 @@ export function useProgress(profileId) {
       if (prev.completedExercises.includes(exerciseId)) return prev
       const newCompleted = [...prev.completedExercises, exerciseId]
       const subjectProgress = { ...prev.subjectProgress }
-      if (subjectProgress[subject]) {
-        subjectProgress[subject] = {
-          ...subjectProgress[subject],
-          current: subjectProgress[subject].current + 1,
-        }
+      if (!subjectProgress[subject]) {
+        subjectProgress[subject] = { current: 0, total: 0 }
+      }
+      subjectProgress[subject] = {
+        ...subjectProgress[subject],
+        current: subjectProgress[subject].current + 1,
       }
       return {
         ...prev,

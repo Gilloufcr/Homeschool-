@@ -26,36 +26,38 @@ export default function BadgeDisplay({ progress, theme }) {
   const earned = getEarnedBadges(progress)
   const earnedIds = new Set(earned.map(b => b.id))
 
+  const font = "'Quicksand', sans-serif"
   const s = {
     container: {
       padding: '15px',
     },
     title: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.7rem' : '1.2rem',
+      fontFamily: font,
+      fontSize: 'clamp(1rem, 1.3vw, 1.2rem)',
       fontWeight: '700',
       color: isMinecraft ? '#FFD700' : '#333',
       marginBottom: '15px',
-      textShadow: isMinecraft ? '1px 1px 0 #000' : 'none',
+      textShadow: isMinecraft ? '1px 1px 2px rgba(0,0,0,0.3)' : 'none',
     },
     grid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
-      gap: '10px',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))',
+      gap: '12px',
     },
     badge: (unlocked) => ({
       padding: '15px 8px',
-      borderRadius: isMinecraft ? '0' : '15px',
+      borderRadius: '15px',
       background: unlocked
-        ? (isMinecraft ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.95)')
-        : (isMinecraft ? 'rgba(0,0,0,0.3)' : 'rgba(200,200,200,0.3)'),
+        ? (isMinecraft ? 'rgba(20,20,30,0.7)' : 'rgba(255,255,255,0.95)')
+        : (isMinecraft ? 'rgba(20,20,30,0.3)' : 'rgba(200,200,200,0.3)'),
       border: isMinecraft
-        ? `2px solid ${unlocked ? '#FFD700' : '#333'}`
+        ? `2px solid ${unlocked ? '#FFD700' : 'rgba(255,255,255,0.08)'}`
         : `2px solid ${unlocked ? 'rgba(155,89,182,0.3)' : 'rgba(200,200,200,0.2)'}`,
       textAlign: 'center',
       opacity: unlocked ? 1 : 0.4,
       transition: 'all 0.3s ease',
-      boxShadow: unlocked && !isMinecraft ? '0 2px 10px rgba(0,0,0,0.08)' : 'none',
+      boxShadow: unlocked ? '0 2px 10px rgba(0,0,0,0.08)' : 'none',
+      backdropFilter: 'blur(4px)',
     }),
     badgeIcon: {
       fontSize: '2rem',
@@ -64,21 +66,21 @@ export default function BadgeDisplay({ progress, theme }) {
       filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
     },
     badgeName: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.4rem' : '0.7rem',
+      fontFamily: font,
+      fontSize: 'clamp(0.7rem, 0.85vw, 0.85rem)',
       fontWeight: '700',
       color: isMinecraft ? '#FFD700' : '#333',
       marginBottom: '3px',
     },
     badgeDesc: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.3rem' : '0.6rem',
+      fontFamily: font,
+      fontSize: 'clamp(0.6rem, 0.75vw, 0.75rem)',
       color: isMinecraft ? '#aaa' : '#888',
       lineHeight: '1.4',
     },
     counter: {
-      fontFamily: isMinecraft ? "'Press Start 2P', monospace" : "'Quicksand', sans-serif",
-      fontSize: isMinecraft ? '0.5rem' : '0.8rem',
+      fontFamily: font,
+      fontSize: 'clamp(0.8rem, 1vw, 0.95rem)',
       color: isMinecraft ? '#7CFC00' : '#9B59B6',
       marginBottom: '10px',
     },
@@ -87,10 +89,10 @@ export default function BadgeDisplay({ progress, theme }) {
   return (
     <div style={s.container}>
       <div style={s.title}>
-        {isMinecraft ? '> BADGES' : 'Badges'}
+        Badges
       </div>
       <div style={s.counter}>
-        {earned.length}/{BADGES.length} {isMinecraft ? 'DEBLOQUES' : 'debloques'}
+        {earned.length}/{BADGES.length} debloques
       </div>
       <div style={s.grid}>
         {BADGES.map((badge) => {

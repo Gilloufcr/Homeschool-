@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="80" fill="#9B59B6"/>
+  <!-- House roof -->
+  <polygon points="256,60 440,200 72,200" fill="#F1C40F"/>
+  <!-- House body -->
+  <rect x="120" y="200" width="264" height="170" fill="#FFFFFF"/>
+  <!-- Door -->
+  <rect x="212" y="260" width="88" height="110" rx="8" fill="#3498DB"/>
+  <!-- Door handle -->
+  <circle cx="284" cy="320" r="6" fill="#F1C40F"/>
+  <!-- Left window -->
+  <rect x="140" y="230" width="50" height="50" rx="4" fill="#87CEEB"/>
+  <line x1="165" y1="230" x2="165" y2="280" stroke="#FFFFFF" stroke-width="3"/>
+  <line x1="140" y1="255" x2="190" y2="255" stroke="#FFFFFF" stroke-width="3"/>
+  <!-- Right window -->
+  <rect x="322" y="230" width="50" height="50" rx="4" fill="#87CEEB"/>
+  <line x1="347" y1="230" x2="347" y2="280" stroke="#FFFFFF" stroke-width="3"/>
+  <line x1="322" y1="255" x2="372" y2="255" stroke="#FFFFFF" stroke-width="3"/>
+  <!-- Books at bottom -->
+  <g transform="translate(256,430)">
+    <rect x="-90" y="-40" width="76" height="56" rx="4" fill="#E74C3C" transform="rotate(-8)"/>
+    <rect x="14" y="-40" width="76" height="56" rx="4" fill="#2ECC71" transform="rotate(8)"/>
+    <rect x="-12" y="-46" width="24" height="62" rx="2" fill="#F39C12"/>
+  </g>
+  <!-- Chimney -->
+  <rect x="340" y="100" width="40" height="80" fill="#E67E22"/>
+</svg>

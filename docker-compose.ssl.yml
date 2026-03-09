@@ -1,0 +1,49 @@
+# ─── HomeSchool Adventures - Docker Compose avec HTTPS ───────────────
+# A utiliser APRES avoir obtenu le certificat SSL :
+#   1. Editez nginx.conf et remplacez VOTRE_DOMAINE.fr par votre domaine
+#   2. Obtenez le certificat avec certbot
+#   3. Lancez : docker compose -f docker-compose.ssl.yml up -d --build
+
+services:
+  homeschool:
+    build: .
+    container_name: homeschool-app
+    restart: unless-stopped
+    expose:
+      - "3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - RCLONE_REMOTE=${RCLONE_REMOTE:-}
+    volumes:
+      - ./data:/app/data
+      - ./rclone.conf:/app/rclone.conf:ro
+
+  nginx:
+    image: nginx:alpine
+    container_name: homeschool-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - homeschool-certbot-etc:/etc/letsencrypt:ro
+      - homeschool-certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - homeschool
+
+  certbot:
+    image: certbot/certbot
+    container_name: homeschool-certbot
+    volumes:
+      - homeschool-certbot-etc:/etc/letsencrypt
+      - homeschool-certbot-var:/var/lib/letsencrypt
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do sleep 12h & wait $${!}; certbot renew; done'"
+
+volumes:
+  homeschool-certbot-etc:
+    external: true
+  homeschool-certbot-var:
+    external: true

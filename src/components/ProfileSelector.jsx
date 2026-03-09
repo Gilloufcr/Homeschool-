@@ -115,7 +115,7 @@ export default function ProfileSelector({ onSelectProfile }) {
           onClick={() => setSelected('minecraft')}
         >
           <span style={styles.emoji}>⛏️</span>
-          <div style={{ ...styles.cardTitle, fontFamily: "'Press Start 2P', monospace", fontSize: '0.9rem' }}>
+          <div style={{ ...styles.cardTitle, fontSize: '1.3rem' }}>
             Mode Minecraft
           </div>
           <p style={styles.cardDesc}>
@@ -132,7 +132,7 @@ export default function ProfileSelector({ onSelectProfile }) {
                 autoFocus
               />
               <button
-                style={{ ...styles.startBtn, background: '#1B5E20', fontFamily: "'Press Start 2P', monospace", fontSize: '0.7rem' }}
+                style={{ ...styles.startBtn, background: '#1B5E20', fontSize: '1rem' }}
                 onClick={() => handleStart('minecraft')}
               >
                 JOUER !
