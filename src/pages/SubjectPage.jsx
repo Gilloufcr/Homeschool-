@@ -9,21 +9,35 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
   const [selectedLevel, setSelectedLevel] = useState(null)
   const [showLesson, setShowLesson] = useState(false)
   const [currentExIdx, setCurrentExIdx] = useState(0)
+  const [showEncouragement, setShowEncouragement] = useState(false)
+  const [consecutiveCorrect, setConsecutiveCorrect] = useState(0)
 
   const isMinecraft = profile.theme === 'minecraft'
   const font = "'Quicksand', sans-serif"
+  const a11y = profile.accessibility || {}
+  const hasA11y = a11y.enabled && a11y.profiles?.length > 0
+  const needsEncouragement = hasA11y && (a11y.profiles?.includes('dyslexia') || a11y.profiles?.includes('adhd'))
 
   const handleSelectLevel = (level) => {
     setSelectedLevel(level)
     setCurrentExIdx(0)
     setShowLesson(!!level.lesson)
+    setConsecutiveCorrect(0)
   }
 
   const handleExerciseComplete = (exerciseId, xp) => {
     onComplete(exerciseId, xp, subject)
+    const newCount = consecutiveCorrect + 1
+    setConsecutiveCorrect(newCount)
+
     setTimeout(() => {
       if (selectedLevel && currentExIdx < selectedLevel.exercises.length - 1) {
-        setCurrentExIdx(prev => prev + 1)
+        // Show encouragement break every 3 exercises for TND profiles
+        if (needsEncouragement && newCount > 0 && newCount % 3 === 0) {
+          setShowEncouragement(true)
+        } else {
+          setCurrentExIdx(prev => prev + 1)
+        }
       }
     }, 1500)
   }
@@ -94,6 +108,7 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
           </button>
           <div style={{ ...titleStyle, marginTop: '15px' }}>{levelName}</div>
           <LessonView lesson={selectedLevel.lesson} theme={profile.theme}
+            accessibility={profile.accessibility}
             onStartExercises={() => setShowLesson(false)} />
         </div>
       </div>
@@ -161,6 +176,43 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
               )
             })}
           </div>
+
+          {/* Encouragement break for TND profiles */}
+          {showEncouragement && (
+            <div style={{
+              textAlign: 'center', padding: 'clamp(24px, 3vw, 48px)',
+              borderRadius: '20px', marginBottom: '20px',
+              background: isMinecraft ? 'rgba(76,175,80,0.2)' : 'rgba(46,204,113,0.12)',
+              border: isMinecraft ? '2px solid #4CAF50' : '2px solid rgba(46,204,113,0.3)',
+              animation: 'slideUp 0.4s ease-out',
+            }}>
+              <div style={{ fontSize: '3rem', marginBottom: '12px' }}>
+                {['🌟', '🎉', '💪', '🏆', '⭐'][Math.floor(Math.random() * 5)]}
+              </div>
+              <div style={{
+                fontFamily: font, fontSize: 'clamp(1.2rem, 1.6vw, 2rem)',
+                fontWeight: '700', marginBottom: '8px',
+                color: isMinecraft ? '#7CFC00' : '#27AE60',
+              }}>
+                {['Super travail !', 'Tu es genial(e) !', 'Continue comme ca !', 'Bravo, champion(ne) !'][Math.floor(Math.random() * 4)]}
+              </div>
+              <div style={{
+                fontFamily: font, fontSize: 'clamp(0.9rem, 1.1vw, 1.3rem)',
+                color: isMinecraft ? '#ddd' : '#666', marginBottom: '20px',
+              }}>
+                Tu as deja fait {consecutiveCorrect} exercices. Prends une petite pause si tu veux !
+              </div>
+              <button onClick={() => { setShowEncouragement(false); setCurrentExIdx(prev => prev + 1) }}
+                style={{
+                  padding: '12px 32px', borderRadius: '14px', border: 'none',
+                  background: isMinecraft ? '#4CAF50' : 'linear-gradient(135deg, #2ECC71, #27AE60)',
+                  color: '#fff', fontFamily: font, fontSize: 'clamp(1rem, 1.2vw, 1.4rem)',
+                  fontWeight: '700', cursor: 'pointer',
+                }}>
+                Je continue !
+              </button>
+            </div>
+          )}
 
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <ExerciseCard key={exercise.id} exercise={exercise} theme={profile.theme}

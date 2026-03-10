@@ -81,6 +81,16 @@ export default function ExerciseCard({
       levelName: levelName || '',
     }).catch(() => {}) // fire and forget
 
+    // Read feedback aloud for TND
+    if (hasA11y && a11y.readAloud) {
+      setTimeout(() => {
+        const msg = correct
+          ? 'Bravo ! Plus ' + exercise.xp + ' points !'
+          : 'Oups ! Ce n\'est pas la bonne reponse. Essaie encore !'
+        speakFr(msg)
+      }, 300)
+    }
+
     if (correct) {
       if (!(hasA11y && a11y.noConfetti)) {
         confetti({
@@ -105,13 +115,25 @@ export default function ExerciseCard({
     startTimeRef.current = Date.now()
   }
 
-  const handleReadAloud = () => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel()
-      const utter = new SpeechSynthesisUtterance(exercise.question)
-      utter.lang = 'fr-FR'
-      utter.rate = 0.85
-      window.speechSynthesis.speak(utter)
+  const speakFr = (text) => {
+    if (!('speechSynthesis' in window)) return
+    window.speechSynthesis.cancel()
+    const utter = new SpeechSynthesisUtterance(text)
+    utter.lang = 'fr-FR'
+    utter.rate = 0.85
+    window.speechSynthesis.speak(utter)
+  }
+
+  const handleReadAloud = () => speakFr(exercise.question)
+
+  // Read option aloud on click for TND profiles
+  const handleOptionClick = (option) => {
+    if (hasA11y && a11y.readAloud && !showResult) {
+      speakFr(String(option))
+      // Delay answer submission so the child hears the option first
+      setTimeout(() => handleAnswer(option), 600)
+    } else {
+      handleAnswer(option)
     }
   }
 
@@ -122,8 +144,8 @@ export default function ExerciseCard({
     small: 0.85, normal: 1, large: 1.2, xlarge: 1.4,
   }[a11y.fontSize] || 1
 
-  const lineHeight = (hasA11y && a11y.lineSpacing) ? '2.0' : '1.6'
-  const letterSpacing = (hasA11y && a11y.lineSpacing) ? '0.05em' : 'normal'
+  const lineHeight = (hasA11y && a11y.lineSpacing) ? '2.2' : '1.6'
+  const letterSpacing = (hasA11y && a11y.lineSpacing) ? '0.12em' : 'normal'
 
   // Tinted backgrounds
   const tintColors = {
@@ -263,7 +285,7 @@ export default function ExerciseCard({
           <button
             key={idx}
             style={getOptionStyle(option)}
-            onClick={() => handleAnswer(option)}
+            onClick={() => handleOptionClick(option)}
             onMouseOver={(e) => {
               if (!showResult && !(hasA11y && a11y.reduceAnimations)) {
                 e.target.style.transform = 'scale(1.02)'
