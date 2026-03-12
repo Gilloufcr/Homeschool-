@@ -1,15 +1,7 @@
-import { useState, useEffect } from 'react'
-
 const MAX_HIGHLIGHTS = 8
 
-// Abbreviate long titles for the central node
-function abbreviate(text, maxLen = 28) {
-  if (!text || text.length <= maxLen) return text
-  return text.slice(0, maxLen - 1).trimEnd() + '\u2026'
-}
-
 // Wrap text into lines that fit within a given char width
-function wrapText(text, maxChars = 18) {
+function wrapText(text, maxChars = 16) {
   const words = text.split(' ')
   const lines = []
   let current = ''
@@ -23,6 +15,12 @@ function wrapText(text, maxChars = 18) {
   }
   if (current) lines.push(current)
   return lines
+}
+
+// Wrap title into multiple lines
+function wrapTitle(text, maxChars = 22) {
+  if (!text) return ['']
+  return wrapText(text, maxChars)
 }
 
 // Color palettes per theme
@@ -49,6 +47,33 @@ const CSS_ANIM = `
 }
 `
 
+// Layout: place branches in 2 columns (left/right of center) to avoid overlaps
+function computeLayout(count) {
+  const W = 820
+  const H = Math.max(420, 100 + count * 52)
+  const CX = W / 2
+  const CY = H / 2
+
+  const leftCount = Math.ceil(count / 2)
+  const rightCount = count - leftCount
+
+  const positions = []
+
+  // Left column
+  const leftStartY = CY - ((leftCount - 1) * 70) / 2
+  for (let i = 0; i < leftCount; i++) {
+    positions.push({ x: 130, y: leftStartY + i * 70, side: 'left' })
+  }
+
+  // Right column
+  const rightStartY = CY - ((rightCount - 1) * 70) / 2
+  for (let i = 0; i < rightCount; i++) {
+    positions.push({ x: W - 130, y: rightStartY + i * 70, side: 'right' })
+  }
+
+  return { W, H, CX, CY, positions }
+}
+
 export default function MindMap({ title, highlights, theme, reduceAnimations }) {
   const items = (highlights || []).slice(0, MAX_HIGHLIGHTS)
   const count = items.length
@@ -58,24 +83,13 @@ export default function MindMap({ title, highlights, theme, reduceAnimations }) 
   const isMinecraft = theme === 'minecraft'
   const palette = PALETTES[isMinecraft ? 'minecraft' : 'lalilo']
 
-  // SVG dimensions
-  const W = 700
-  const H = 500
-  const CX = W / 2
-  const CY = H / 2
-  const RADIUS = Math.min(W, H) * 0.34
+  const { W, H, CX, CY, positions } = computeLayout(count)
 
-  // Central node dimensions
-  const centralW = 180
-  const centralH = 56
-
-  // Compute branch positions
-  const branches = items.map((text, i) => {
-    const angle = (2 * Math.PI * i) / count - Math.PI / 2
-    const x = CX + RADIUS * Math.cos(angle)
-    const y = CY + RADIUS * Math.sin(angle)
-    return { text, x, y, angle, color: palette[i % palette.length] }
-  })
+  const branches = items.map((text, i) => ({
+    text,
+    ...positions[i],
+    color: palette[i % palette.length],
+  }))
 
   const bgColor = isMinecraft ? '#1a1a2e' : '#faf5ff'
   const centralBg = isMinecraft ? '#2d2d44' : '#ffffff'
@@ -85,20 +99,19 @@ export default function MindMap({ title, highlights, theme, reduceAnimations }) 
     ? "'Courier New', monospace"
     : "'Quicksand', 'Nunito', sans-serif"
 
+  // Central node: multi-line title
+  const titleLines = wrapTitle(title, 24)
+  const titleLineH = 18
+  const centralW = 220
+  const centralH = Math.max(50, titleLines.length * titleLineH + 20)
+
   const animDelay = (i) => reduceAnimations ? '0s' : `${i * 0.15}s`
   const animStyle = (i) => reduceAnimations
     ? {}
-    : {
-        opacity: 0,
-        animation: `mindmap-branch-in 0.4s ease-out ${animDelay(i)} forwards`,
-      }
+    : { opacity: 0, animation: `mindmap-branch-in 0.4s ease-out ${animDelay(i)} forwards` }
   const lineAnimStyle = (i) => reduceAnimations
     ? {}
-    : {
-        strokeDasharray: 300,
-        strokeDashoffset: 300,
-        animation: `mindmap-line-in 0.4s ease-out ${animDelay(i)} forwards`,
-      }
+    : { strokeDasharray: 300, strokeDashoffset: 300, animation: `mindmap-line-in 0.4s ease-out ${animDelay(i)} forwards` }
 
   return (
     <div style={{ width: '100%', textAlign: 'center' }}>
@@ -107,7 +120,7 @@ export default function MindMap({ title, highlights, theme, reduceAnimations }) 
         viewBox={`0 0 ${W} ${H}`}
         style={{
           width: '100%',
-          maxWidth: '700px',
+          maxWidth: '820px',
           height: 'auto',
           background: bgColor,
           borderRadius: '16px',
@@ -116,21 +129,22 @@ export default function MindMap({ title, highlights, theme, reduceAnimations }) 
         role="img"
         aria-label={`Carte mentale : ${title}. ${count} points cles.`}
       >
-        {/* Connectors */}
-        {branches.map((b, i) => (
-          <line
-            key={`line-${i}`}
-            x1={CX}
-            y1={CY}
-            x2={b.x}
-            y2={b.y}
-            stroke={b.color}
-            strokeWidth={isMinecraft ? 3 : 2.5}
-            strokeLinecap="round"
-            opacity={0.6}
-            style={lineAnimStyle(i)}
-          />
-        ))}
+        {/* Connectors — curved lines from center to branches */}
+        {branches.map((b, i) => {
+          const midX = b.side === 'left' ? CX - 80 : CX + 80
+          return (
+            <path
+              key={`line-${i}`}
+              d={`M ${CX} ${CY} Q ${midX} ${b.y} ${b.x} ${b.y}`}
+              fill="none"
+              stroke={b.color}
+              strokeWidth={isMinecraft ? 2.5 : 2}
+              strokeLinecap="round"
+              opacity={0.5}
+              style={lineAnimStyle(i)}
+            />
+          )
+        })}
 
         {/* Central node */}
         <rect
@@ -138,32 +152,35 @@ export default function MindMap({ title, highlights, theme, reduceAnimations }) 
           y={CY - centralH / 2}
           width={centralW}
           height={centralH}
-          rx={isMinecraft ? 4 : 28}
-          ry={isMinecraft ? 4 : 28}
+          rx={isMinecraft ? 6 : 25}
+          ry={isMinecraft ? 6 : 25}
           fill={centralBg}
           stroke={centralBorder}
           strokeWidth={3}
         />
-        <text
-          x={CX}
-          y={CY + 1}
-          textAnchor="middle"
-          dominantBaseline="central"
-          fill={centralTextColor}
-          fontFamily={fontFamily}
-          fontWeight="700"
-          fontSize="13"
-        >
-          {abbreviate(title)}
-        </text>
+        {titleLines.map((line, li) => (
+          <text
+            key={`title-${li}`}
+            x={CX}
+            y={CY - ((titleLines.length - 1) * titleLineH) / 2 + li * titleLineH}
+            textAnchor="middle"
+            dominantBaseline="central"
+            fill={centralTextColor}
+            fontFamily={fontFamily}
+            fontWeight="700"
+            fontSize="13"
+          >
+            {line}
+          </text>
+        ))}
 
         {/* Branch nodes */}
         {branches.map((b, i) => {
-          const lines = wrapText(b.text, 20)
-          const nodeW = 130
-          const lineH = 16
-          const nodeH = Math.max(40, lines.length * lineH + 16)
-          const rx = isMinecraft ? 4 : 14
+          const lines = wrapText(b.text, 18)
+          const nodeW = 150
+          const lineH = 15
+          const nodeH = Math.max(36, lines.length * lineH + 14)
+          const rx = isMinecraft ? 4 : 12
 
           return (
             <g key={`branch-${i}`} style={animStyle(i)}>
@@ -174,7 +191,7 @@ export default function MindMap({ title, highlights, theme, reduceAnimations }) 
                 height={nodeH}
                 rx={rx}
                 ry={rx}
-                fill={isMinecraft ? 'rgba(255,255,255,0.07)' : `${b.color}15`}
+                fill={isMinecraft ? 'rgba(255,255,255,0.07)' : `${b.color}12`}
                 stroke={b.color}
                 strokeWidth={2}
               />
@@ -182,10 +199,10 @@ export default function MindMap({ title, highlights, theme, reduceAnimations }) 
                 <text
                   key={li}
                   x={b.x}
-                  y={b.y - ((lines.length - 1) * lineH) / 2 + li * lineH + 1}
+                  y={b.y - ((lines.length - 1) * lineH) / 2 + li * lineH}
                   textAnchor="middle"
                   dominantBaseline="central"
-                  fill={isMinecraft ? b.color : b.color}
+                  fill={b.color}
                   fontFamily={fontFamily}
                   fontWeight="600"
                   fontSize="11"
