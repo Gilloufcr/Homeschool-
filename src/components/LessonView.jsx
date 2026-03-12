@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import MindMap from './MindMap'
 
 // OpenDyslexic font loader (shared with ExerciseCard)
 let dyslexicFontLoaded = false
@@ -34,8 +35,14 @@ export default function LessonView({ lesson, theme, accessibility, onStartExerci
   }, [hasA11y, a11y.adaptedFont])
 
   const pages = lesson.pages || []
-  const page = pages[currentPage]
-  const isLastPage = currentPage === pages.length - 1
+
+  // Collect all highlights from all pages for the mind map
+  const allHighlights = pages.flatMap(p => p.highlights || [])
+  const hasMindMap = allHighlights.length > 0
+  const totalPages = pages.length + (hasMindMap ? 1 : 0)
+  const isMindMapPage = hasMindMap && currentPage === pages.length
+  const page = isMindMapPage ? null : pages[currentPage]
+  const isLastPage = currentPage === totalPages - 1
 
   // Auto-read page content when page changes
   useEffect(() => {
@@ -213,7 +220,7 @@ export default function LessonView({ lesson, theme, accessibility, onStartExerci
     }),
   }
 
-  if (!page) return null
+  if (!page && !isMindMapPage) return null
 
   return (
     <div style={s.card}>
@@ -222,38 +229,52 @@ export default function LessonView({ lesson, theme, accessibility, onStartExerci
           {lesson.title}
         </div>
         <div style={s.subtitle}>
-          Page {currentPage + 1} sur {pages.length}
+          Page {currentPage + 1} sur {totalPages}
         </div>
       </div>
 
       <div style={s.body}>
-        {page.emoji && <div style={s.emoji}>{page.emoji}</div>}
-        {page.title && <div style={s.pageTitle}>{page.title}</div>}
+        {isMindMapPage ? (
+          <>
+            <div style={s.pageTitle}>Carte mentale</div>
+            <MindMap
+              title={lesson.title}
+              highlights={allHighlights}
+              theme={theme}
+              reduceAnimations={hasA11y && a11y.reduceAnimations}
+            />
+          </>
+        ) : (
+          <>
+            {page.emoji && <div style={s.emoji}>{page.emoji}</div>}
+            {page.title && <div style={s.pageTitle}>{page.title}</div>}
 
-        {/* Read aloud button */}
-        {isReadAloud && (
-          <div style={{ textAlign: 'center' }}>
-            <button style={s.readBtn} onClick={() => {
-              const parts = [page.title, page.content, page.tip].filter(Boolean)
-              speakText(parts.join('. '))
-            }}>
-              Ecouter cette page
-            </button>
-          </div>
+            {/* Read aloud button */}
+            {isReadAloud && (
+              <div style={{ textAlign: 'center' }}>
+                <button style={s.readBtn} onClick={() => {
+                  const parts = [page.title, page.content, page.tip].filter(Boolean)
+                  speakText(parts.join('. '))
+                }}>
+                  Ecouter cette page
+                </button>
+              </div>
+            )}
+
+            {page.content && <div style={s.content}>{page.content}</div>}
+
+            {page.highlights && (
+              <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+                {page.highlights.map((h, i) => (
+                  <span key={i} style={s.highlight}>{h}</span>
+                ))}
+              </div>
+            )}
+
+            {page.tip && <div style={s.tip}>💡 {page.tip}</div>}
+            {page.example && <div style={s.example}>📝 {page.example}</div>}
+          </>
         )}
-
-        {page.content && <div style={s.content}>{page.content}</div>}
-
-        {page.highlights && (
-          <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-            {page.highlights.map((h, i) => (
-              <span key={i} style={s.highlight}>{h}</span>
-            ))}
-          </div>
-        )}
-
-        {page.tip && <div style={s.tip}>💡 {page.tip}</div>}
-        {page.example && <div style={s.example}>📝 {page.example}</div>}
       </div>
 
       <div style={s.nav}>
@@ -264,7 +285,7 @@ export default function LessonView({ lesson, theme, accessibility, onStartExerci
         ) : <div />}
 
         <div style={s.dots}>
-          {pages.map((_, i) => (
+          {Array.from({ length: totalPages }, (_, i) => (
             <div key={i} style={s.dot(i === currentPage)} />
           ))}
         </div>

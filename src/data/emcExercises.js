@@ -17,6 +17,8 @@ export const emcLevels = [
       { id: 'emc-ce2-1-3', type: 'choice', question: 'A la recreation, tu vois un camarade tout seul sur un banc, les yeux baisses. Que peux-tu faire ?', answer: 'Lui demander ce qui ne va pas et l\'ecouter', options: ['L\'ignorer', 'Lui demander ce qui ne va pas et l\'ecouter', 'Se moquer de lui', 'Le forcer a jouer'], xp: 10 },
       { id: 'emc-ce2-1-4', type: 'choice', question: 'Tu entends a la tele : "Tous les enfants ont le droit d\'aller a l\'ecole." Mais au fait, qu\'est-ce qu\'un droit ?', answer: 'Ce que l\'on peut faire et qui est protege par la loi', options: ['Une punition', 'Ce que l\'on peut faire et qui est protege par la loi', 'Une regle que l\'on peut ignorer', 'Un devoir obligatoire'], xp: 15 },
       { id: 'emc-ce2-1-5', type: 'choice', question: 'Vous preparez les regles de vie pour votre nouvelle classe. Qui doit participer a cette decision ?', answer: 'ensemble, par les eleves et le maitre', options: ['par le directeur seul', 'ensemble, par les eleves et le maitre', 'par les parents', 'par le maire'], xp: 15 },
+      { id: 'emc-ce2-1-fb1', type: 'fill-blank', question: 'Complete avec le bon mot !', sentence: 'En France, tous les enfants ont le ___ d\'aller a l\'ecole.', blanks: ['droit'], wordBank: ['droit', 'devoir', 'pouvoir', 'besoin'], xp: 15 },
+      { id: 'emc-ce2-1-m1', type: 'matching', question: 'Relie chaque symbole de la Republique a sa signification !', pairs: [{ left: 'Le drapeau tricolore', right: 'Bleu, blanc, rouge' }, { left: 'La Marseillaise', right: 'L\'hymne national' }, { left: 'Marianne', right: 'La Republique' }, { left: 'La devise', right: 'Liberte, Egalite, Fraternite' }], xp: 15 },
     ],
   },
   {

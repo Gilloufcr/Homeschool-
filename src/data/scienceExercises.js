@@ -16,6 +16,8 @@ export const scienceLevels = [
       { id: 'sce2-1-3', type: 'choice', question: 'Tu dois garder en vie un hamster pour une experience. De quoi ce petit etre vivant a-t-il besoin pour vivre ?', answer: 'D\'eau, de nourriture, d\'air', options: ['Uniquement de nourriture', 'D\'eau, de nourriture, d\'air', 'Uniquement d\'air', 'De rien'], xp: 10 },
       { id: 'sce2-1-4', type: 'choice', question: 'Tu croises un lezard allonge sur une pierre chaude. Les reptiles a sang froid regulant leur temperature grace a quoi ?', answer: 'au soleil (ils se chauffent sur les pierres)', options: ['a leur fourrure', 'au soleil (ils se chauffent sur les pierres)', 'au feu', 'a la pluie'], xp: 15 },
       { id: 'sce2-1-5', type: 'choice', question: 'Tu plantes une graine dans un pot pour une experience. De quoi a-t-elle besoin pour germer ?', answer: 'eau et chaleur', options: ['lumiere et vent', 'eau et chaleur', 'froid et obscurite', 'terre et feu'], xp: 10 },
+      { id: 'sce2-1-m1', type: 'matching', question: 'Relie chaque animal a son type d\'alimentation !', pairs: [{ left: 'Lion', right: 'Carnivore' }, { left: 'Vache', right: 'Herbivore' }, { left: 'Ours', right: 'Omnivore' }, { left: 'Lapin', right: 'Herbivore' }], xp: 15 },
+      { id: 'sce2-1-o1', type: 'ordering', question: 'Remets les etapes du cycle de l\'eau dans l\'ordre !', items: ['Le soleil chauffe l\'eau', 'L\'eau s\'evapore', 'Les nuages se forment', 'La pluie tombe'], correctOrder: [0, 1, 2, 3], xp: 15 },
     ],
   },
   {

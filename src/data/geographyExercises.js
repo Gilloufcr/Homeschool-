@@ -16,6 +16,8 @@ export const geographyLevels = [
       { id: 'gce2-1-3', type: 'choice', question: 'Tu deploies ta carte d\'explorateur. De quel cote se trouve generalement le Nord ?', answer: 'en haut', options: ['en haut', 'en bas', 'a gauche', 'a droite'], xp: 10 },
       { id: 'gce2-1-4', type: 'choice', question: 'Tu veux savoir combien de kilometres separent deux villes sur ta carte d\'aventurier. Tu utilises...', answer: 'connaitre la distance reelle entre deux points', options: ['peser la carte', 'connaitre la distance reelle entre deux points', 'mesurer la hauteur', 'compter les villes'], xp: 15 },
       { id: 'gce2-1-5', type: 'choice', question: 'Tu survoles ton quartier en drone et tu prends une photo. Le resultat ressemble beaucoup a un...', answer: 'un espace vu de dessus a grande echelle (quartier, ville)', options: ['le monde entier', 'un espace vu de dessus a grande echelle (quartier, ville)', 'un paysage en photo', 'une montagne'], xp: 15 },
+      { id: 'gce2-1-m1', type: 'matching', question: 'Relie chaque pays a sa capitale !', pairs: [{ left: 'France', right: 'Paris' }, { left: 'Espagne', right: 'Madrid' }, { left: 'Italie', right: 'Rome' }, { left: 'Allemagne', right: 'Berlin' }], xp: 15 },
+      { id: 'gce2-1-fb1', type: 'fill-blank', question: 'Complete avec le bon mot !', sentence: 'Sur une carte, le ___ est toujours en haut.', blanks: ['Nord'], wordBank: ['Nord', 'Sud', 'Est', 'Ouest'], xp: 15 },
     ],
   },
   {

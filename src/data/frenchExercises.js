@@ -16,6 +16,8 @@ export const frenchLevels = [
       { id: 'fce2-1-3', type: 'choice', question: 'Apres une grande aventure, le chat du sorcier ___ sur le canape magique. Quel mot manque ?', answer: 'dort', options: ['dort', 'dorment', 'dors', 'dormir'], xp: 10 },
       { id: 'fce2-1-4', type: 'choice', question: 'Dans le jardin secret de la fee, les fleurs ___ a toute vitesse. Quel verbe va ici ?', answer: 'poussent', options: ['pousse', 'poussent', 'pousser', 'pousses'], xp: 10 },
       { id: 'fce2-1-5', type: 'choice', question: 'C\'est la fete chez les lutins ! Tu ___ un gateau geant pour ton anniversaire. Quel verbe ?', answer: 'prepares', options: ['prepare', 'prepares', 'preparent', 'preparez'], xp: 15 },
+      { id: 'fce2-1-fb1', type: 'fill-blank', question: 'Complete la phrase avec le bon mot !', sentence: 'Le verbe s\'accorde toujours avec le ___.', blanks: ['sujet'], wordBank: ['sujet', 'complement', 'adjectif', 'adverbe'], xp: 15 },
+      { id: 'fce2-1-m1', type: 'matching', question: 'Relie chaque mot a son synonyme !', pairs: [{ left: 'content', right: 'heureux' }, { left: 'rapide', right: 'vite' }, { left: 'joli', right: 'beau' }, { left: 'triste', right: 'malheureux' }], xp: 15 },
     ],
   },
   {

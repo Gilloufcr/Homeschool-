@@ -16,6 +16,8 @@ export const mathLevels = [
       { id: 'mce2-1-3', type: 'calculate', question: 'Ton score au jeu est de 5 637 points ! Quel chiffre se trouve a la place des centaines ?', answer: 6, options: [5, 6, 3, 7], xp: 10 },
       { id: 'mce2-1-4', type: 'choice', question: 'Deux fusees parcourent 7 089 km et 7 098 km. Laquelle a voyage le plus loin ?', answer: '7 098', options: ['7 089', '7 098', 'Ils sont egaux', 'On ne peut pas savoir'], xp: 10 },
       { id: 'mce2-1-5', type: 'calculate', question: 'Tu as 3 405 pieces d\'or dans ton coffre. Tu sais que c\'est 3 000 + ___ + 5. Combien manque-t-il au milieu ?', answer: 400, options: [40, 400, 4000, 45], xp: 15 },
+      { id: 'mce2-1-m1', type: 'matching', question: 'Relie chaque operation a son resultat !', pairs: [{ left: '5 + 3', right: '8' }, { left: '10 - 4', right: '6' }, { left: '3 x 3', right: '9' }, { left: '12 / 2', right: '6' }], xp: 15 },
+      { id: 'mce2-1-mm1', type: 'memory', question: 'Retrouve les paires de calculs et resultats !', pairs: [{ front: '7 + 5', back: '12' }, { front: '4 x 3', back: '12' }, { front: '20 - 8', back: '12' }, { front: '9 + 6', back: '15' }], xp: 20 },
     ],
   },
   {

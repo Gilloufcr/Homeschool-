@@ -1,6 +1,12 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import confetti from 'canvas-confetti'
 import { recordExercise } from '../api'
+import MatchingGame from './games/MatchingGame'
+import MemoryGame from './games/MemoryGame'
+import OrderingGame from './games/OrderingGame'
+import FillBlankGame from './games/FillBlankGame'
+
+const GAME_TYPES = { matching: MatchingGame, memory: MemoryGame, ordering: OrderingGame, 'fill-blank': FillBlankGame }
 
 // Highlight keywords in a question string
 function highlightText(text, isMinecraft) {
@@ -40,6 +46,12 @@ export default function ExerciseCard({
   const isMinecraft = theme === 'minecraft'
   const a11y = accessibility || {}
   const hasA11y = a11y.enabled && a11y.profiles?.length > 0
+
+  // Route to game components for interactive exercise types
+  const GameComponent = GAME_TYPES[exercise?.type]
+  if (GameComponent) {
+    return <GameComponent exercise={exercise} theme={theme} onComplete={onComplete} accessibility={accessibility} />
+  }
 
   // Load dyslexic font if needed
   useEffect(() => {

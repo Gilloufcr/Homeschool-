@@ -16,6 +16,8 @@ export const historyLevels = [
       { id: 'hce2-1-3', type: 'choice', question: 'Tu deroules une frise chronologique geante au sol. De quel cote dois-tu aller pour trouver le passe ?', answer: 'A gauche', options: ['A gauche', 'A droite', 'En haut', 'En bas'], xp: 10 },
       { id: 'hce2-1-4', type: 'choice', question: 'Ta machine a voyager dans le temps affiche "XXIe siecle". C\'est bien notre epoque actuelle ?', answer: 'Le XXIe siecle (21e)', options: ['Le XXe siecle (20e)', 'Le XXIe siecle (21e)', 'Le XIXe siecle (19e)', 'Le XXIIe siecle (22e)'], xp: 10 },
       { id: 'hce2-1-5', type: 'choice', question: 'Tu atterris en 1515, juste a temps pour la bataille de Marignan ! Tu es dans quel siecle ?', answer: 'Le XVIe siecle (16e)', options: ['Le XVe siecle (15e)', 'Le XVIe siecle (16e)', 'Le XVIIe siecle (17e)', 'Le XIVe siecle (14e)'], xp: 15 },
+      { id: 'hce2-1-o1', type: 'ordering', question: 'Remets les grandes periodes dans l\'ordre chronologique !', items: ['Prehistoire', 'Antiquite', 'Moyen Age', 'Temps modernes', 'Epoque contemporaine'], correctOrder: [0, 1, 2, 3, 4], xp: 15 },
+      { id: 'hce2-1-m1', type: 'matching', question: 'Relie chaque periode a un evenement celebre !', pairs: [{ left: 'Prehistoire', right: 'Peintures de Lascaux' }, { left: 'Antiquite', right: 'Construction des pyramides' }, { left: 'Moyen Age', right: 'Les chevaliers et chateaux forts' }, { left: 'Temps modernes', right: 'Decouverte de l\'Amerique' }], xp: 15 },
     ],
   },
   {

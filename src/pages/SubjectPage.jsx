@@ -4,6 +4,7 @@ import LessonView from '../components/LessonView'
 import ExerciseCard from '../components/ExerciseCard'
 import XPBar from '../components/XPBar'
 import LanguageResources from '../components/LanguageResources'
+import VideoResources from '../components/VideoResources'
 
 const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack }) => {
   const [selectedLevel, setSelectedLevel] = useState(null)
@@ -93,6 +94,7 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
     geography: 'Geographie',
     science: 'Sciences',
     english: 'Anglais',
+    emc: 'EMC',
   }
 
   // Lesson view
@@ -228,6 +230,8 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
           {(subject === 'english' || subject === 'french') && (
             <LanguageResources subject={subject} levelId={selectedLevel.id} theme={profile.theme} />
           )}
+
+          <VideoResources subject={subject} grade={selectedLevel.grade || profile.grade} theme={profile.theme} />
         </div>
       </div>
     )

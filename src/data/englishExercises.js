@@ -16,6 +16,8 @@ export const englishLevels = [
       { id: 'ece2-1-3', type: 'choice', question: 'You arrive at a British school on your first day. How do you greet everyone? How do you say "Bonjour"?', answer: 'Hello / Good morning', options: ['Goodbye', 'Hello / Good morning', 'Good night', 'Thank you'], xp: 10 },
       { id: 'ece2-1-4', type: 'choice', question: 'You\'re introducing your family to your English friend over video call. How do you say "mon pere"?', answer: 'my father', options: ['my mother', 'my father', 'my uncle', 'my grandfather'], xp: 10 },
       { id: 'ece2-1-5', type: 'choice', question: 'Your English pen pal Emma is introducing herself. Complete her sentence: "My name ___ Emma."', answer: 'is', options: ['is', 'am', 'are', 'has'], xp: 15 },
+      { id: 'ece2-1-m1', type: 'matching', question: 'Match each English word with its French translation!', pairs: [{ left: 'cat', right: 'chat' }, { left: 'dog', right: 'chien' }, { left: 'house', right: 'maison' }, { left: 'school', right: 'ecole' }], xp: 15 },
+      { id: 'ece2-1-mm1', type: 'memory', question: 'Find the matching English-French pairs!', pairs: [{ front: 'hello', back: 'bonjour' }, { front: 'goodbye', back: 'au revoir' }, { front: 'thank you', back: 'merci' }, { front: 'please', back: 's\'il te plait' }], xp: 20 },
     ],
   },
   {
