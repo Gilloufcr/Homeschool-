@@ -31,6 +31,8 @@ export const frenchLevels = [
       { id: 'fce2-2-3', type: 'choice', question: 'Le pirate voit plein de bateaux sur l\'ocean. Comment ecrit-on le pluriel de "bateau" ?', answer: 'bateaux', options: ['bateaus', 'bateaux', 'bateauxs', 'bateau'], xp: 10 },
       { id: 'fce2-2-4', type: 'choice', question: 'Le robot a mal aux genoux apres avoir trop danse. Quel est le pluriel de "genou" ?', answer: 'genoux', options: ['genous', 'genoux', 'genouxs', 'genou'], xp: 15 },
       { id: 'fce2-2-5', type: 'choice', question: 'Dans la foret enchantee, un animal ne change PAS de nom au pluriel. Lequel ?', answer: 'souris', options: ['chat', 'souris', 'chien', 'poule'], xp: 15 },
+      { id: 'fce2-2-o1', type: 'ordering', question: 'Remets les etapes dans l\'ordre pour former le pluriel des noms en -al !', items: ['Prends le mot "journal"', 'Enleve la fin "-al"', 'Ajoute "-aux"', 'Tu obtiens "journaux" !'], correctOrder: ['Prends le mot "journal"', 'Enleve la fin "-al"', 'Ajoute "-aux"', 'Tu obtiens "journaux" !'], xp: 15 },
+      { id: 'fce2-2-mm1', type: 'memory', question: 'Retrouve les paires : singulier et pluriel !', pairs: [{ front: 'cheval', back: 'chevaux' }, { front: 'bateau', back: 'bateaux' }, { front: 'genou', back: 'genoux' }, { front: 'journal', back: 'journaux' }], xp: 20 },
     ],
   },
   {
@@ -44,6 +46,8 @@ export const frenchLevels = [
       { id: 'fce2-3-3', type: 'choice', question: 'Au gouter des super-heros, tu adores le chocolat ___ la vanille. Quel mot les relie ?', answer: 'et', options: ['est', 'et', 'es', 'ai'], xp: 10 },
       { id: 'fce2-3-4', type: 'choice', question: 'Le chat magicien ___ un pelage noir ___ blanc. Quels petits mots manquent ?', answer: 'a ... et', options: ['a ... et', 'à ... est', 'a ... est', 'à ... et'], xp: 15 },
       { id: 'fce2-3-5', type: 'choice', question: 'Le super-heros Papa ___ parti ___ la gare sauver le monde. Quels mots ?', answer: 'est ... à', options: ['est ... à', 'et ... a', 'est ... a', 'et ... à'], xp: 15 },
+      { id: 'fce2-3-fb1', type: 'fill-blank', question: 'Complete avec le bon homophone !', sentence: 'Le dragon ___ tres grand ___ il crache du feu.', blanks: ['est', 'et'], wordBank: ['est', 'et', 'a', 'à'], xp: 15 },
+      { id: 'fce2-3-m1', type: 'matching', question: 'Relie chaque phrase au bon homophone !', pairs: [{ left: 'Elle ___ contente (verbe etre)', right: 'est' }, { left: 'Du pain ___ du beurre (addition)', right: 'et' }, { left: 'Il ___ un chat (verbe avoir)', right: 'a' }, { left: 'Il va ___ la plage (lieu)', right: 'à' }], xp: 15 },
     ],
   },
   {
@@ -57,6 +61,8 @@ export const frenchLevels = [
       { id: 'fce2-4-3', type: 'choice', question: 'Le lutin raconte des histoires ___. Comment accorder cet adjectif ?', answer: 'amusantes', options: ['amusant', 'amusante', 'amusants', 'amusantes'], xp: 10 },
       { id: 'fce2-4-4', type: 'choice', question: 'Le dragon est tres gentil. Sa dragonne est tres... Comment dit-on au feminin ?', answer: 'gentille', options: ['gentile', 'gentille', 'gentie', 'genti'], xp: 15 },
       { id: 'fce2-4-5', type: 'choice', question: 'Dans la foret enchantee, les grands arbres ___ sont magnifiques. Quel accord ?', answer: 'verts', options: ['vert', 'verte', 'verts', 'vertes'], xp: 15 },
+      { id: 'fce2-4-o1', type: 'ordering', question: 'Remets dans l\'ordre pour accorder un adjectif au feminin pluriel !', items: ['Prends l\'adjectif "petit"', 'Ajoute un -e pour le feminin', 'Ajoute un -s pour le pluriel', 'Tu obtiens "petites" !'], correctOrder: ['Prends l\'adjectif "petit"', 'Ajoute un -e pour le feminin', 'Ajoute un -s pour le pluriel', 'Tu obtiens "petites" !'], xp: 15 },
+      { id: 'fce2-4-mm1', type: 'memory', question: 'Retrouve les paires : masculin et feminin des adjectifs !', pairs: [{ front: 'grand', back: 'grande' }, { front: 'heureux', back: 'heureuse' }, { front: 'beau', back: 'belle' }, { front: 'gentil', back: 'gentille' }], xp: 20 },
     ],
   },
   {
@@ -70,6 +76,8 @@ export const frenchLevels = [
       { id: 'fce2-5-3', type: 'choice', question: 'Le detective demande : "Est-ce que tu viens ?" C\'est quel type de phrase ?', answer: 'interrogative', options: ['declarative', 'interrogative', 'exclamative', 'imperative'], xp: 10 },
       { id: 'fce2-5-4', type: 'choice', question: 'Le professeur magicien explique les phrases declaratives. Quelle ponctuation les termine ?', answer: 'Un point .', options: ['Un point .', 'Un point d\'interrogation ?', 'Un point d\'exclamation !', 'Des points de suspension ...'], xp: 10 },
       { id: 'fce2-5-5', type: 'choice', question: 'Le monstre dit "Il mange du gateau." Transforme en phrase negative pour l\'en empecher !', answer: 'Il ne mange pas de gateau.', options: ['Il ne mange pas de gateau.', 'Il mange pas du gateau.', 'Il mange du gateau pas.', 'Il ne mange du gateau.'], xp: 15 },
+      { id: 'fce2-5-fb1', type: 'fill-blank', question: 'Complete avec le bon signe de ponctuation !', sentence: 'Quel beau paysage___', blanks: ['!'], wordBank: ['!', '.', '?', '...'], xp: 15 },
+      { id: 'fce2-5-m1', type: 'matching', question: 'Relie chaque type de phrase a sa ponctuation !', pairs: [{ left: 'Declarative', right: 'Un point .' }, { left: 'Interrogative', right: 'Un point d\'interrogation ?' }, { left: 'Exclamative', right: 'Un point d\'exclamation !' }, { left: 'Imperative', right: 'Un point . ou !' }], xp: 15 },
     ],
   },
 
@@ -85,6 +93,8 @@ export const frenchLevels = [
       { id: 'fcm1-1-3', type: 'choice', question: 'Ton ami t\'invite a la fete. Tu ___ chez lui tout de suite ! (verbe aller, au present)', answer: 'vas', options: ['va', 'vas', 'vais', 'alles'], xp: 10 },
       { id: 'fcm1-1-4', type: 'choice', question: 'Du haut de la tour du chateau, vous ___ un dragon au loin ! (verbe voir, au present)', answer: 'voyez', options: ['voiez', 'voyez', 'voyer', 'voient'], xp: 15 },
       { id: 'fcm1-1-5', type: 'choice', question: 'Tu es un chef cuisinier celebre ! Je ___ un plat special ce soir. (verbe faire, au present)', answer: 'fais', options: ['fais', 'fait', 'fai', 'faisais'], xp: 10 },
+      { id: 'fcm1-1-fb1', type: 'fill-blank', question: 'Conjugue le verbe entre parentheses au present !', sentence: 'Nous ___ (partir) en voyage demain matin.', blanks: ['partons'], wordBank: ['partons', 'partent', 'partes', 'partions'], xp: 15 },
+      { id: 'fcm1-1-m1', type: 'matching', question: 'Relie chaque pronom a la bonne conjugaison du verbe "aller" au present !', pairs: [{ left: 'Je', right: 'vais' }, { left: 'Nous', right: 'allons' }, { left: 'Ils', right: 'vont' }, { left: 'Tu', right: 'vas' }], xp: 15 },
     ],
   },
   {
@@ -98,6 +108,8 @@ export const frenchLevels = [
       { id: 'fcm1-2-3', type: 'choice', question: 'L\'annee prochaine, la bande de copains grandira. Nous ___ plein d\'aventures ! (verbe avoir, au futur)', answer: 'aurons', options: ['avrons', 'aurons', 'aurirons', 'arons'], xp: 15 },
       { id: 'fcm1-2-4', type: 'choice', question: 'Quand j\'etais petit dragon, je ___ des flammes au petit dejeuner ! (verbe manger, a l\'imparfait)', answer: 'mangeais', options: ['mangeais', 'mangais', 'mangeait', 'mangerais'], xp: 10 },
       { id: 'fcm1-2-5', type: 'choice', question: 'La fee a promis de venir demain. Elle ___ avec sa baguette ! (verbe venir, au futur)', answer: 'viendra', options: ['viendra', 'venira', 'viendera', 'venirera'], xp: 15 },
+      { id: 'fcm1-2-o1', type: 'ordering', question: 'Range ces temps du passe au futur !', items: ['imparfait', 'passe compose', 'present', 'futur simple'], correctOrder: ['imparfait', 'passe compose', 'present', 'futur simple'], xp: 15 },
+      { id: 'fcm1-2-mm1', type: 'memory', question: 'Retrouve les paires : verbe au futur et son infinitif !', pairs: [{ front: 'je serai', back: 'etre' }, { front: 'tu auras', back: 'avoir' }, { front: 'il ira', back: 'aller' }, { front: 'nous ferons', back: 'faire' }], xp: 20 },
     ],
   },
   {
@@ -111,6 +123,8 @@ export const frenchLevels = [
       { id: 'fcm1-3-3', type: 'choice', question: 'Au coin lecture : "Marie lit un livre." C\'est l\'heure de trouver le COD !', answer: 'un livre', options: ['Marie', 'lit', 'un livre', 'un'], xp: 10 },
       { id: 'fcm1-3-4', type: 'choice', question: 'Tu es un detective de grammaire. Quelle question magique poses-tu pour trouver le COD ?', answer: 'On pose la question "quoi ?" apres le verbe', options: ['On pose la question "quoi ?" apres le verbe', 'On pose la question "ou ?"', 'On cherche le sujet', 'On regarde le determinant'], xp: 15 },
       { id: 'fcm1-3-5', type: 'choice', question: 'Le voyageur reve : "Il pense a ses vacances." Le groupe "a ses vacances" est quel type de complement ?', answer: 'un COI', options: ['un COD', 'un COI', 'un sujet', 'un adverbe'], xp: 15 },
+      { id: 'fcm1-3-fb1', type: 'fill-blank', question: 'Complete la phrase avec le bon complement !', sentence: 'Pour trouver le COD, je pose la question ___ apres le verbe.', blanks: ['quoi'], wordBank: ['quoi', 'ou', 'quand', 'comment'], xp: 15 },
+      { id: 'fcm1-3-m1', type: 'matching', question: 'Relie chaque phrase a son type de complement souligne !', pairs: [{ left: 'Il mange une pomme', right: 'COD' }, { left: 'Il parle a son ami', right: 'COI' }, { left: 'Il court vite', right: 'CC de maniere' }, { left: 'Il joue au parc', right: 'CC de lieu' }], xp: 15 },
     ],
   },
   {
@@ -124,6 +138,8 @@ export const frenchLevels = [
       { id: 'fcm1-4-3', type: 'choice', question: 'Le superheros est "invisible" ! Le prefixe "in-" lui donne quel pouvoir ?', answer: 'Le contraire (pas visible)', options: ['Le contraire (pas visible)', 'Tres visible', 'A nouveau visible', 'Un peu visible'], xp: 10 },
       { id: 'fcm1-4-4', type: 'choice', question: 'Le pirate cache son tresor sous la terre. Quel mot de la famille de "terre" signifie "mettre sous terre" ?', answer: 'enterrer', options: ['terrasse', 'enterrer', 'terrain', 'atterrir'], xp: 15 },
       { id: 'fcm1-4-5', type: 'choice', question: 'Un "chanteur" participe a un concours de talents. Le suffixe "-eur" indique quoi ?', answer: 'la personne qui fait l\'action', options: ['un objet', 'la personne qui fait l\'action', 'un lieu', 'une qualite'], xp: 15 },
+      { id: 'fcm1-4-o1', type: 'ordering', question: 'Decompose le mot "incroyablement" dans le bon ordre !', items: ['in- (prefixe)', 'croyable (radical)', '-ment (suffixe)', 'Le mot complet : incroyablement'], correctOrder: ['in- (prefixe)', 'croyable (radical)', '-ment (suffixe)', 'Le mot complet : incroyablement'], xp: 15 },
+      { id: 'fcm1-4-mm1', type: 'memory', question: 'Retrouve les paires : prefixe et son sens !', pairs: [{ front: 're-', back: 'a nouveau (refaire)' }, { front: 'in-/im-', back: 'le contraire (impossible)' }, { front: 'de-/des-', back: 'enlever (defaire)' }, { front: 'pre-', back: 'avant (prevoir)' }], xp: 20 },
     ],
   },
   {
@@ -137,6 +153,8 @@ export const frenchLevels = [
       { id: 'fcm1-5-3', type: 'choice', question: 'La fee range ses mots en famille. Quel intrus ne fait PAS partie de la famille de "fleur" ?', answer: 'fleche', options: ['fleuriste', 'fleurir', 'fleche', 'defleurir'], xp: 15 },
       { id: 'fcm1-5-4', type: 'choice', question: 'L\'ogre cherche un autre mot pour dire "maison" car il veut paraitre elegant. Lequel choisir ?', answer: 'demeure', options: ['jardin', 'demeure', 'garage', 'toit'], xp: 10 },
       { id: 'fcm1-5-5', type: 'choice', question: 'Le chateau est ancien, mais la station spatiale est toute neuve. Quel est l\'antonyme de "ancien" ?', answer: 'moderne', options: ['vieux', 'moderne', 'historique', 'antique'], xp: 15 },
+      { id: 'fcm1-5-fb1', type: 'fill-blank', question: 'Complete avec le synonyme qui convient !', sentence: 'Le roi est tres ___ (synonyme de "genereux").', blanks: ['charitable'], wordBank: ['charitable', 'avare', 'mechant', 'timide'], xp: 15 },
+      { id: 'fcm1-5-m1', type: 'matching', question: 'Relie chaque mot a son antonyme !', pairs: [{ left: 'grand', right: 'petit' }, { left: 'rapide', right: 'lent' }, { left: 'courageux', right: 'lache' }, { left: 'genereux', right: 'avare' }], xp: 15 },
     ],
   },
 
@@ -152,6 +170,8 @@ export const frenchLevels = [
       { id: 'fcm2-1-3', type: 'choice', question: 'La princesse attrapa l\'epee magique. Au passe simple : Elle ___ (prendre) la decision de combattre.', answer: 'prit', options: ['prenait', 'prit', 'a pris', 'prend'], xp: 15 },
       { id: 'fcm2-1-4', type: 'choice', question: 'L\'explorateur apercut une ile mysterieuse. Au passe simple : Il ___ (voir) un tresor briller.', answer: 'vit', options: ['voyait', 'vit', 'a vu', 'verra'], xp: 15 },
       { id: 'fcm2-1-5', type: 'choice', question: 'Les aventuriers partirent en expedition. Au passe simple : Ils ___ (aller) dans la jungle.', answer: 'allerent', options: ['allaient', 'allerent', 'sont alles', 'iront'], xp: 20 },
+      { id: 'fcm2-1-fb1', type: 'fill-blank', question: 'Conjugue au passe simple !', sentence: 'Le chevalier ___ (prendre) son epee et ___ (partir) au combat.', blanks: ['prit', 'partit'], wordBank: ['prit', 'partit', 'prenait', 'partait'], xp: 15 },
+      { id: 'fcm2-1-m1', type: 'matching', question: 'Relie chaque verbe a sa forme au passe simple (3e personne) !', pairs: [{ left: 'manger', right: 'il mangea' }, { left: 'finir', right: 'il finit' }, { left: 'prendre', right: 'il prit' }, { left: 'voir', right: 'il vit' }], xp: 15 },
     ],
   },
   {
@@ -165,6 +185,8 @@ export const frenchLevels = [
       { id: 'fcm2-2-3', type: 'choice', question: 'La sorciere fait ses courses. Elle est ___ au marche des potions magiques.', answer: 'allee', options: ['alle', 'allee', 'alles', 'allees'], xp: 15 },
       { id: 'fcm2-2-4', type: 'choice', question: 'Les petits elfes se sont ___ dans la foret enchantee. Comment accorder ?', answer: 'perdus', options: ['perdu', 'perdus', 'perdue', 'perdues'], xp: 15 },
       { id: 'fcm2-2-5', type: 'choice', question: 'Le grimoire de grammaire revele un secret : avec "avoir", le participe passe s\'accorde avec quoi ?', answer: 'le COD place avant le verbe', options: ['le sujet', 'le COD place avant le verbe', 'le COI', 'rien du tout'], xp: 20 },
+      { id: 'fcm2-2-o1', type: 'ordering', question: 'Remets les etapes dans l\'ordre pour accorder un participe passe avec "etre" !', items: ['Identifie le sujet', 'Verifie le genre (masculin/feminin)', 'Verifie le nombre (singulier/pluriel)', 'Accorde le participe passe'], correctOrder: ['Identifie le sujet', 'Verifie le genre (masculin/feminin)', 'Verifie le nombre (singulier/pluriel)', 'Accorde le participe passe'], xp: 15 },
+      { id: 'fcm2-2-mm1', type: 'memory', question: 'Retrouve les paires : participe passe et son accord !', pairs: [{ front: 'Elle est (partir)', back: 'partie' }, { front: 'Ils sont (venir)', back: 'venus' }, { front: 'Elles sont (tomber)', back: 'tombees' }, { front: 'Il est (naitre)', back: 'ne' }], xp: 20 },
     ],
   },
   {
@@ -178,6 +200,8 @@ export const frenchLevels = [
       { id: 'fcm2-3-3', type: 'choice', question: 'Dans un film d\'action a la voix passive, qui fait vraiment l\'action ?', answer: 'Le complement d\'agent', options: ['Le sujet', 'Le complement d\'agent', 'Le COD', 'L\'adverbe'], xp: 15 },
       { id: 'fcm2-3-4', type: 'choice', question: 'Enquete : "La lettre a ete ecrite par Marie." Qui est le complement d\'agent dans cette histoire ?', answer: 'par Marie', options: ['La lettre', 'a ete ecrite', 'par Marie', 'ecrite'], xp: 15 },
       { id: 'fcm2-3-5', type: 'choice', question: 'Defi du ninja : trouve la phrase a la voix active parmi ces choix !', answer: 'Le vent souffle fort.', options: ['La porte est ouverte par le vent.', 'Le gateau est prepare par maman.', 'Le vent souffle fort.', 'Le match est gagne par l\'equipe.'], xp: 10 },
+      { id: 'fcm2-3-fb1', type: 'fill-blank', question: 'Transforme a la voix passive !', sentence: '"Le chat attrape la souris" devient : "La souris est ___ par le chat."', blanks: ['attrapee'], wordBank: ['attrapee', 'attrape', 'attrapes', 'attrapees'], xp: 15 },
+      { id: 'fcm2-3-m1', type: 'matching', question: 'Relie chaque phrase active a sa version passive !', pairs: [{ left: 'Le lion mange la gazelle', right: 'La gazelle est mangee par le lion' }, { left: 'Les eleves lisent le livre', right: 'Le livre est lu par les eleves' }, { left: 'Marie ecrit une lettre', right: 'Une lettre est ecrite par Marie' }, { left: 'Le vent pousse les nuages', right: 'Les nuages sont pousses par le vent' }], xp: 15 },
     ],
   },
   {
@@ -191,6 +215,8 @@ export const frenchLevels = [
       { id: 'fcm2-4-3', type: 'choice', question: 'Le heros hesite entre deux portes. Tu viens ___ tu restes ? Quel mot pour choisir ?', answer: 'ou', options: ['ou', 'où', 'out', 'oui'], xp: 10 },
       { id: 'fcm2-4-4', type: 'choice', question: 'L\'aventurier raconte son voyage. C\'est la ville ___ je suis ne. Quel mot pour le lieu ?', answer: 'où', options: ['ou', 'où', 'out', 'hou'], xp: 15 },
       { id: 'fcm2-4-5', type: 'choice', question: 'Le conseil des sorciers discute. ___ sont des problemes importants. Quel mot en debut de phrase ?', answer: 'Ce', options: ['Se', 'Ce', 'Ceux', 'Ces'], xp: 15 },
+      { id: 'fcm2-4-o1', type: 'ordering', question: 'Range ces astuces pour distinguer ou/ou dans le bon ordre !', items: ['Lis la phrase avec le mot "ou"', 'Essaie de remplacer par "ou bien"', 'Si ca marche, c\'est "ou" (choix)', 'Sinon c\'est "ou" avec accent (lieu)'], correctOrder: ['Lis la phrase avec le mot "ou"', 'Essaie de remplacer par "ou bien"', 'Si ca marche, c\'est "ou" (choix)', 'Sinon c\'est "ou" avec accent (lieu)'], xp: 15 },
+      { id: 'fcm2-4-mm1', type: 'memory', question: 'Retrouve les paires : homophone et sa nature !', pairs: [{ front: 'se (il se lave)', back: 'pronom personnel' }, { front: 'ce (ce livre)', back: 'determinant demonstratif' }, { front: 'ou (choix)', back: 'conjonction de coordination' }, { front: 'ou (lieu)', back: 'pronom relatif / adverbe' }], xp: 20 },
     ],
   },
   {
@@ -204,6 +230,8 @@ export const frenchLevels = [
       { id: 'fcm2-5-3', type: 'choice', question: 'Dans la nuit, "le vent murmure" des secrets. Quelle figure donne vie au vent ?', answer: 'Une personnification', options: ['Une comparaison', 'Une metaphore', 'Une hyperbole', 'Une personnification'], xp: 15 },
       { id: 'fcm2-5-4', type: 'choice', question: 'Le heros exagere : "j\'ai mille choses a faire !" C\'est quelle figure de style ?', answer: 'Une hyperbole', options: ['Une comparaison', 'Une metaphore', 'Une hyperbole', 'Une personnification'], xp: 15 },
       { id: 'fcm2-5-5', type: 'choice', question: 'Le poete compare deux choses. Quel mot magique introduit une comparaison ?', answer: 'comme', options: ['mais', 'comme', 'donc', 'car'], xp: 10 },
+      { id: 'fcm2-5-fb1', type: 'fill-blank', question: 'Complete avec la bonne figure de style !', sentence: '"Le vent hurle dans la nuit" est une ___ car on donne une action humaine au vent.', blanks: ['personnification'], wordBank: ['personnification', 'comparaison', 'metaphore', 'hyperbole'], xp: 15 },
+      { id: 'fcm2-5-m1', type: 'matching', question: 'Relie chaque phrase a sa figure de style !', pairs: [{ left: 'Il court comme le vent', right: 'Comparaison' }, { left: 'Cet homme est un lion', right: 'Metaphore' }, { left: 'La mer chante', right: 'Personnification' }, { left: 'J\'ai mille choses a faire', right: 'Hyperbole' }], xp: 15 },
     ],
   },
 
@@ -219,6 +247,8 @@ export const frenchLevels = [
       { id: 'f6e-1-3', type: 'choice', question: 'Un sorcier parle de "le chat" magique. Le petit mot "le" est quoi exactement ?', answer: 'un determinant (article defini)', options: ['un pronom', 'un determinant (article defini)', 'un adverbe', 'une preposition'], xp: 15 },
       { id: 'f6e-1-4', type: 'choice', question: 'La fee se cache "dans" la maison. Ce petit mot "dans" est quoi ?', answer: 'une preposition', options: ['un adverbe', 'un nom', 'une preposition', 'une conjonction'], xp: 15 },
       { id: 'f6e-1-5', type: 'choice', question: 'Le heros annonce : "Il mange" le gateau magique. Le mot "Il" est quoi ?', answer: 'un pronom personnel', options: ['un nom', 'un determinant', 'un pronom personnel', 'un adverbe'], xp: 10 },
+      { id: 'f6e-1-fb1', type: 'fill-blank', question: 'Complete avec la bonne classe grammaticale !', sentence: 'Dans "Le grand chat noir dort paisiblement", le mot "paisiblement" est un ___.', blanks: ['adverbe'], wordBank: ['adverbe', 'adjectif', 'nom', 'verbe'], xp: 15 },
+      { id: 'f6e-1-m1', type: 'matching', question: 'Relie chaque mot a sa classe grammaticale !', pairs: [{ left: 'rapidement', right: 'adverbe' }, { left: 'magnifique', right: 'adjectif' }, { left: 'dans', right: 'preposition' }, { left: 'le', right: 'determinant' }], xp: 15 },
     ],
   },
   {
@@ -232,6 +262,8 @@ export const frenchLevels = [
       { id: 'f6e-2-3', type: 'choice', question: 'La sirene chante "bien" pour enchanter les marins. Quelle est la fonction de "bien" ?', answer: 'CC de maniere', options: ['COD', 'CC de lieu', 'CC de maniere', 'Attribut'], xp: 15 },
       { id: 'f6e-2-4', type: 'choice', question: '"Le livre que j\'ai lu est passionnant" dit l\'elfe. Dans cette phrase, "que" est :', answer: 'un pronom relatif', options: ['une conjonction', 'un pronom relatif', 'une preposition', 'un adverbe'], xp: 15 },
       { id: 'f6e-2-5', type: 'choice', question: 'Le grimoire revele un secret : l\'attribut du sujet se trouve apres quel type de verbe ?', answer: 'un verbe d\'etat (etre, paraitre, sembler...)', options: ['un verbe d\'action', 'un verbe d\'etat (etre, paraitre, sembler...)', 'un COD', 'un adverbe'], xp: 20 },
+      { id: 'f6e-2-o1', type: 'ordering', question: 'Analyse cette phrase dans le bon ordre : "Hier, Marie a lu un livre au parc."', items: ['Hier = CC de temps', 'Marie = sujet', 'a lu = verbe', 'un livre = COD', 'au parc = CC de lieu'], correctOrder: ['Hier = CC de temps', 'Marie = sujet', 'a lu = verbe', 'un livre = COD', 'au parc = CC de lieu'], xp: 15 },
+      { id: 'f6e-2-mm1', type: 'memory', question: 'Retrouve les paires : fonction et question a poser !', pairs: [{ front: 'COD', back: 'quoi ? / qui ?' }, { front: 'COI', back: 'a qui ? / de quoi ?' }, { front: 'CC de lieu', back: 'ou ?' }, { front: 'CC de temps', back: 'quand ?' }], xp: 20 },
     ],
   },
   {
@@ -245,6 +277,8 @@ export const frenchLevels = [
       { id: 'f6e-3-3', type: 'choice', question: 'Le coach du tournoi crie : "Il faut que tu ___ le meilleur !" (verbe etre, subjonctif)', answer: 'sois', options: ['es', 'sois', 'seras', 'soit'], xp: 15 },
       { id: 'f6e-3-4', type: 'choice', question: 'Le subjonctif est un mode special. Apres quel mot magique l\'utilise-t-on souvent ?', answer: 'que (il faut que, je veux que...)', options: ['si', 'que (il faut que, je veux que...)', 'quand', 'comme'], xp: 15 },
       { id: 'f6e-3-5', type: 'choice', question: 'Les fees doivent s\'entrainer. "Il faut qu\'elles ___ du courage !" (verbe avoir, subjonctif)', answer: 'aient', options: ['ont', 'aient', 'auront', 'avaient'], xp: 15 },
+      { id: 'f6e-3-fb1', type: 'fill-blank', question: 'Conjugue au subjonctif present !', sentence: 'Il faut que nous ___ (faire) nos devoirs avant de jouer.', blanks: ['fassions'], wordBank: ['fassions', 'faisons', 'ferons', 'ferions'], xp: 15 },
+      { id: 'f6e-3-m1', type: 'matching', question: 'Relie chaque verbe a sa forme au subjonctif present (que je...) !', pairs: [{ left: 'etre', right: 'que je sois' }, { left: 'avoir', right: 'que j\'aie' }, { left: 'aller', right: 'que j\'aille' }, { left: 'faire', right: 'que je fasse' }], xp: 15 },
     ],
   },
   {
@@ -258,6 +292,8 @@ export const frenchLevels = [
       { id: 'f6e-4-3', type: 'choice', question: 'Les anciens racontaient des mythes au coin du feu. A quoi sert un recit fondateur ?', answer: 'expliquer l\'origine du monde ou d\'un peuple', options: ['amuser les enfants', 'expliquer l\'origine du monde ou d\'un peuple', 'decrire un paysage', 'donner des recettes'], xp: 15 },
       { id: 'f6e-4-4', type: 'choice', question: 'Un deluge terrible menace le monde ! Quel heros biblique construit une arche pour sauver les animaux ?', answer: 'Noe', options: ['Moise', 'Noe', 'Abraham', 'David'], xp: 10 },
       { id: 'f6e-4-5', type: 'choice', question: 'Tu ecris un roman et ton narrateur sait TOUT, meme les pensees secretes des personnages. C\'est un narrateur :', answer: 'sait tout sur les personnages, meme leurs pensees', options: ['ne sait rien', 'sait tout sur les personnages, meme leurs pensees', 'est un personnage de l\'histoire', 'raconte au present'], xp: 20 },
+      { id: 'f6e-4-o1', type: 'ordering', question: 'Remets les epreuves d\'Ulysse dans le bon ordre !', items: ['Depart de Troie', 'Le Cyclope Polypheme', 'Les Sirenes', 'Retour a Ithaque'], correctOrder: ['Depart de Troie', 'Le Cyclope Polypheme', 'Les Sirenes', 'Retour a Ithaque'], xp: 15 },
+      { id: 'f6e-4-mm1', type: 'memory', question: 'Retrouve les paires : heros mythologique et son exploit !', pairs: [{ front: 'Ulysse', back: 'Le voyage de retour (Odyssee)' }, { front: 'Hercule', back: 'Les 12 travaux' }, { front: 'Thesee', back: 'A vaincu le Minotaure' }, { front: 'Noe', back: 'A construit l\'arche' }], xp: 20 },
     ],
   },
   {
@@ -271,6 +307,8 @@ export const frenchLevels = [
       { id: 'f6e-5-3', type: 'choice', question: 'Dans ton roman, tout le monde "dit" tout le temps. C\'est ennuyeux ! Quels verbes utiliser a la place ?', answer: 'murmura, s\'exclama, declara', options: ['dit, dit, dit', 'murmura, s\'exclama, declara', 'pensa, regarda, marcha', 'mangea, dormit, courut'], xp: 10 },
       { id: 'f6e-5-4', type: 'choice', question: 'Tu veux presenter ton personnage au lecteur. Un portrait decrit quoi exactement ?', answer: 'l\'aspect physique et/ou le caractere d\'un personnage', options: ['un paysage', 'l\'aspect physique et/ou le caractere d\'un personnage', 'une action', 'un lieu'], xp: 15 },
       { id: 'f6e-5-5', type: 'choice', question: 'Le heros explique pourquoi il est parti. Quel connecteur exprime la cause ?', answer: 'parce que / car', options: ['donc', 'parce que / car', 'mais', 'ensuite'], xp: 15 },
+      { id: 'f6e-5-fb1', type: 'fill-blank', question: 'Complete avec le bon verbe de parole !', sentence: '"Au secours !" ___ le chevalier effraye.', blanks: ['s\'ecria'], wordBank: ['s\'ecria', 'murmura', 'chuchota', 'expliqua'], xp: 15 },
+      { id: 'f6e-5-m1', type: 'matching', question: 'Relie chaque element narratif a sa description !', pairs: [{ left: 'Situation initiale', right: 'Presentation du cadre et des personnages' }, { left: 'Element perturbateur', right: 'Evenement qui bouleverse l\'equilibre' }, { left: 'Peripeties', right: 'Actions et aventures du heros' }, { left: 'Denouement', right: 'Resolution du probleme' }], xp: 15 },
     ],
   },
 
@@ -286,6 +324,8 @@ export const frenchLevels = [
       { id: 'f5e-1-3', type: 'choice', question: 'Le magicien des mots revele : quels mots introduisent une proposition relative ?', answer: 'qui, que, dont, ou', options: ['quand, si, parce que', 'qui, que, dont, ou', 'car, donc, or', 'mais, ou, et'], xp: 15 },
       { id: 'f5e-1-4', type: 'choice', question: 'L\'aventuriere hesite : "Je me demande s\'il viendra." Sa phrase contient quel type de proposition ?', answer: 'une interrogative indirecte', options: ['une relative', 'une conjonctive', 'une interrogative indirecte', 'une exclamative'], xp: 20 },
       { id: 'f5e-1-5', type: 'choice', question: 'Dans l\'arbre des phrases, la proposition principale est la branche maitresse. Elle se reconnait comment ?', answer: 'peut exister seule et dont depend la subordonnee', options: ['est introduite par "que"', 'peut exister seule et dont depend la subordonnee', 'est toujours en debut de phrase', 'contient un adverbe'], xp: 15 },
+      { id: 'f5e-1-fb1', type: 'fill-blank', question: 'Complete avec le bon pronom relatif !', sentence: 'Le livre ___ je t\'ai parle est passionnant.', blanks: ['dont'], wordBank: ['dont', 'que', 'qui', 'ou'], xp: 15 },
+      { id: 'f5e-1-m1', type: 'matching', question: 'Relie chaque pronom relatif a sa fonction dans la subordonnee !', pairs: [{ left: 'qui', right: 'sujet' }, { left: 'que', right: 'COD' }, { left: 'dont', right: 'complement du nom / COI' }, { left: 'ou', right: 'complement de lieu ou temps' }], xp: 15 },
     ],
   },
   {
@@ -299,6 +339,8 @@ export const frenchLevels = [
       { id: 'f5e-2-3', type: 'choice', question: 'Si tu avais une baguette magique, tu changerais tout ! Je ___ le plus grand sorcier. (verbe etre, conditionnel present)', answer: 'serais', options: ['serais', 'serai', 'suis', 'etais'], xp: 15 },
       { id: 'f5e-2-4', type: 'choice', question: 'Le genie de la lampe te demande : le conditionnel sert a exprimer quoi ?', answer: 'un souhait, une hypothese ou une politesse', options: ['une certitude', 'un souhait, une hypothese ou une politesse', 'un ordre', 'le passe'], xp: 15 },
       { id: 'f5e-2-5', type: 'choice', question: 'Le professeur du temps revele la formule secrete : le plus-que-parfait se forme comment ?', answer: 'avoir/etre a l\'imparfait + participe passe', options: ['avoir/etre au present + participe passe', 'avoir/etre a l\'imparfait + participe passe', 'avoir/etre au futur + participe passe', 'avoir/etre au passe simple + participe passe'], xp: 20 },
+      { id: 'f5e-2-o1', type: 'ordering', question: 'Range ces temps composes du plus ancien au plus recent !', items: ['Plus-que-parfait', 'Passe compose', 'Present', 'Futur anterieur'], correctOrder: ['Plus-que-parfait', 'Passe compose', 'Present', 'Futur anterieur'], xp: 15 },
+      { id: 'f5e-2-mm1', type: 'memory', question: 'Retrouve les paires : conditionnel et son usage !', pairs: [{ front: 'Je voudrais un cafe', back: 'Politesse' }, { front: 'Si j\'avais des ailes, je volerais', back: 'Hypothese' }, { front: 'J\'aimerais voyager', back: 'Souhait' }, { front: 'Il serait parti hier', back: 'Information non confirmee' }], xp: 20 },
     ],
   },
   {
@@ -312,6 +354,8 @@ export const frenchLevels = [
       { id: 'f5e-3-3', type: 'choice', question: 'Dans un conte epique, le passe simple sert a raconter les actions. Quelle est sa valeur ?', answer: 'Actions de premier plan (ponctuelles)', options: ['Description', 'Habitude', 'Actions de premier plan (ponctuelles)', 'Commentaire'], xp: 15 },
       { id: 'f5e-3-4', type: 'choice', question: 'Le reveur soupire : "Si j\'avais des ailes, je volerais." L\'imparfait exprime quoi dans cette phrase ?', answer: 'une hypothese irreelle', options: ['une habitude', 'une description', 'une hypothese irreelle', 'un fait passe'], xp: 20 },
       { id: 'f5e-3-5', type: 'choice', question: 'Un auteur ecrit son histoire au passe, puis soudain utilise le present ! Le present de narration sert a quoi ?', answer: 'rendre un recit passe plus vivant', options: ['parler du futur', 'rendre un recit passe plus vivant', 'decrire un paysage', 'exprimer une opinion'], xp: 15 },
+      { id: 'f5e-3-fb1', type: 'fill-blank', question: 'Identifie la valeur du temps !', sentence: '"Chaque ete, nous allions a la mer." L\'imparfait exprime ici une ___.', blanks: ['habitude'], wordBank: ['habitude', 'description', 'hypothese', 'action unique'], xp: 15 },
+      { id: 'f5e-3-m1', type: 'matching', question: 'Relie chaque valeur du present a son exemple !', pairs: [{ left: 'Verite generale', right: 'La Terre tourne autour du Soleil' }, { left: 'Present de narration', right: 'Soudain, le chevalier leve son epee' }, { left: 'Habitude', right: 'Je me leve a 7h chaque matin' }, { left: 'Present d\'enonciation', right: 'En ce moment, je lis un livre' }], xp: 15 },
     ],
   },
   {
@@ -325,6 +369,8 @@ export const frenchLevels = [
       { id: 'f5e-4-3', type: 'choice', question: 'Le poete arrange ses rimes en mode ABBA. On appelle ca une rime embrassee. Comment ca marche ?', answer: 'Les rimes se croisent : vers 1 avec 4, vers 2 avec 3', options: ['Vers 1 avec 2, vers 3 avec 4', 'Les rimes se croisent : vers 1 avec 4, vers 2 avec 3', 'Tous les vers riment ensemble', 'Aucune rime'], xp: 20 },
       { id: 'f5e-4-4', type: 'choice', question: 'Victor Hugo adorait les alexandrins. Un alexandrin, c\'est un vers de combien de syllabes ?', answer: '12 syllabes', options: ['8 syllabes', '10 syllabes', '12 syllabes', '14 syllabes'], xp: 10 },
       { id: 'f5e-4-5', type: 'choice', question: 'Tu ecris ta propre histoire d\'aventure. Quelles sont les 5 grandes etapes du recit ?', answer: 'Situation initiale, perturbateur, peripeties, denouement, situation finale', options: ['Debut, milieu, fin, epilogue, moral', 'Situation initiale, perturbateur, peripeties, denouement, situation finale', 'Introduction, these, antithese, synthese, conclusion', 'Acte 1, 2, 3, 4, 5'], xp: 15 },
+      { id: 'f5e-4-o1', type: 'ordering', question: 'Remets les etapes du schema narratif dans le bon ordre !', items: ['Situation initiale', 'Element perturbateur', 'Peripeties', 'Denouement', 'Situation finale'], correctOrder: ['Situation initiale', 'Element perturbateur', 'Peripeties', 'Denouement', 'Situation finale'], xp: 15 },
+      { id: 'f5e-4-mm1', type: 'memory', question: 'Retrouve les paires : forme poetique et sa definition !', pairs: [{ front: 'Sonnet', back: '14 vers (2 quatrains + 2 tercets)' }, { front: 'Alexandrin', back: 'Vers de 12 syllabes' }, { front: 'Rime embrassee (ABBA)', back: 'Vers 1 avec 4, vers 2 avec 3' }, { front: 'Quatrain', back: 'Strophe de 4 vers' }], xp: 20 },
     ],
   },
   {
@@ -338,6 +384,8 @@ export const frenchLevels = [
       { id: 'f5e-5-3', type: 'choice', question: 'L\'avocat des dragons defend sa cause. Dans un texte argumentatif, la these c\'est quoi ?', answer: 'l\'idee defendue par l\'auteur', options: ['un exemple', 'l\'idee defendue par l\'auteur', 'la conclusion', 'le titre'], xp: 15 },
       { id: 'f5e-5-4', type: 'choice', question: 'Pour gagner le debat, il te faut des arguments solides. Un argument, c\'est quoi exactement ?', answer: 'une raison qui soutient la these', options: ['un exemple concret', 'une raison qui soutient la these', 'un fait divers', 'une citation'], xp: 15 },
       { id: 'f5e-5-5', type: 'choice', question: 'Le scientifique explique le resultat de son experience. Quel connecteur exprime la consequence ?', answer: 'donc / ainsi / par consequent', options: ['car / parce que', 'mais / cependant', 'donc / ainsi / par consequent', 'de plus / en outre'], xp: 15 },
+      { id: 'f5e-5-fb1', type: 'fill-blank', question: 'Complete avec le bon connecteur logique !', sentence: 'Il pleut, ___ je prends mon parapluie.', blanks: ['donc'], wordBank: ['donc', 'car', 'mais', 'de plus'], xp: 15 },
+      { id: 'f5e-5-m1', type: 'matching', question: 'Relie chaque connecteur logique a sa fonction !', pairs: [{ left: 'car / parce que', right: 'Cause' }, { left: 'donc / par consequent', right: 'Consequence' }, { left: 'mais / cependant', right: 'Opposition' }, { left: 'de plus / en outre', right: 'Addition' }], xp: 15 },
     ],
   },
 ]

@@ -33,6 +33,8 @@ export const englishLevels = [
       { id: 'ece2-2-3', type: 'choice', question: 'You look up at the sky on a sunny day in England (yes, it happens!). What color is the sky?', answer: 'blue', options: ['red', 'blue', 'green', 'yellow'], xp: 10 },
       { id: 'ece2-2-4', type: 'choice', question: 'You\'re counting in English during a game. You say "seventeen" and the next player must say...', answer: 'eighteen', options: ['sixteen', 'eighteen', 'nineteen', 'twenty'], xp: 10 },
       { id: 'ece2-2-5', type: 'choice', question: 'You\'re describing your cat to your English friend. Your cat is all dark, like the night. How do you say "noir"?', answer: 'black', options: ['white', 'black', 'brown', 'grey'], xp: 10 },
+      { id: 'ece2-2-mm1', type: 'memory', question: 'Find the matching color pairs: English and French!', pairs: [{ front: 'red', back: 'rouge' }, { front: 'blue', back: 'bleu' }, { front: 'green', back: 'vert' }, { front: 'yellow', back: 'jaune' }], xp: 20 },
+      { id: 'ece2-2-fb1', type: 'fill-blank', question: 'Complete with the right number word!', sentence: 'There are ___ days in a week.', blanks: ['seven'], wordBank: ['five', 'six', 'seven', 'eight'], xp: 15 },
     ],
   },
   {
@@ -46,6 +48,8 @@ export const englishLevels = [
       { id: 'ece2-3-3', type: 'choice', question: 'You\'re ordering a sandwich in New York. You want "du pain" as the base. What is it in English?', answer: 'bread', options: ['butter', 'bread', 'cheese', 'milk'], xp: 10 },
       { id: 'ece2-3-4', type: 'choice', question: 'Your British friend shivers and says "I don\'t like spiders!" What does she mean?', answer: 'Je n\'aime pas les araignees', options: ['J\'aime les araignees', 'Je n\'aime pas les araignees', 'J\'ai une araignee', 'Les araignees sont grandes'], xp: 15 },
       { id: 'ece2-3-5', type: 'choice', question: 'You spot a tiny mouse in the garden, then another one! Now there are two... What is the plural of "mouse"?', answer: 'mice', options: ['mouses', 'mice', 'mices', 'mouse'], xp: 15 },
+      { id: 'ece2-3-m1', type: 'matching', question: 'Match each animal with its English name!', pairs: [{ left: 'chat', right: 'cat' }, { left: 'chien', right: 'dog' }, { left: 'oiseau', right: 'bird' }, { left: 'poisson', right: 'fish' }], xp: 15 },
+      { id: 'ece2-3-s1', type: 'speaking', question: 'Repete apres moi - les animaux en anglais', words: ['cat', 'dog', 'bird', 'fish', 'rabbit'], audioLang: 'en-US', xp: 15 },
     ],
   },
   {
@@ -59,6 +63,8 @@ export const englishLevels = [
       { id: 'ece2-4-3', type: 'choice', question: 'You\'re telling your pen pal about your favorite season: sunshine, swimming, ice cream! How do you say "ete"?', answer: 'summer', options: ['spring', 'summer', 'autumn', 'winter'], xp: 10 },
       { id: 'ece2-4-4', type: 'choice', question: 'You\'re planning your weekend trip to a British castle. School ends on Friday. What day comes next?', answer: 'Saturday', options: ['Thursday', 'Saturday', 'Sunday', 'Monday'], xp: 10 },
       { id: 'ece2-4-5', type: 'choice', question: 'You\'re decorating the Christmas tree with your host family in England. In which month is Christmas?', answer: 'December', options: ['November', 'December', 'January', 'October'], xp: 10 },
+      { id: 'ece2-4-mm1', type: 'memory', question: 'Find the matching pairs: days of the week!', pairs: [{ front: 'Monday', back: 'lundi' }, { front: 'Wednesday', back: 'mercredi' }, { front: 'Friday', back: 'vendredi' }, { front: 'Sunday', back: 'dimanche' }], xp: 20 },
+      { id: 'ece2-4-fb1', type: 'fill-blank', question: 'Complete with the right month!', sentence: 'Christmas is in ___.', blanks: ['December'], wordBank: ['November', 'December', 'January', 'October'], xp: 15 },
     ],
   },
   {
@@ -72,6 +78,8 @@ export const englishLevels = [
       { id: 'ece2-5-3', type: 'choice', question: 'The teacher says "Open your book" to the class. What is she asking you to do?', answer: 'Ouvre ton livre', options: ['Ferme ton livre', 'Ouvre ton livre', 'Lis ton livre', 'Ecris dans ton livre'], xp: 10 },
       { id: 'ece2-5-4', type: 'choice', question: 'You\'re learning a song about the body in English class. Your teacher points at her "eyes." What is "les yeux" in English?', answer: 'eyes', options: ['ears', 'eyes', 'hands', 'arms'], xp: 10 },
       { id: 'ece2-5-5', type: 'choice', question: 'In PE class, the British teacher shouts "Stand up!" What does she want you to do?', answer: 'Leve-toi !', options: ['Assieds-toi !', 'Leve-toi !', 'Tais-toi !', 'Ecoute !'], xp: 15 },
+      { id: 'ece2-5-m1', type: 'matching', question: 'Match each body part with its English name!', pairs: [{ left: 'tete', right: 'head' }, { left: 'main', right: 'hand' }, { left: 'pied', right: 'foot' }, { left: 'bras', right: 'arm' }], xp: 15 },
+      { id: 'ece2-5-l1', type: 'listening', question: 'Ecoute et reponds aux questions', audioText: 'In my pencil case, I have two pencils, one rubber, three pens and a ruler. My favourite colour is blue.', audioLang: 'en-US', questions: [{ q: 'How many pencils are there?', answer: 'Two', options: ['One', 'Two', 'Three', 'Four'] }, { q: 'What is the favourite colour?', answer: 'Blue', options: ['Red', 'Green', 'Blue', 'Yellow'] }], xp: 20 },
     ],
   },
 
@@ -87,6 +95,8 @@ export const englishLevels = [
       { id: 'ecm1-1-3', type: 'choice', question: 'You\'re at a British cafe and someone offers you coffee. You don\'t want it! Make it negative: "I like coffee."', answer: 'I don\'t like coffee.', options: ['I don\'t like coffee.', 'I no like coffee.', 'I not like coffee.', 'I likes not coffee.'], xp: 15 },
       { id: 'ecm1-1-4', type: 'choice', question: 'You meet a tourist in Paris and want to ask if they speak English. Complete: "___ you speak English?"', answer: 'Do', options: ['Do', 'Does', 'Are', 'Is'], xp: 10 },
       { id: 'ecm1-1-5', type: 'choice', question: 'You\'re writing a story about your cat for English class. Complete: "My cat ___ fish."', answer: 'likes', options: ['like', 'likes', 'liking', 'is like'], xp: 10 },
+      { id: 'ecm1-1-m1', type: 'matching', question: 'Match each verb with its correct present simple form (he/she)!', pairs: [{ left: 'play', right: 'plays' }, { left: 'go', right: 'goes' }, { left: 'watch', right: 'watches' }, { left: 'study', right: 'studies' }], xp: 15 },
+      { id: 'ecm1-1-l1', type: 'listening', question: 'Ecoute et reponds aux questions', audioText: 'Tom wakes up at seven o\'clock. He has breakfast with his sister. Then he walks to school. He likes maths and science.', audioLang: 'en-US', questions: [{ q: 'What time does Tom wake up?', answer: 'Seven o\'clock', options: ['Six o\'clock', 'Seven o\'clock', 'Eight o\'clock', 'Nine o\'clock'] }, { q: 'What subjects does he like?', answer: 'Maths and science', options: ['English and art', 'Maths and science', 'History and music', 'French and sport'] }], xp: 20 },
     ],
   },
   {
@@ -100,6 +110,8 @@ export const englishLevels = [
       { id: 'ecm1-2-3', type: 'choice', question: 'Your host family asks what you\'re doing. You\'re reading a Harry Potter book! Complete: "I ___ reading a book right now."', answer: 'am', options: ['is', 'are', 'am', 'do'], xp: 10 },
       { id: 'ecm1-2-4', type: 'choice', question: 'You\'re writing a postcard from a pool party in California. Your friend is in the pool! What is the -ing form of "swim"?', answer: 'swimming', options: ['swiming', 'swimming', 'swimeing', 'swimmng'], xp: 15 },
       { id: 'ecm1-2-5', type: 'choice', question: 'You\'re walking in London and suddenly you need your umbrella! Complete: "Look! It ___ raining!"', answer: 'is', options: ['is', 'are', 'does', 'has'], xp: 10 },
+      { id: 'ecm1-2-mm1', type: 'memory', question: 'Find the matching pairs: verb and its -ing form!', pairs: [{ front: 'run', back: 'running' }, { front: 'swim', back: 'swimming' }, { front: 'dance', back: 'dancing' }, { front: 'read', back: 'reading' }], xp: 20 },
+      { id: 'ecm1-2-fb1', type: 'fill-blank', question: 'Complete with the right word!', sentence: 'She ___ reading a book right now.', blanks: ['is'], wordBank: ['is', 'are', 'am', 'do'], xp: 15 },
     ],
   },
   {
@@ -113,6 +125,8 @@ export const englishLevels = [
       { id: 'ecm1-3-3', type: 'choice', question: 'Your English host explains his morning: "I wake up at 7 o\'clock." What does that mean?', answer: 'Je me reveille a 7 heures', options: ['Je dors a 7 heures', 'Je me reveille a 7 heures', 'Je mange a 7 heures', 'Je pars a 7 heures'], xp: 10 },
       { id: 'ecm1-3-4', type: 'choice', question: 'You\'re staying with a British family. In the morning, they say "Time to have breakfast!" What does that mean?', answer: 'Je prends le petit-dejeuner', options: ['Je prends le dejeuner', 'Je prends le petit-dejeuner', 'Je prends le diner', 'Je prends le gouter'], xp: 10 },
       { id: 'ecm1-3-5', type: 'choice', question: 'You look at Big Ben and it shows 2:10. In English, that\'s "ten past two." What time is that?', answer: '2h10', options: ['2h10', '2h20', '10h02', '2h50'], xp: 15 },
+      { id: 'ecm1-3-m1', type: 'matching', question: 'Match each time expression with its meaning!', pairs: [{ left: 'half past three', right: '3h30' }, { left: 'quarter to five', right: '4h45' }, { left: 'ten past two', right: '2h10' }, { left: 'quarter past one', right: '1h15' }], xp: 15 },
+      { id: 'ecm1-3-s1', type: 'speaking', question: 'Repete apres moi - l\'heure en anglais', words: ['It is three o\'clock', 'Half past four', 'Quarter to six', 'Ten past seven'], audioLang: 'en-US', xp: 15 },
     ],
   },
   {
@@ -126,6 +140,8 @@ export const englishLevels = [
       { id: 'ecm1-4-3', type: 'choice', question: 'You\'re packing for your trip to England and you need "des chaussures." What is that in English?', answer: 'shoes', options: ['socks', 'shoes', 'shorts', 'shirts'], xp: 10 },
       { id: 'ecm1-4-4', type: 'choice', question: 'You\'re describing your friend to a lost tourist. You say: "He has brown hair and blue eyes." What does that mean?', answer: 'Il a les cheveux marron et les yeux bleus', options: ['Il a les cheveux bleus et les yeux marron', 'Il a les cheveux marron et les yeux bleus', 'Il a les cheveux noirs', 'Il a les yeux verts'], xp: 15 },
       { id: 'ecm1-4-5', type: 'choice', question: 'You\'re shopping at a British store and you need "un pantalon." What do you ask for?', answer: 'trousers', options: ['a shirt', 'a skirt', 'trousers', 'a dress'], xp: 10 },
+      { id: 'ecm1-4-mm1', type: 'memory', question: 'Find the matching pairs: clothes in English and French!', pairs: [{ front: 'shoes', back: 'chaussures' }, { front: 'trousers', back: 'pantalon' }, { front: 'hat', back: 'chapeau' }, { front: 'dress', back: 'robe' }], xp: 20 },
+      { id: 'ecm1-4-fb1', type: 'fill-blank', question: 'Complete with the right word!', sentence: 'He has brown ___ and blue eyes.', blanks: ['hair'], wordBank: ['hair', 'hairs', 'head', 'hat'], xp: 15 },
     ],
   },
   {
@@ -139,6 +155,8 @@ export const englishLevels = [
       { id: 'ecm1-5-3', type: 'choice', question: 'You see a piano at your host family\'s house. They ask: "Can you play the piano?" What are they asking?', answer: 'Sais-tu jouer du piano ?', options: ['Joues-tu du piano ?', 'Sais-tu jouer du piano ?', 'Aimes-tu le piano ?', 'As-tu un piano ?'], xp: 15 },
       { id: 'ecm1-5-4', type: 'choice', question: 'Your English friends are pretending to be superheroes. You say you can\'t fly! How do you say "je ne peux pas voler" in English?', answer: 'I can\'t fly', options: ['I can fly', 'I can\'t fly', 'I don\'t fly', 'I am not fly'], xp: 10 },
       { id: 'ecm1-5-5', type: 'choice', question: 'You meet a French boy at an international school. Someone asks about him. Complete: "___ he speak French?" "Yes, he ___."', answer: 'Can ... can', options: ['Can ... can', 'Does ... does', 'Is ... is', 'Do ... do'], xp: 15 },
+      { id: 'ecm1-5-m1', type: 'matching', question: 'Match each sentence with its meaning!', pairs: [{ left: 'I can swim', right: 'Je sais nager' }, { left: 'I can\'t fly', right: 'Je ne peux pas voler' }, { left: 'Can you dance?', right: 'Sais-tu danser ?' }, { left: 'She can sing', right: 'Elle sait chanter' }], xp: 15 },
+      { id: 'ecm1-5-l1', type: 'listening', question: 'Ecoute et reponds aux questions', audioText: 'My name is Anna. I can play the piano and I can sing. But I can\'t play football. My brother can play football but he can\'t swim.', audioLang: 'en-US', questions: [{ q: 'What can Anna do?', answer: 'Play piano and sing', options: ['Play football', 'Play piano and sing', 'Swim', 'Dance'] }, { q: 'What can\'t her brother do?', answer: 'Swim', options: ['Play football', 'Sing', 'Swim', 'Run'] }], xp: 20 },
     ],
   },
 
@@ -154,6 +172,8 @@ export const englishLevels = [
       { id: 'ecm2-1-3', type: 'choice', question: 'You write in your diary about a stroll through Hyde Park. What is the past of "walk"?', answer: 'walked', options: ['walked', 'walkt', 'walking', 'walkd'], xp: 10 },
       { id: 'ecm2-1-4', type: 'choice', question: 'Your mom asks if you watched TV last night but you didn\'t! Make it negative: "I watched TV."', answer: 'I didn\'t watch TV.', options: ['I didn\'t watch TV.', 'I not watched TV.', 'I don\'t watched TV.', 'I no watch TV.'], xp: 15 },
       { id: 'ecm2-1-5', type: 'choice', question: 'You\'re asking your English friend about last summer\'s holidays. Complete: "___ you visit London last year?"', answer: 'Did', options: ['Do', 'Did', 'Does', 'Was'], xp: 15 },
+      { id: 'ecm2-1-m1', type: 'matching', question: 'Match each verb with its past tense!', pairs: [{ left: 'play', right: 'played' }, { left: 'walk', right: 'walked' }, { left: 'finish', right: 'finished' }, { left: 'watch', right: 'watched' }], xp: 15 },
+      { id: 'ecm2-1-l1', type: 'listening', question: 'Ecoute et reponds aux questions', audioText: 'Yesterday, I visited the museum with my class. We looked at old paintings and we learned about history. I liked the dinosaur room the most!', audioLang: 'en-US', questions: [{ q: 'Where did the class go?', answer: 'The museum', options: ['The zoo', 'The museum', 'The park', 'The cinema'] }, { q: 'What room did the speaker like most?', answer: 'The dinosaur room', options: ['The painting room', 'The dinosaur room', 'The history room', 'The gift shop'] }], xp: 20 },
     ],
   },
   {
@@ -167,6 +187,8 @@ export const englishLevels = [
       { id: 'ecm2-2-3', type: 'choice', question: 'You spotted the Queen\'s guards at Buckingham Palace! You tell your friend: "I ___ them!" What is the past of "see"?', answer: 'saw', options: ['seed', 'saw', 'seen', 'sawed'], xp: 15 },
       { id: 'ecm2-2-4', type: 'choice', question: 'You\'re writing about your amazing English breakfast this morning. What is the past of "have"?', answer: 'had', options: ['haved', 'had', 'has', 'having'], xp: 10 },
       { id: 'ecm2-2-5', type: 'choice', question: 'You grabbed your camera to photograph Tower Bridge. What is the past of "take"?', answer: 'took', options: ['taked', 'took', 'taken', 'taking'], xp: 15 },
+      { id: 'ecm2-2-mm1', type: 'memory', question: 'Find the matching pairs: irregular verbs!', pairs: [{ front: 'go', back: 'went' }, { front: 'eat', back: 'ate' }, { front: 'see', back: 'saw' }, { front: 'take', back: 'took' }], xp: 20 },
+      { id: 'ecm2-2-fb1', type: 'fill-blank', question: 'Complete with the right past tense!', sentence: 'Yesterday, I ___ to the park with my friends.', blanks: ['went'], wordBank: ['go', 'went', 'going', 'gone'], xp: 15 },
     ],
   },
   {
@@ -180,6 +202,8 @@ export const englishLevels = [
       { id: 'ecm2-3-3', type: 'choice', question: 'You\'re picking the champion in a talent show. You need the superlative of "good" to describe the winner!', answer: 'the best', options: ['the goodest', 'the best', 'the better', 'the most good'], xp: 15 },
       { id: 'ecm2-3-4', type: 'choice', question: 'You\'re comparing yourself with your brother for a funny family photo. Complete: "She is ___ than her brother."', answer: 'taller', options: ['taller', 'tallest', 'more tall', 'tall'], xp: 10 },
       { id: 'ecm2-3-5', type: 'choice', question: 'You\'re reviewing a terrible movie with your English friends. What is the comparative of "bad"?', answer: 'worse', options: ['badder', 'worse', 'more bad', 'baddest'], xp: 20 },
+      { id: 'ecm2-3-m1', type: 'matching', question: 'Match each adjective with its comparative form!', pairs: [{ left: 'big', right: 'bigger' }, { left: 'good', right: 'better' }, { left: 'bad', right: 'worse' }, { left: 'beautiful', right: 'more beautiful' }], xp: 15 },
+      { id: 'ecm2-3-s1', type: 'speaking', question: 'Repete apres moi - les comparatifs', words: ['bigger', 'smaller', 'more beautiful', 'better', 'worse'], audioLang: 'en-US', xp: 15 },
     ],
   },
   {
@@ -193,6 +217,8 @@ export const englishLevels = [
       { id: 'ecm2-4-3', type: 'choice', question: 'You\'re lost in London and a friendly person gives you directions: "Turn left." What does that mean?', answer: 'Tourne a gauche', options: ['Tourne a droite', 'Tourne a gauche', 'Va tout droit', 'Fais demi-tour'], xp: 10 },
       { id: 'ecm2-4-4', type: 'choice', question: 'You\'re decorating your room in your English host family\'s house. You hang a poster. Complete: "The picture is ___ the wall."', answer: 'on', options: ['in', 'on', 'at', 'under'], xp: 10 },
       { id: 'ecm2-4-5', type: 'choice', question: 'A tourist in London asks you for directions to Big Ben. You point ahead and say: "Go straight ahead." What does that mean?', answer: 'Va tout droit', options: ['Tourne a gauche', 'Va tout droit', 'Fais demi-tour', 'Arrete-toi'], xp: 10 },
+      { id: 'ecm2-4-mm1', type: 'memory', question: 'Find the matching pairs: prepositions!', pairs: [{ front: 'under', back: 'sous' }, { front: 'between', back: 'entre' }, { front: 'next to', back: 'a cote de' }, { front: 'in front of', back: 'devant' }], xp: 20 },
+      { id: 'ecm2-4-fb1', type: 'fill-blank', question: 'Complete with the right preposition!', sentence: 'The cat is ___ the table.', blanks: ['under'], wordBank: ['under', 'at', 'to', 'from'], xp: 15 },
     ],
   },
   {
@@ -206,6 +232,8 @@ export const englishLevels = [
       { id: 'ecm2-5-3', type: 'choice', question: 'You want to email your French friend about your English school day. How do you say "Apres l\'ecole, je fais mes devoirs"?', answer: 'After school, I do my homework.', options: ['After school, I do my homework.', 'Before school, I do my homework.', 'At school, I do my homework.', 'After school, I make my homework.'], xp: 15 },
       { id: 'ecm2-5-4', type: 'choice', question: 'Your host sister\'s alarm goes off at 6 AM every day! Someone says: "She gets up early." What does that mean?', answer: 'Elle se leve tot', options: ['Elle se couche tot', 'Elle se leve tot', 'Elle se leve tard', 'Elle va vite'], xp: 10 },
       { id: 'ecm2-5-5', type: 'choice', question: 'You\'re planning fun activities with your English friends for Saturday and Sunday. How do you say "le week-end"?', answer: 'at the weekend / on weekends', options: ['in the weekend', 'at the weekend / on weekends', 'for weekend', 'to the weekend'], xp: 15 },
+      { id: 'ecm2-5-m1', type: 'matching', question: 'Match each daily routine phrase!', pairs: [{ left: 'wake up', right: 'se reveiller' }, { left: 'have breakfast', right: 'prendre le petit-dejeuner' }, { left: 'go to bed', right: 'aller se coucher' }, { left: 'do homework', right: 'faire ses devoirs' }], xp: 15 },
+      { id: 'ecm2-5-l1', type: 'listening', question: 'Ecoute et reponds aux questions', audioText: 'Every morning, I wake up at seven. I have breakfast with my family. After school, I do my homework. I usually go to bed at nine.', audioLang: 'en-US', questions: [{ q: 'What time does the speaker wake up?', answer: 'Seven', options: ['Six', 'Seven', 'Eight', 'Nine'] }, { q: 'What time does the speaker go to bed?', answer: 'Nine', options: ['Seven', 'Eight', 'Nine', 'Ten'] }], xp: 20 },
     ],
   },
 
@@ -221,6 +249,8 @@ export const englishLevels = [
       { id: 'e6e-1-3', type: 'choice', question: 'You\'re babysitting in an English family. The baby is asleep! Complete: "Be quiet! The baby ___."', answer: 'is sleeping', options: ['sleeps', 'is sleeping', 'sleep', 'sleeping'], xp: 15 },
       { id: 'e6e-1-4', type: 'choice', question: 'You describe your daily study habit to your new English teacher. Complete: "I ___ English every day."', answer: 'study', options: ['am studying', 'study', 'studies', 'studying'], xp: 10 },
       { id: 'e6e-1-5', type: 'choice', question: 'Your teacher asks a tricky question during the grammar quiz. We use present continuous for:', answer: 'actions happening right now', options: ['habits and routines', 'actions happening right now', 'future plans only', 'past events'], xp: 15 },
+      { id: 'e6e-1-m1', type: 'matching', question: 'Match each sentence with the correct tense!', pairs: [{ left: 'She dances every day', right: 'Present simple (habitude)' }, { left: 'She is dancing now', right: 'Present continuous (en cours)' }, { left: 'He plays on Sundays', right: 'Present simple (habitude)' }, { left: 'He is playing right now', right: 'Present continuous (en cours)' }], xp: 15 },
+      { id: 'e6e-1-l1', type: 'listening', question: 'Ecoute et reponds aux questions', audioText: 'Right now, Sarah is cooking dinner. She usually cooks at six o\'clock. Her brother is watching TV in the living room. He always watches cartoons after school.', audioLang: 'en-US', questions: [{ q: 'What is Sarah doing right now?', answer: 'Cooking dinner', options: ['Watching TV', 'Cooking dinner', 'Reading', 'Sleeping'] }, { q: 'What does her brother always watch?', answer: 'Cartoons', options: ['Movies', 'News', 'Cartoons', 'Sports'] }], xp: 20 },
     ],
   },
   {
@@ -234,6 +264,8 @@ export const englishLevels = [
       { id: 'e6e-2-3', type: 'choice', question: 'You\'re getting to know your English pen pal and asking about their family. Complete: "How ___ brothers do you have?"', answer: 'many', options: ['much', 'many', 'some', 'any'], xp: 10 },
       { id: 'e6e-2-4', type: 'choice', question: 'You\'re baking a cake with your host family. The recipe says to add sugar. Complete: "How ___ sugar do you want?"', answer: 'much', options: ['much', 'many', 'some', 'any'], xp: 10 },
       { id: 'e6e-2-5', type: 'choice', question: 'You walk into the school library and see books everywhere! Complete: "There are ___ books on the table."', answer: 'some', options: ['some', 'any', 'much', 'a'], xp: 10 },
+      { id: 'e6e-2-mm1', type: 'memory', question: 'Find the matching pairs: quantifiers and their usage!', pairs: [{ front: 'some', back: 'phrases affirmatives' }, { front: 'any', back: 'phrases negatives/questions' }, { front: 'much', back: 'noms indenombrables' }, { front: 'many', back: 'noms denombrables' }], xp: 20 },
+      { id: 'e6e-2-fb1', type: 'fill-blank', question: 'Complete with the right quantifier!', sentence: 'There isn\'t ___ milk in the fridge.', blanks: ['any'], wordBank: ['some', 'any', 'much', 'many'], xp: 15 },
     ],
   },
   {
@@ -247,6 +279,8 @@ export const englishLevels = [
       { id: 'e6e-3-3', type: 'choice', question: 'Your English teacher reminds you before the weekend: "I have to do my homework." What does that mean?', answer: 'Je dois faire mes devoirs', options: ['J\'ai mes devoirs', 'Je dois faire mes devoirs', 'J\'aime mes devoirs', 'Je fais mes devoirs'], xp: 10 },
       { id: 'e6e-3-4', type: 'choice', question: 'Your friend invites you to a party but says: "You don\'t have to come." Is it an obligation or not?', answer: 'Tu n\'es pas oblige de venir', options: ['Tu ne dois pas venir (interdit)', 'Tu n\'es pas oblige de venir', 'Tu ne viens pas', 'Tu peux venir'], xp: 20 },
       { id: 'e6e-3-5', type: 'choice', question: 'Tricky grammar challenge! Your teacher asks the difference between "mustn\'t" and "don\'t have to." What is it?', answer: 'Mustn\'t = interdit / Don\'t have to = pas oblige', options: ['Aucune difference', 'Mustn\'t = interdit / Don\'t have to = pas oblige', 'Mustn\'t = passe / Don\'t have to = present', 'Mustn\'t = poli / Don\'t have to = impoli'], xp: 20 },
+      { id: 'e6e-3-m1', type: 'matching', question: 'Match each modal verb with its meaning!', pairs: [{ left: 'must', right: 'obligation' }, { left: 'mustn\'t', right: 'interdiction' }, { left: 'have to', right: 'obligation exterieure' }, { left: 'don\'t have to', right: 'pas oblige' }], xp: 15 },
+      { id: 'e6e-3-s1', type: 'speaking', question: 'Repete apres moi - les obligations', words: ['You must wear a helmet', 'You mustn\'t run', 'I have to study', 'You don\'t have to come'], audioLang: 'en-US', xp: 15 },
     ],
   },
   {
@@ -260,6 +294,8 @@ export const englishLevels = [
       { id: 'e6e-4-3', type: 'choice', question: 'Your class has already planned a celebration. Complete: "We ___ have a party on Saturday." (plan decided)', answer: 'are going to', options: ['will', 'are going to', 'go', 'shall'], xp: 15 },
       { id: 'e6e-4-4', type: 'choice', question: 'Your friend drops their books and you spontaneously offer help: "I\'ll help you!" This expresses:', answer: 'une decision spontanee', options: ['un plan decide', 'une decision spontanee', 'une habitude', 'une obligation'], xp: 15 },
       { id: 'e6e-4-5', type: 'choice', question: 'You\'re writing about your dreams for the future in English class. Complete: "She ___ be a doctor when she grows up."', answer: 'wants to', options: ['will to', 'wants to', 'going', 'wills'], xp: 10 },
+      { id: 'e6e-4-mm1', type: 'memory', question: 'Find the matching pairs: future expressions!', pairs: [{ front: 'will', back: 'decision spontanee' }, { front: 'going to', back: 'plan decide' }, { front: 'I\'ll help you', back: 'offre spontanee' }, { front: 'I\'m going to travel', back: 'intention planifiee' }], xp: 20 },
+      { id: 'e6e-4-fb1', type: 'fill-blank', question: 'Complete with the right word!', sentence: 'Look at the clouds! It ___ going to rain.', blanks: ['is'], wordBank: ['is', 'will', 'are', 'does'], xp: 15 },
     ],
   },
   {
@@ -273,6 +309,8 @@ export const englishLevels = [
       { id: 'e6e-5-3', type: 'choice', question: 'You arrive in London and notice something surprising about the traffic! In England, people drive on the:', answer: 'left side', options: ['right side', 'left side', 'middle', 'same as France'], xp: 10 },
       { id: 'e6e-5-4', type: 'choice', question: 'Your American friend invites you to a big family dinner with turkey in November. What is "Thanksgiving"?', answer: 'An American holiday in November', options: ['A British holiday', 'An American holiday in November', 'A school holiday', 'Christmas Eve'], xp: 15 },
       { id: 'e6e-5-5', type: 'choice', question: 'Your British friend says "I\'m so excited about the trip!" She looks happy, not angry! "Excited" means:', answer: 'enthousiaste / impatient', options: ['excite (enerve)', 'enthousiaste / impatient', 'fatigue', 'triste'], xp: 15 },
+      { id: 'e6e-5-m1', type: 'matching', question: 'Match each false friend with its real meaning!', pairs: [{ left: 'actually', right: 'en fait' }, { left: 'library', right: 'bibliotheque' }, { left: 'excited', right: 'enthousiaste' }, { left: 'sensible', right: 'raisonnable' }], xp: 15 },
+      { id: 'e6e-5-l1', type: 'listening', question: 'Ecoute et reponds aux questions', audioText: 'In England, people drive on the left side of the road. They love tea and often have it with milk. The Queen lived in Buckingham Palace in London.', audioLang: 'en-US', questions: [{ q: 'Which side do English people drive on?', answer: 'The left side', options: ['The right side', 'The left side', 'The middle', 'Both sides'] }, { q: 'How do they often have their tea?', answer: 'With milk', options: ['With lemon', 'With milk', 'With sugar only', 'Black'] }], xp: 20 },
     ],
   },
 
@@ -288,6 +326,8 @@ export const englishLevels = [
       { id: 'e5e-1-3', type: 'choice', question: 'You\'re chatting with your pen pal about food experiences. Complete: "Have you ever ___ sushi?"', answer: 'eaten', options: ['eat', 'ate', 'eaten', 'eating'], xp: 15 },
       { id: 'e5e-1-4', type: 'choice', question: 'Your friend recommends an amazing film but you haven\'t watched it. Complete: "I haven\'t seen that film ___."', answer: 'yet', options: ['already', 'yet', 'ever', 'never'], xp: 15 },
       { id: 'e5e-1-5', type: 'choice', question: 'Grammar quiz time! Your teacher asks: how is the present perfect formed?', answer: 'have/has + past participle', options: ['did + verb', 'have/has + past participle', 'be + -ing', 'will + verb'], xp: 10 },
+      { id: 'e5e-1-m1', type: 'matching', question: 'Match each present perfect sentence with its meaning!', pairs: [{ left: 'I have been to London', right: 'Je suis alle a Londres' }, { left: 'She has never eaten sushi', right: 'Elle n\'a jamais mange de sushi' }, { left: 'Have you ever seen a whale?', right: 'As-tu deja vu une baleine ?' }, { left: 'He hasn\'t finished yet', right: 'Il n\'a pas encore fini' }], xp: 15 },
+      { id: 'e5e-1-l1', type: 'listening', question: 'Ecoute et reponds aux questions', audioText: 'I have visited three countries: France, Spain and Italy. I have never been to England but I want to go next year. My sister has already been there twice.', audioLang: 'en-US', questions: [{ q: 'How many countries has the speaker visited?', answer: 'Three', options: ['Two', 'Three', 'Four', 'Five'] }, { q: 'How many times has the sister been to England?', answer: 'Twice', options: ['Once', 'Twice', 'Three times', 'Never'] }], xp: 20 },
     ],
   },
   {
@@ -301,6 +341,8 @@ export const englishLevels = [
       { id: 'e5e-2-3', type: 'choice', question: 'You\'re describing what you were doing at a specific time yesterday. Complete: "At 8 pm yesterday, I ___ dinner."', answer: 'was having', options: ['had', 'was having', 'have', 'am having'], xp: 15 },
       { id: 'e5e-2-4', type: 'choice', question: 'Your teacher draws a timeline on the board. We use past continuous for:', answer: 'an action in progress in the past', options: ['a completed action', 'an action in progress in the past', 'a future plan', 'a habit'], xp: 15 },
       { id: 'e5e-2-5', type: 'choice', question: 'Spooky story time! You write: "While she ___ reading, the lights went out." Complete with the right word.', answer: 'was', options: ['is', 'was', 'were', 'has been'], xp: 10 },
+      { id: 'e5e-2-mm1', type: 'memory', question: 'Find the matching pairs: past continuous forms!', pairs: [{ front: 'I was reading', back: 'Je lisais' }, { front: 'They were playing', back: 'Ils jouaient' }, { front: 'She was sleeping', back: 'Elle dormait' }, { front: 'We were eating', back: 'Nous mangions' }], xp: 20 },
+      { id: 'e5e-2-fb1', type: 'fill-blank', question: 'Complete with the right word!', sentence: 'While I ___ watching TV, the phone rang.', blanks: ['was'], wordBank: ['was', 'were', 'am', 'is'], xp: 15 },
     ],
   },
   {
@@ -314,6 +356,8 @@ export const englishLevels = [
       { id: 'e5e-3-3', type: 'choice', question: 'In the middle of class, you raise your hand and ask: "May I go to the bathroom?" This expresses:', answer: 'une demande de permission', options: ['une capacite', 'une demande de permission', 'un conseil', 'une obligation'], xp: 15 },
       { id: 'e5e-3-4', type: 'choice', question: 'Your host family gives you advice before a big test: "You shouldn\'t stay up late." What does that mean?', answer: 'Tu ne devrais pas te coucher tard', options: ['Tu ne peux pas te coucher tard', 'Tu ne devrais pas te coucher tard', 'Tu ne dois pas te coucher tard', 'Tu ne vas pas te coucher tard'], xp: 15 },
       { id: 'e5e-3-5', type: 'choice', question: 'Bonus grammar question! "Could" is also the past tense of which modal verb?', answer: 'can', options: ['must', 'can', 'will', 'shall'], xp: 10 },
+      { id: 'e5e-3-m1', type: 'matching', question: 'Match each modal with its function!', pairs: [{ left: 'should', right: 'conseil' }, { left: 'could', right: 'demande polie / possibilite' }, { left: 'may', right: 'permission' }, { left: 'shouldn\'t', right: 'deconseiller' }], xp: 15 },
+      { id: 'e5e-3-s1', type: 'speaking', question: 'Repete apres moi - les modaux', words: ['You should study more', 'Could you help me please?', 'May I sit here?', 'You shouldn\'t eat too much sugar'], audioLang: 'en-US', xp: 15 },
     ],
   },
   {
@@ -327,6 +371,8 @@ export const englishLevels = [
       { id: 'e5e-4-3', type: 'choice', question: 'You\'re learning the "if" rule in grammar. In "If + present, ... will," the "if" clause uses which tense?', answer: 'present simple', options: ['future', 'present simple', 'past simple', 'present perfect'], xp: 15 },
       { id: 'e5e-4-4', type: 'choice', question: 'You want to pass a message to your friend through someone. Complete: "If I see her, I ___ tell her."', answer: 'will', options: ['would', 'will', 'am', 'might to'], xp: 15 },
       { id: 'e5e-4-5', type: 'choice', question: 'Your strict English teacher writes on the board: "Study or you\'ll fail." Rewrite it with "if":', answer: 'If you don\'t study, you\'ll fail.', options: ['If you study, you\'ll fail.', 'If you don\'t study, you\'ll fail.', 'If you studied, you would fail.', 'If you had studied, you wouldn\'t fail.'], xp: 20 },
+      { id: 'e5e-4-mm1', type: 'memory', question: 'Find the matching pairs: conditional sentences!', pairs: [{ front: 'If it rains', back: 'we will stay home' }, { front: 'If you study', back: 'you will pass' }, { front: 'If I see her', back: 'I will tell her' }, { front: 'If we hurry', back: 'we won\'t be late' }], xp: 20 },
+      { id: 'e5e-4-fb1', type: 'fill-blank', question: 'Complete with the right word!', sentence: 'If it rains tomorrow, we ___ stay home.', blanks: ['will'], wordBank: ['will', 'would', 'are', 'should'], xp: 15 },
     ],
   },
   {
@@ -340,6 +386,8 @@ export const englishLevels = [
       { id: 'e5e-5-3', type: 'choice', question: 'You\'re writing an essay and want to introduce your personal view. "In my opinion, ..." is used to:', answer: 'introduce a personal point of view', options: ['give an order', 'introduce a personal point of view', 'ask a question', 'describe a place'], xp: 15 },
       { id: 'e5e-5-4', type: 'choice', question: 'You disagree with your friend about the best movie. You say: "I disagree because..." What does that mean?', answer: 'Je ne suis pas d\'accord parce que...', options: ['Je suis d\'accord parce que...', 'Je ne suis pas d\'accord parce que...', 'Je ne sais pas parce que...', 'J\'aime bien parce que...'], xp: 15 },
       { id: 'e5e-5-5', type: 'choice', question: 'You\'re shopping at a British market and want to know the price of a souvenir. "How much is it?" means:', answer: 'Combien ca coute ?', options: ['C\'est quoi ?', 'Combien ca coute ?', 'Ou est-ce ?', 'Qu\'est-ce que c\'est ?'], xp: 10 },
+      { id: 'e5e-5-m1', type: 'matching', question: 'Match each opinion expression with its French translation!', pairs: [{ left: 'I think that...', right: 'Je pense que...' }, { left: 'I agree', right: 'Je suis d\'accord' }, { left: 'I disagree', right: 'Je ne suis pas d\'accord' }, { left: 'In my opinion', right: 'A mon avis' }], xp: 15 },
+      { id: 'e5e-5-l1', type: 'listening', question: 'Ecoute et reponds aux questions', audioText: 'In my opinion, school uniforms are a good idea. I think they help students feel equal. However, some people disagree. They believe students should choose their own clothes.', audioLang: 'en-US', questions: [{ q: 'What does the speaker think about school uniforms?', answer: 'They are a good idea', options: ['They are bad', 'They are a good idea', 'They are ugly', 'They are too expensive'] }, { q: 'Why do some people disagree?', answer: 'Students should choose their clothes', options: ['Uniforms are expensive', 'Students should choose their clothes', 'Uniforms are uncomfortable', 'Schools don\'t need rules'] }], xp: 20 },
     ],
   },
 ]

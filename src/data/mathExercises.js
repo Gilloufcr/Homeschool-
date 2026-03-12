@@ -31,6 +31,8 @@ export const mathLevels = [
       { id: 'mce2-2-3', type: 'calculate', question: 'Ton equipe a recolte 2 365 pommes lundi et 1 478 mardi. Combien de pommes au total ?', answer: 3843, options: [3843, 3743, 3943, 3833], xp: 15 },
       { id: 'mce2-2-4', type: 'calculate', question: 'Tu as 250 billes dans ta collection. Tu en donnes 87 a ton meilleur ami. Combien t\'en reste-t-il ?', answer: 163, options: [163, 173, 153, 337], xp: 15 },
       { id: 'mce2-2-5', type: 'calculate', question: 'Tu as economise 5 000 pieces pour acheter un velo a 1 234 pieces. Combien te reste-t-il apres l\'achat ?', answer: 3766, options: [3766, 3876, 3666, 3776], xp: 20 },
+      { id: 'mce2-2-o1', type: 'ordering', question: 'Range ces additions du plus petit resultat au plus grand !', items: ['123 + 45', '200 + 150', '99 + 99', '310 + 250'], correctOrder: ['123 + 45', '99 + 99', '200 + 150', '310 + 250'], xp: 15 },
+      { id: 'mce2-2-fb1', type: 'fill-blank', question: 'Complete le calcul manquant !', sentence: '487 + ___ = 843', blanks: ['356'], wordBank: ['356', '456', '346', '366'], xp: 15 },
     ],
   },
   {
@@ -44,6 +46,8 @@ export const mathLevels = [
       { id: 'mce2-3-3', type: 'calculate', question: 'Tu prepares 8 assiettes avec 4 cookies sur chacune. Combien de cookies as-tu prepares ?', answer: 32, options: [28, 32, 36, 24], xp: 10 },
       { id: 'mce2-3-4', type: 'calculate', question: 'Tu achetes 7 paquets de cartes Pokemon. Chaque paquet contient 6 cartes. Combien de cartes as-tu ?', answer: 42, options: [36, 42, 48, 13], xp: 15 },
       { id: 'mce2-3-5', type: 'calculate', question: 'Tu veux ranger 72 figurines dans des boites de 9. Combien de boites te faut-il ?', answer: 8, options: [7, 8, 9, 6], xp: 15 },
+      { id: 'mce2-3-m1', type: 'matching', question: 'Relie chaque multiplication a son resultat !', pairs: [{ left: '6 x 7', right: '42' }, { left: '8 x 5', right: '40' }, { left: '9 x 4', right: '36' }, { left: '7 x 8', right: '56' }], xp: 15 },
+      { id: 'mce2-3-mm1', type: 'memory', question: 'Retrouve les paires : multiplications et leurs resultats !', pairs: [{ front: '3 x 9', back: '27' }, { front: '6 x 6', back: '36' }, { front: '4 x 7', back: '28' }, { front: '5 x 8', back: '40' }], xp: 20 },
     ],
   },
   {
@@ -57,6 +61,8 @@ export const mathLevels = [
       { id: 'mce2-4-3', type: 'choice', question: 'Tu achetes une BD a 8€ et un stylo a 3€ a la librairie. Tu payes avec un billet de 20€. Combien te rend-on ?', answer: '9 euros', options: ['9 euros', '11 euros', '7 euros', '12 euros'], xp: 15 },
       { id: 'mce2-4-4', type: 'calculate', question: 'Ta recette de gateau demande 2 kilogrammes de farine. Combien de grammes dois-tu peser ?', answer: 2000, options: [200, 2000, 20, 20000], xp: 10 },
       { id: 'mce2-4-5', type: 'choice', question: 'Le match de foot commence a 15h et il est 14h45. Dans combien de minutes le match va-t-il commencer ?', answer: '15 minutes', options: ['15 minutes', '45 minutes', '30 minutes', '10 minutes'], xp: 15 },
+      { id: 'mce2-4-o1', type: 'ordering', question: 'Range ces longueurs de la plus petite a la plus grande !', items: ['50 cm', '2 m', '1 km', '150 cm'], correctOrder: ['50 cm', '150 cm', '2 m', '1 km'], xp: 15 },
+      { id: 'mce2-4-fb1', type: 'fill-blank', question: 'Complete avec la bonne unite de mesure !', sentence: 'Un crayon mesure environ 15 ___.', blanks: ['cm'], wordBank: ['cm', 'km', 'm', 'kg'], xp: 15 },
     ],
   },
   {
@@ -70,6 +76,8 @@ export const mathLevels = [
       { id: 'mce2-5-3', type: 'choice', question: 'Tu plies un dessin de papillon en deux et les deux moities sont identiques. La ligne de pliure s\'appelle...', answer: 'Une ligne qui partage une figure en deux parties identiques', options: ['Un cote du carre', 'Une ligne qui partage une figure en deux parties identiques', 'La diagonale', 'Le perimetre'], xp: 15 },
       { id: 'mce2-5-4', type: 'choice', question: 'Tu construis un panneau de signalisation "Danger". Il a 3 cotes et 3 sommets. Quelle forme est-ce ?', answer: 'Un triangle', options: ['Un carre', 'Un rectangle', 'Un triangle', 'Un cercle'], xp: 10 },
       { id: 'mce2-5-5', type: 'choice', question: 'Tu poses une equerre dans le coin de ta table. L\'angle qu\'elle forme s\'appelle un angle droit. Combien de degres fait-il ?', answer: 'Un angle qui forme un coin de carre (90 degres)', options: ['Un angle pointu', 'Un angle qui forme un coin de carre (90 degres)', 'Un angle plat', 'Un angle tres grand'], xp: 15 },
+      { id: 'mce2-5-m1', type: 'matching', question: 'Relie chaque forme a son nombre de cotes !', pairs: [{ left: 'Triangle', right: '3 cotes' }, { left: 'Carre', right: '4 cotes' }, { left: 'Pentagone', right: '5 cotes' }, { left: 'Hexagone', right: '6 cotes' }], xp: 15 },
+      { id: 'mce2-5-fb1', type: 'fill-blank', question: 'Complete la phrase sur la geometrie !', sentence: 'Un carre a 4 cotes ___ et 4 angles ___.', blanks: ['egaux', 'droits'], wordBank: ['egaux', 'droits', 'differents', 'aigus'], xp: 15 },
     ],
   },
 
@@ -84,6 +92,8 @@ export const mathLevels = [
       { id: 'mcm1-1-3', type: 'calculate', question: 'Un roi possede 500 000 pieces d\'or. Il en depense 123 456 pour construire un chateau. Combien lui en reste-t-il ?', answer: 376544, options: [376544, 377544, 376454, 375544], xp: 20 },
       { id: 'mcm1-1-4', type: 'calculate', question: 'Ton compteur de pas affiche 47 856. Arrondis ce nombre a la dizaine de mille pres pour l\'annoncer a tes amis.', answer: 50000, options: [47000, 48000, 50000, 47900], xp: 15 },
       { id: 'mcm1-1-5', type: 'choice', question: 'Trois vaisseaux spatiaux ont parcouru 678 900 km, 679 000 km et 670 999 km. Range ces distances du plus petit au plus grand.', answer: '670 999 - 678 900 - 679 000', options: ['670 999 - 678 900 - 679 000', '678 900 - 670 999 - 679 000', '679 000 - 678 900 - 670 999', '670 999 - 679 000 - 678 900'], xp: 15 },
+      { id: 'mcm1-1-m1', type: 'matching', question: 'Relie chaque nombre a son ecriture en lettres !', pairs: [{ left: '150 000', right: 'cent cinquante mille' }, { left: '305 000', right: 'trois cent cinq mille' }, { left: '999 999', right: 'neuf cent quatre-vingt-dix-neuf mille neuf cent quatre-vingt-dix-neuf' }, { left: '400 200', right: 'quatre cent mille deux cents' }], xp: 15 },
+      { id: 'mcm1-1-mm1', type: 'memory', question: 'Retrouve les paires de nombres et leur decomposition !', pairs: [{ front: '45 000', back: '4 x 10 000 + 5 x 1 000' }, { front: '123 000', back: '1 x 100 000 + 2 x 10 000 + 3 x 1 000' }, { front: '500 500', back: '5 x 100 000 + 5 x 100' }, { front: '70 070', back: '7 x 10 000 + 7 x 10' }], xp: 20 },
     ],
   },
   {
@@ -96,6 +106,8 @@ export const mathLevels = [
       { id: 'mcm1-2-3', type: 'calculate', question: 'Ton stade de foot a 32 rangees de 28 sieges. Combien de spectateurs peuvent s\'asseoir ?', answer: 896, options: [896, 886, 996, 856], xp: 20 },
       { id: 'mcm1-2-4', type: 'calculate', question: 'Tu remplis 16 sacs de 125 bonbons pour Halloween. Combien de bonbons as-tu utilises ?', answer: 2000, options: [2000, 1500, 1800, 2100], xp: 20 },
       { id: 'mcm1-2-5', type: 'calculate', question: 'Un train fait 40 trajets par mois et transporte 250 passagers a chaque fois. Combien de passagers par mois ?', answer: 10000, options: [10000, 1000, 9000, 100000], xp: 15 },
+      { id: 'mcm1-2-o1', type: 'ordering', question: 'Range ces multiplications du plus petit resultat au plus grand !', items: ['12 x 5', '25 x 3', '15 x 8', '30 x 10'], correctOrder: ['12 x 5', '25 x 3', '15 x 8', '30 x 10'], xp: 15 },
+      { id: 'mcm1-2-fb1', type: 'fill-blank', question: 'Complete la multiplication a trous !', sentence: '23 x ___ = 690', blanks: ['30'], wordBank: ['30', '20', '40', '35'], xp: 15 },
     ],
   },
   {
@@ -108,6 +120,8 @@ export const mathLevels = [
       { id: 'mcm1-3-3', type: 'choice', question: 'Tu as rempli 3/4 d\'une bouteille d\'eau et ton ami a rempli 2/3 de la sienne. Qui a le plus d\'eau ?', answer: '3/4', options: ['3/4', '2/3', 'Egaux', 'Impossible a dire'], xp: 15 },
       { id: 'mcm1-3-4', type: 'choice', question: 'Tu as mange 2 parts sur les 6 d\'une tarte. Simplifie la fraction 2/6 pour dire combien tu as mange.', answer: '1/3', options: ['1/3', '1/2', '2/3', '1/6'], xp: 15 },
       { id: 'mcm1-3-5', type: 'choice', question: 'Sur une piste de course de 0 a 1 km, tu t\'arretes aux 3/4 du parcours. Tu te trouves...', answer: 'Entre 1/2 et 1', options: ['Avant 1/2', 'Entre 1/2 et 1', 'Apres 1', 'A 1/2'], xp: 15 },
+      { id: 'mcm1-3-m1', type: 'matching', question: 'Relie chaque fraction a sa valeur equivalente !', pairs: [{ left: '1/2', right: '2/4' }, { left: '1/3', right: '2/6' }, { left: '3/4', right: '6/8' }, { left: '2/5', right: '4/10' }], xp: 15 },
+      { id: 'mcm1-3-mm1', type: 'memory', question: 'Trouve les paires de fractions equivalentes !', pairs: [{ front: '1/2', back: '3/6' }, { front: '2/3', back: '4/6' }, { front: '1/4', back: '2/8' }, { front: '3/5', back: '6/10' }], xp: 20 },
     ],
   },
   {
@@ -120,6 +134,8 @@ export const mathLevels = [
       { id: 'mcm1-4-3', type: 'calculate', question: 'Tu as 36 cm de ficelle pour entourer un cadeau carre. Quelle sera la longueur de chaque cote ?', answer: 9, options: [6, 9, 12, 18], xp: 15 },
       { id: 'mcm1-4-4', type: 'calculate', question: 'Ton serpent mesure 2 m 45 cm. Combien cela fait-il en centimetres ?', answer: 245, options: [245, 2045, 2450, 24], xp: 15 },
       { id: 'mcm1-4-5', type: 'calculate', question: 'Tu construis une ile triangulaire dans ton jeu. Les cotes mesurent 15 m, 20 m et 25 m. Quel est le perimetre ?', answer: 60, options: [55, 60, 65, 50], xp: 10 },
+      { id: 'mcm1-4-o1', type: 'ordering', question: 'Range ces mesures de la plus petite a la plus grande !', items: ['300 cm', '5 m', '0,1 km', '2 500 cm'], correctOrder: ['300 cm', '5 m', '2 500 cm', '0,1 km'], xp: 15 },
+      { id: 'mcm1-4-fb1', type: 'fill-blank', question: 'Complete la conversion !', sentence: '3 km = ___ m', blanks: ['3 000'], wordBank: ['3 000', '300', '30 000', '30'], xp: 15 },
     ],
   },
   {
@@ -132,6 +148,8 @@ export const mathLevels = [
       { id: 'mcm1-5-3', type: 'choice', question: 'Tu dessines une roue de velo. Le segment qui va du centre de la roue jusqu\'au bord s\'appelle...', answer: 'Le rayon', options: ['Le diametre', 'Le rayon', 'La corde', 'L\'arc'], xp: 10 },
       { id: 'mcm1-5-4', type: 'calculate', question: 'La grande roue de la fete a un diametre de 10 m. Quel est son rayon ?', answer: 5, options: [5, 10, 20, 15], xp: 10 },
       { id: 'mcm1-5-5', type: 'choice', question: 'Tu observes un cerf-volant. Sa forme est un losange. Un losange a...', answer: '4 cotes egaux', options: ['4 angles droits', '4 cotes egaux', '3 cotes egaux', '2 paires paralleles seulement'], xp: 15 },
+      { id: 'mcm1-5-m1', type: 'matching', question: 'Relie chaque terme de geometrie a sa definition !', pairs: [{ left: 'Paralleles', right: 'Droites qui ne se croisent jamais' }, { left: 'Perpendiculaires', right: 'Droites qui forment un angle droit' }, { left: 'Rayon', right: 'Distance du centre au bord du cercle' }, { left: 'Diametre', right: 'Distance d\'un bord a l\'autre passant par le centre' }], xp: 15 },
+      { id: 'mcm1-5-fb1', type: 'fill-blank', question: 'Complete la phrase de geometrie !', sentence: 'Le diametre d\'un cercle est egal a ___ fois le rayon.', blanks: ['2'], wordBank: ['2', '3', '4', '1'], xp: 15 },
     ],
   },
 
@@ -146,6 +164,8 @@ export const mathLevels = [
       { id: 'mcm2-1-3', type: 'calculate', question: 'Tu as 15,8 metres de corde et tu en coupes 7,35 metres pour ton arc. Combien de corde te reste-t-il ?', answer: '8,45', options: ['8,45', '8,55', '7,45', '9,45'], xp: 15 },
       { id: 'mcm2-1-4', type: 'calculate', question: 'Chaque potion magique necessite 4,5 litres d\'eau. Tu en prepares 3. Combien de litres te faut-il ?', answer: '13,5', options: ['13,5', '12,5', '13,0', '14,5'], xp: 15 },
       { id: 'mcm2-1-5', type: 'calculate', question: 'Tu cours un 100 metres en 7,847 secondes. Arrondis ton temps au dixieme de seconde.', answer: '7,8', options: ['7,8', '7,9', '7,85', '8,0'], xp: 20 },
+      { id: 'mcm2-1-m1', type: 'matching', question: 'Relie chaque nombre decimal a sa fraction equivalente !', pairs: [{ left: '0,5', right: '1/2' }, { left: '0,25', right: '1/4' }, { left: '0,75', right: '3/4' }, { left: '0,1', right: '1/10' }], xp: 15 },
+      { id: 'mcm2-1-mm1', type: 'memory', question: 'Retrouve les paires : decimaux et fractions !', pairs: [{ front: '0,2', back: '1/5' }, { front: '0,5', back: '1/2' }, { front: '0,125', back: '1/8' }, { front: '0,75', back: '3/4' }], xp: 20 },
     ],
   },
   {
@@ -158,6 +178,8 @@ export const mathLevels = [
       { id: 'mcm2-2-3', type: 'calculate', question: 'Tu veux mettre 157 photos dans un album, 6 par page. Combien de photos restent sur la derniere page incomplete ?', answer: 1, options: [1, 2, 3, 5], xp: 15 },
       { id: 'mcm2-2-4', type: 'calculate', question: 'A la fete de l\'ecole, tu distribues 945 bonbons entre 15 enfants. Combien chacun en recoit-il ?', answer: 63, options: [63, 53, 73, 60], xp: 20 },
       { id: 'mcm2-2-5', type: 'calculate', question: 'Tu as gagne 1 000 pieces dans un jeu et tu veux les repartir dans 25 coffres. Combien de pieces par coffre ?', answer: 40, options: [35, 40, 45, 50], xp: 15 },
+      { id: 'mcm2-2-o1', type: 'ordering', question: 'Range ces divisions du plus petit quotient au plus grand !', items: ['100 / 25', '144 / 12', '200 / 8', '500 / 10'], correctOrder: ['100 / 25', '144 / 12', '200 / 8', '500 / 10'], xp: 15 },
+      { id: 'mcm2-2-fb1', type: 'fill-blank', question: 'Complete la division !', sentence: '846 / 12 = ___', blanks: ['70,5'], wordBank: ['70,5', '71', '70', '69,5'], xp: 15 },
     ],
   },
   {
@@ -170,6 +192,8 @@ export const mathLevels = [
       { id: 'mcm2-3-3', type: 'choice', question: 'Trois coureurs ont fini 3/5, 1/2 et 2/3 de la course. Range ces fractions du plus petit au plus grand.', answer: '1/2 - 3/5 - 2/3', options: ['1/2 - 3/5 - 2/3', '3/5 - 1/2 - 2/3', '2/3 - 3/5 - 1/2', '1/2 - 2/3 - 3/5'], xp: 20 },
       { id: 'mcm2-3-4', type: 'choice', question: 'Tu veux acheter une trottinette a 60€ avec une reduction de 20%. Quel est le nouveau prix ?', answer: '48 euros', options: ['48 euros', '40 euros', '52 euros', '50 euros'], xp: 20 },
       { id: 'mcm2-3-5', type: 'choice', question: 'Tu as mange la moitie de ton gateau, soit 50%. A quelle fraction cela correspond-il ?', answer: '1/2', options: ['1/3', '1/2', '2/3', '1/4'], xp: 10 },
+      { id: 'mcm2-3-m1', type: 'matching', question: 'Relie chaque pourcentage a sa fraction !', pairs: [{ left: '25%', right: '1/4' }, { left: '50%', right: '1/2' }, { left: '75%', right: '3/4' }, { left: '10%', right: '1/10' }], xp: 15 },
+      { id: 'mcm2-3-mm1', type: 'memory', question: 'Trouve les paires : pourcentages et valeurs sur 200 !', pairs: [{ front: '10% de 200', back: '20' }, { front: '25% de 200', back: '50' }, { front: '50% de 200', back: '100' }, { front: '75% de 200', back: '150' }], xp: 20 },
     ],
   },
   {
@@ -182,6 +206,8 @@ export const mathLevels = [
       { id: 'mcm2-4-3', type: 'calculate', question: 'Tu dessines une voile de bateau triangulaire. Sa base mesure 14 cm et sa hauteur 8 cm. Quelle est son aire ?', answer: 56, options: [56, 112, 22, 44], xp: 15 },
       { id: 'mcm2-4-4', type: 'choice', question: 'Tu veux calculer la surface de ta chambre pour acheter du carrelage. L\'aire se mesure en...', answer: 'cm2', options: ['cm', 'cm2', 'cm3', 'kg'], xp: 10 },
       { id: 'mcm2-4-5', type: 'calculate', question: 'Tu amenages un terrain de sport de 25 m sur 40 m. Quelle est son aire ?', answer: 1000, options: [1000, 130, 650, 100], xp: 15 },
+      { id: 'mcm2-4-o1', type: 'ordering', question: 'Range ces aires de la plus petite a la plus grande !', items: ['Carre 3x3', 'Rectangle 2x8', 'Triangle base 10 h 4', 'Carre 5x5'], correctOrder: ['Carre 3x3', 'Rectangle 2x8', 'Triangle base 10 h 4', 'Carre 5x5'], xp: 15 },
+      { id: 'mcm2-4-fb1', type: 'fill-blank', question: 'Complete la formule de l\'aire !', sentence: 'L\'aire d\'un triangle = base x hauteur / ___.', blanks: ['2'], wordBank: ['2', '3', '4', '1'], xp: 15 },
     ],
   },
   {
@@ -194,6 +220,8 @@ export const mathLevels = [
       { id: 'mcm2-5-3', type: 'choice', question: 'Tu dessines la lettre "A" pour ta banniere. Cette lettre a-t-elle un axe de symetrie ?', answer: 'Oui, vertical', options: ['Non', 'Oui, vertical', 'Oui, horizontal', 'Oui, deux axes'], xp: 15 },
       { id: 'mcm2-5-4', type: 'calculate', question: 'Tu ouvres completement un livre a plat. L\'angle forme entre les deux pages est un angle plat. Combien mesure-t-il en degres ?', answer: 180, options: [90, 180, 360, 270], xp: 10 },
       { id: 'mcm2-5-5', type: 'choice', question: 'Tu plies un carre de papier origami. Combien d\'axes de symetrie possede ce carre ?', answer: 'Le carre', options: ['Le rectangle', 'Le carre', 'Le triangle', 'Le losange'], xp: 15 },
+      { id: 'mcm2-5-m1', type: 'matching', question: 'Relie chaque type d\'angle a sa mesure !', pairs: [{ left: 'Angle aigu', right: 'Moins de 90 degres' }, { left: 'Angle droit', right: '90 degres' }, { left: 'Angle obtus', right: 'Entre 90 et 180 degres' }, { left: 'Angle plat', right: '180 degres' }], xp: 15 },
+      { id: 'mcm2-5-fb1', type: 'fill-blank', question: 'Complete la phrase sur la symetrie !', sentence: 'La lettre H possede ___ axe(s) de symetrie.', blanks: ['2'], wordBank: ['2', '1', '0', '4'], xp: 15 },
     ],
   },
 
@@ -208,6 +236,8 @@ export const mathLevels = [
       { id: 'm6e-1-3', type: 'choice', question: 'Tu as utilise 12 ingredients sur les 18 necessaires pour ta potion. Simplifie la fraction 12/18.', answer: '2/3', options: ['2/3', '3/4', '4/6', '6/9'], xp: 15 },
       { id: 'm6e-1-4', type: 'choice', question: 'Ton personnage a 0,75 point de vie. A quelle fraction cela correspond-il ?', answer: '3/4', options: ['3/4', '7/5', '7/10', '1/4'], xp: 15 },
       { id: 'm6e-1-5', type: 'choice', question: 'Tu cultives 2/5 de ton jardin en tomates et tu utilises 3/4 de cette zone pour des tomates cerises. Quelle fraction du jardin total est en tomates cerises ?', answer: '3/10', options: ['3/10', '5/9', '6/9', '5/20'], xp: 20 },
+      { id: 'm6e-1-m1', type: 'matching', question: 'Relie chaque operation sur les fractions a son resultat !', pairs: [{ left: '1/3 + 1/6', right: '1/2' }, { left: '3/4 - 1/4', right: '1/2' }, { left: '2/5 + 1/5', right: '3/5' }, { left: '5/6 - 1/3', right: '1/2' }], xp: 15 },
+      { id: 'm6e-1-mm1', type: 'memory', question: 'Retrouve les paires de fractions simplifiees !', pairs: [{ front: '4/8', back: '1/2' }, { front: '6/9', back: '2/3' }, { front: '10/15', back: '2/3' }, { front: '3/12', back: '1/4' }], xp: 20 },
     ],
   },
   {
@@ -220,6 +250,8 @@ export const mathLevels = [
       { id: 'm6e-2-3', type: 'calculate', question: 'Ta recette de cookies est pour 4 personnes et demande 300g de farine. Tu invites 6 amis ! Combien de grammes de farine te faut-il ?', answer: 450, options: [450, 400, 500, 600], xp: 15 },
       { id: 'm6e-2-4', type: 'choice', question: 'Dans ton jeu, 2 potions donnent 6 vies, 3 potions donnent 9 vies, 5 potions donnent 15 vies. Est-ce proportionnel ?', answer: 'Oui, coefficient x3', options: ['Oui, coefficient x3', 'Non', 'Oui, coefficient x2', 'Impossible a dire'], xp: 15 },
       { id: 'm6e-2-5', type: 'calculate', question: 'Ton avion en papier parcourt 210 metres en 3 secondes. Quelle est sa vitesse moyenne en m/s ?', answer: 70, options: [70, 630, 60, 80], xp: 15 },
+      { id: 'm6e-2-o1', type: 'ordering', question: 'Range ces prix unitaires du moins cher au plus cher !', items: ['3 kg pour 6€', '5 kg pour 12,50€', '2 kg pour 5,40€', '4 kg pour 8€'], correctOrder: ['3 kg pour 6€', '4 kg pour 8€', '5 kg pour 12,50€', '2 kg pour 5,40€'], xp: 15 },
+      { id: 'm6e-2-fb1', type: 'fill-blank', question: 'Complete le produit en croix !', sentence: 'Si 4 stylos coutent 6€, alors 10 stylos coutent ___ €.', blanks: ['15'], wordBank: ['15', '12', '20', '24'], xp: 15 },
     ],
   },
   {
@@ -232,6 +264,8 @@ export const mathLevels = [
       { id: 'm6e-3-3', type: 'choice', question: 'Tu veux ranger 24 figurines en groupes egaux. Quels sont tous les diviseurs de 24 (les tailles de groupes possibles) ?', answer: '1, 2, 3, 4, 6, 8, 12, 24', options: ['1, 2, 3, 4, 6, 8, 12, 24', '1, 2, 4, 8, 24', '2, 3, 4, 6, 8, 12', '1, 24'], xp: 20 },
       { id: 'm6e-3-4', type: 'choice', question: 'Tu as 135 billes a partager en groupes de 5. C\'est possible car 135...', answer: 'Se termine par 5', options: ['Est impair', 'Se termine par 5', 'Somme = 9', 'Plus grand que 100'], xp: 10 },
       { id: 'm6e-3-5', type: 'choice', question: 'Tu as 111 bonbons a partager entre 3 amis. Est-ce que 111 est divisible par 3 ?', answer: 'Oui (1+1+1=3)', options: ['Oui (1+1+1=3)', 'Non', 'Oui car impair', 'Oui car termine par 1'], xp: 10 },
+      { id: 'm6e-3-m1', type: 'matching', question: 'Relie chaque critere de divisibilite a son nombre !', pairs: [{ left: 'Divisible par 2', right: 'Se termine par 0, 2, 4, 6 ou 8' }, { left: 'Divisible par 3', right: 'Somme des chiffres divisible par 3' }, { left: 'Divisible par 5', right: 'Se termine par 0 ou 5' }, { left: 'Divisible par 9', right: 'Somme des chiffres divisible par 9' }], xp: 15 },
+      { id: 'm6e-3-mm1', type: 'memory', question: 'Trouve les paires : nombres et leurs diviseurs !', pairs: [{ front: '36', back: 'Divisible par 2, 3, 4, 6, 9' }, { front: '45', back: 'Divisible par 3, 5, 9' }, { front: '60', back: 'Divisible par 2, 3, 4, 5, 6' }, { front: '100', back: 'Divisible par 2, 4, 5, 10' }], xp: 20 },
     ],
   },
   {
@@ -244,6 +278,8 @@ export const mathLevels = [
       { id: 'm6e-4-3', type: 'calculate', question: 'Le fermier te dit que son champ fait 1 hectare. Combien de m2 cela represente ?', answer: 10000, options: [100, 1000, 10000, 100000], xp: 10 },
       { id: 'm6e-4-4', type: 'calculate', question: 'Tu dessines un drapeau en forme de parallelogramme avec une base de 8 cm et une hauteur de 5 cm. Quelle est son aire ?', answer: 40, options: [40, 26, 20, 13], xp: 15 },
       { id: 'm6e-4-5', type: 'choice', question: 'Ton terrain de sport mesure 200 m x 50 m, soit 10 000 m2. Cela fait combien d\'hectares ?', answer: '1', options: ['1', '10', '0,1', '100'], xp: 15 },
+      { id: 'm6e-4-o1', type: 'ordering', question: 'Range ces aires de la plus petite a la plus grande !', items: ['Cercle r=3 (28,3 cm2)', 'Carre 6x6 (36 cm2)', 'Rectangle 5x10 (50 cm2)', 'Cercle r=5 (78,5 cm2)'], correctOrder: ['Cercle r=3 (28,3 cm2)', 'Carre 6x6 (36 cm2)', 'Rectangle 5x10 (50 cm2)', 'Cercle r=5 (78,5 cm2)'], xp: 15 },
+      { id: 'm6e-4-fb1', type: 'fill-blank', question: 'Complete la formule du cercle !', sentence: 'L\'aire d\'un disque = ___ x r x r', blanks: ['pi'], wordBank: ['pi', '2', '4', 'diametre'], xp: 15 },
     ],
   },
   {
@@ -256,6 +292,8 @@ export const mathLevels = [
       { id: 'm6e-5-3', type: 'calculate', question: 'Ton equipe de basket a une moyenne de 14 points sur 4 matchs. Quelle est la somme de tous les points marques ?', answer: 56, options: [56, 48, 42, 52], xp: 20 },
       { id: 'm6e-5-4', type: 'choice', question: 'Tu crees un graphique en forme de disque pour montrer les gouts musicaux de ta classe. Ce diagramme circulaire est aussi appele...', answer: 'Camembert', options: ['Histogramme', 'Courbe', 'Camembert', 'Nuage de points'], xp: 10 },
       { id: 'm6e-5-5', type: 'choice', question: 'Tu dessines un graphique avec des barres pour comparer les scores de tes amis. La hauteur de chaque barre represente...', answer: 'La valeur ou frequence', options: ['La couleur', 'La valeur ou frequence', 'Le nom', 'L\'annee'], xp: 10 },
+      { id: 'm6e-5-m1', type: 'matching', question: 'Relie chaque type de graphique a son usage !', pairs: [{ left: 'Histogramme', right: 'Comparer des valeurs avec des barres' }, { left: 'Camembert', right: 'Montrer des proportions en parts' }, { left: 'Courbe', right: 'Suivre une evolution dans le temps' }, { left: 'Nuage de points', right: 'Montrer la relation entre deux grandeurs' }], xp: 15 },
+      { id: 'm6e-5-fb1', type: 'fill-blank', question: 'Complete la formule de la moyenne !', sentence: 'Moyenne = somme des valeurs / ___ des valeurs.', blanks: ['nombre'], wordBank: ['nombre', 'produit', 'moitie', 'double'], xp: 15 },
     ],
   },
 
@@ -270,6 +308,8 @@ export const mathLevels = [
       { id: 'm5e-1-3', type: 'calculate', question: 'Tu gagnes 8 points dans un quiz, puis tu perds 15 points sur un defi. Quel est ton score ? Calcule (+8) + (-15).', answer: -7, options: [-7, 7, 23, -23], xp: 15 },
       { id: 'm5e-1-4', type: 'choice', question: 'Les etages d\'un immeuble sont : -3 (sous-sol), +1, -7 (parking), +4. Range-les du plus bas au plus haut.', answer: '-7 < -3 < +1 < +4', options: ['-7 < -3 < +1 < +4', '-3 < -7 < +1 < +4', '+1 < +4 < -3 < -7', '-7 < -3 < +4 < +1'], xp: 15 },
       { id: 'm5e-1-5', type: 'calculate', question: 'Au sommet d\'une montagne, il fait -8°C. Le soleil fait monter la temperature de 12°C. Quelle est la nouvelle temperature ?', answer: 4, options: [4, -20, 20, -4], xp: 15 },
+      { id: 'm5e-1-m1', type: 'matching', question: 'Relie chaque operation avec nombres relatifs a son resultat !', pairs: [{ left: '(-3) + (+7)', right: '+4' }, { left: '(+5) + (-8)', right: '-3' }, { left: '(-6) - (-2)', right: '-4' }, { left: '(+3) - (+9)', right: '-6' }], xp: 15 },
+      { id: 'm5e-1-mm1', type: 'memory', question: 'Trouve les paires de calculs qui donnent le meme resultat !', pairs: [{ front: '(-2) + (-3)', back: '-5' }, { front: '(+4) + (-4)', back: '0' }, { front: '(-7) + (+10)', back: '+3' }, { front: '(+6) - (+8)', back: '-2' }], xp: 20 },
     ],
   },
   {
@@ -282,6 +322,8 @@ export const mathLevels = [
       { id: 'm5e-2-3', type: 'choice', question: 'Tu as parcouru 5/6 du sentier et ton ami 2/3. Combien as-tu marche de plus que lui ?', answer: '1/6', options: ['1/6', '3/3', '3/6', '1/3'], xp: 20 },
       { id: 'm5e-2-4', type: 'choice', question: 'Dans ton jeu de cartes, la carte 3/7 a un pouvoir inverse. Quelle est la valeur de son pouvoir inverse ?', answer: '7/3', options: ['7/3', '3/7', '-3/7', '1/3'], xp: 15 },
       { id: 'm5e-2-5', type: 'choice', question: 'Tu as 4/5 de pizza et tu veux la diviser en parts de 2/3 chacune. Combien de parts obtiens-tu ? Calcule 4/5 ÷ 2/3.', answer: '6/5', options: ['6/5', '8/15', '6/8', '2/5'], xp: 25 },
+      { id: 'm5e-2-o1', type: 'ordering', question: 'Range ces fractions de la plus petite a la plus grande !', items: ['1/4', '2/5', '1/2', '3/4'], correctOrder: ['1/4', '2/5', '1/2', '3/4'], xp: 15 },
+      { id: 'm5e-2-fb1', type: 'fill-blank', question: 'Complete la regle de la multiplication de fractions !', sentence: 'Pour multiplier deux fractions, on multiplie les ___ entre eux et les denominateurs entre eux.', blanks: ['numerateurs'], wordBank: ['numerateurs', 'denominateurs', 'dividendes', 'quotients'], xp: 15 },
     ],
   },
   {
@@ -294,6 +336,8 @@ export const mathLevels = [
       { id: 'm5e-3-3', type: 'choice', question: 'Tu traces deux rails paralleles coupes par un chemin. Les angles alternes-internes formes sont...', answer: 'Egaux', options: ['Toujours egaux', 'Egaux', 'Supplementaires', 'Complementaires'], xp: 20 },
       { id: 'm5e-3-4', type: 'calculate', question: 'Tu plies un avion en papier en triangle isocele. L\'angle au sommet fait 40°. Combien mesure chaque angle de la base ?', answer: 70, options: [70, 80, 60, 40], xp: 20 },
       { id: 'm5e-3-5', type: 'choice', question: 'Tu observes un panneau "Danger" en forme de triangle equilateral. Combien mesure chaque angle ?', answer: '60° chacun', options: ['90°', '60° chacun', '45°', '120°'], xp: 10 },
+      { id: 'm5e-3-m1', type: 'matching', question: 'Relie chaque type de triangle a sa propriete !', pairs: [{ left: 'Equilateral', right: '3 cotes egaux, 3 angles de 60 degres' }, { left: 'Isocele', right: '2 cotes egaux, 2 angles egaux' }, { left: 'Rectangle', right: '1 angle droit de 90 degres' }, { left: 'Quelconque', right: 'Aucun cote ni angle egal' }], xp: 15 },
+      { id: 'm5e-3-mm1', type: 'memory', question: 'Retrouve les paires : angles et leur type !', pairs: [{ front: '35 degres', back: 'Angle aigu' }, { front: '90 degres', back: 'Angle droit' }, { front: '120 degres', back: 'Angle obtus' }, { front: '180 degres', back: 'Angle plat' }], xp: 20 },
     ],
   },
   {
@@ -306,6 +350,8 @@ export const mathLevels = [
       { id: 'm5e-4-3', type: 'calculate', question: 'Tu installes un aquarium de 50 cm de long, 30 cm de large et 40 cm de haut. Combien de litres d\'eau peut-il contenir ?', answer: 60, options: [60, 6, 600, 120], xp: 20 },
       { id: 'm5e-4-4', type: 'choice', question: 'Tu observes un parallelogramme dessine au sol. A-t-il un centre de symetrie ?', answer: 'Oui, croisement des diagonales', options: ['Non', 'Oui, croisement des diagonales', 'Oui, un sommet', 'Seulement si carre'], xp: 20 },
       { id: 'm5e-4-5', type: 'calculate', question: 'Ta gourde contient 1 litre d\'eau. Combien de cm3 cela represente ?', answer: 1000, options: [100, 1000, 10, 10000], xp: 10 },
+      { id: 'm5e-4-o1', type: 'ordering', question: 'Range ces volumes du plus petit au plus grand !', items: ['500 cm3', '1 litre', '2 500 cm3', '5 litres'], correctOrder: ['500 cm3', '1 litre', '2 500 cm3', '5 litres'], xp: 15 },
+      { id: 'm5e-4-fb1', type: 'fill-blank', question: 'Complete la formule du volume !', sentence: 'Volume d\'un pave droit = longueur x largeur x ___.', blanks: ['hauteur'], wordBank: ['hauteur', 'perimetre', 'aire', 'rayon'], xp: 15 },
     ],
   },
   {
@@ -318,6 +364,8 @@ export const mathLevels = [
       { id: 'm5e-5-3', type: 'choice', question: 'Tu lances une piece pour decider qui commence la partie. Quelle est la probabilite d\'obtenir "pile" ?', answer: '1/2', options: ['1/2', '1/4', '1/3', '1'], xp: 10 },
       { id: 'm5e-5-4', type: 'choice', question: 'Dans un sac, tu as 3 bonbons rouges et 7 bonbons bleus. Tu pioches au hasard. Quelle est la probabilite d\'attraper un rouge ?', answer: '3/10', options: ['3/10', '3/7', '7/10', '1/3'], xp: 15 },
       { id: 'm5e-5-5', type: 'choice', question: 'Si tu es sur a 100% de gagner la partie, la probabilite de ton evenement est...', answer: '1', options: ['0', '1/2', '1', 'Variable'], xp: 10 },
+      { id: 'm5e-5-m1', type: 'matching', question: 'Relie chaque experience aleatoire a sa probabilite !', pairs: [{ left: 'Pile ou face : obtenir pile', right: '1/2' }, { left: 'De a 6 faces : obtenir un 6', right: '1/6' }, { left: 'De a 6 faces : obtenir un nombre pair', right: '1/2' }, { left: 'Tirer un as dans 52 cartes', right: '1/13' }], xp: 15 },
+      { id: 'm5e-5-fb1', type: 'fill-blank', question: 'Complete la phrase sur les probabilites !', sentence: 'Un evenement impossible a une probabilite de ___ et un evenement certain a une probabilite de ___.', blanks: ['0', '1'], wordBank: ['0', '1', '1/2', '2'], xp: 15 },
     ],
   },
 ]

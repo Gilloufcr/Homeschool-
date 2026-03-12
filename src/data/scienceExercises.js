@@ -31,6 +31,8 @@ export const scienceLevels = [
       { id: 'sce2-2-3', type: 'choice', question: 'Tu fais chauffer de l\'eau dans une casserole pour ton experience. A quelle temperature l\'eau se met-elle a bouillir ?', answer: '100°C', options: ['0°C', '50°C', '100°C', '200°C'], xp: 10 },
       { id: 'sce2-2-4', type: 'choice', question: 'Tu mets ton verre d\'eau au congelateur et le lendemain, c\'est un bloc de glace ! Comment s\'appelle ce phenomene ?', answer: 'la solidification', options: ['la fusion', 'la solidification', 'l\'evaporation', 'la condensation'], xp: 15 },
       { id: 'sce2-2-5', type: 'choice', question: 'Par un matin froid, tu souffles sur la vitre et de la buee apparait. Quel phenomene explique cette buee ?', answer: 'la condensation (vapeur d\'eau qui redevient liquide)', options: ['la pluie', 'la condensation (vapeur d\'eau qui redevient liquide)', 'la glace qui fond', 'le vent'], xp: 15 },
+      { id: 'sce2-2-mm1', type: 'memory', question: 'Retrouve les paires : chaque changement d\'etat avec sa transformation !', pairs: [{ front: 'Solidification', back: 'Liquide → Solide' }, { front: 'Fusion', back: 'Solide → Liquide' }, { front: 'Evaporation', back: 'Liquide → Gaz' }, { front: 'Condensation', back: 'Gaz → Liquide' }], xp: 20 },
+      { id: 'sce2-2-fb1', type: 'fill-blank', question: 'Complete avec le bon mot !', sentence: 'L\'eau bout a ___ degres Celsius.', blanks: ['100'], wordBank: ['0', '50', '100', '200'], xp: 15 },
     ],
   },
   {
@@ -44,6 +46,8 @@ export const scienceLevels = [
       { id: 'sce2-3-3', type: 'choice', question: 'Catastrophe dans ton ecosysteme miniature ! Si on enleve les lapins de la chaine herbe, lapin, renard, que se passe-t-il ?', answer: 'les renards n\'ont plus de nourriture et l\'herbe pousse trop', options: ['rien ne change', 'les renards n\'ont plus de nourriture et l\'herbe pousse trop', 'les renards mangent de l\'herbe', 'l\'herbe disparait'], xp: 15 },
       { id: 'sce2-3-4', type: 'choice', question: 'Tu classes les animaux du zoo selon leur regime alimentaire. Un animal qui mange de la viande est :', answer: 'un carnivore', options: ['un herbivore', 'un carnivore', 'un omnivore', 'un insectivore'], xp: 10 },
       { id: 'sce2-3-5', type: 'choice', question: 'Tu creuses dans le sol et tu trouves des champignons et des vers de terre. Ce sont des agents secrets de la nature ! Quel est leur role ?', answer: 'decomposeurs (ils transforment les dechets en terre)', options: ['producteurs', 'predateurs', 'decomposeurs (ils transforment les dechets en terre)', 'herbivores'], xp: 15 },
+      { id: 'sce2-3-m1', type: 'matching', question: 'Relie chaque etre vivant a son role dans la chaine alimentaire !', pairs: [{ left: 'Herbe', right: 'Producteur' }, { left: 'Lapin', right: 'Consommateur primaire' }, { left: 'Renard', right: 'Predateur' }, { left: 'Champignon', right: 'Decomposeur' }], xp: 15 },
+      { id: 'sce2-3-o1', type: 'ordering', question: 'Remets la chaine alimentaire dans le bon ordre !', items: ['Le soleil nourrit les plantes', 'La sauterelle mange les plantes', 'La grenouille mange la sauterelle', 'Le serpent mange la grenouille'], correctOrder: [0, 1, 2, 3], xp: 15 },
     ],
   },
   {
@@ -57,6 +61,8 @@ export const scienceLevels = [
       { id: 'sce2-4-3', type: 'choice', question: 'Tu testes differents materiaux pour ton circuit : bois, metal, plastique, caoutchouc. Lequel conduit l\'electricite ?', answer: 'Le metal (cuivre, fer, aluminium)', options: ['Le bois', 'Le metal (cuivre, fer, aluminium)', 'Le plastique', 'Le caoutchouc'], xp: 10 },
       { id: 'sce2-4-4', type: 'choice', question: 'Tu ajoutes un bouton a ton robot pour allumer et eteindre la lumiere. A quoi sert un interrupteur ?', answer: 'ouvrir ou fermer le circuit', options: ['produire de l\'electricite', 'ouvrir ou fermer le circuit', 'augmenter la lumiere', 'proteger la pile'], xp: 10 },
       { id: 'sce2-4-5', type: 'choice', question: 'ALERTE SECURITE dans le labo ! Ton professeur te rappelle une regle vitale. On ne doit jamais :', answer: 'mettre ses doigts dans une prise electrique', options: ['allumer une lampe', 'mettre ses doigts dans une prise electrique', 'utiliser une pile', 'appuyer sur un interrupteur'], xp: 15 },
+      { id: 'sce2-4-mm1', type: 'memory', question: 'Retrouve les paires : chaque composant electrique et son role !', pairs: [{ front: 'Pile', back: 'Fournit le courant' }, { front: 'Ampoule', back: 'Produit de la lumiere' }, { front: 'Interrupteur', back: 'Ouvre ou ferme le circuit' }, { front: 'Fil', back: 'Transporte le courant' }], xp: 20 },
+      { id: 'sce2-4-fb1', type: 'fill-blank', question: 'Complete avec le bon mot !', sentence: 'Le ___ est un materiau qui conduit l\'electricite.', blanks: ['metal'], wordBank: ['bois', 'metal', 'plastique', 'verre'], xp: 15 },
     ],
   },
   {
@@ -70,6 +76,8 @@ export const scienceLevels = [
       { id: 'sce2-5-3', type: 'choice', question: 'Tu assembles un puzzle geant du corps humain. Le squelette est la charpente. A quoi sert-il exactement ?', answer: 'soutenir le corps et proteger les organes', options: ['digerer', 'soutenir le corps et proteger les organes', 'respirer', 'voir'], xp: 10 },
       { id: 'sce2-5-4', type: 'choice', question: 'Tu es coach sportif pour un jour ! Tu veux aider quelqu\'un a etre en bonne sante. Que lui conseilles-tu ?', answer: 'bien manger, bien dormir, faire du sport', options: ['ne rien faire', 'bien manger, bien dormir, faire du sport', 'manger beaucoup de sucre', 'dormir le moins possible'], xp: 10 },
       { id: 'sce2-5-5', type: 'choice', question: 'Tu fais un expose sur les super-heros du corps. Les muscles, ces champions caches, servent a quoi ?', answer: 'faire bouger le corps', options: ['digerer la nourriture', 'faire bouger le corps', 'voir', 'entendre'], xp: 15 },
+      { id: 'sce2-5-m1', type: 'matching', question: 'Relie chaque sens a son organe !', pairs: [{ left: 'La vue', right: 'Les yeux' }, { left: 'L\'ouie', right: 'Les oreilles' }, { left: 'L\'odorat', right: 'Le nez' }, { left: 'Le gout', right: 'La langue' }], xp: 15 },
+      { id: 'sce2-5-o1', type: 'ordering', question: 'Du plus petit au plus grand, remets dans l\'ordre !', items: ['La cellule', 'L\'organe (coeur)', 'Le systeme (digestif)', 'Le corps entier'], correctOrder: [0, 1, 2, 3], xp: 15 },
     ],
   },
 
@@ -85,6 +93,8 @@ export const scienceLevels = [
       { id: 'scm1-1-3', type: 'choice', question: 'Tu programmes ton vaisseau depuis le Soleil. Mercure est la 1ere planete, Venus la 2eme... La Terre est la ___ planete.', answer: 'troisieme', options: ['premiere', 'deuxieme', 'troisieme', 'quatrieme'], xp: 10 },
       { id: 'scm1-1-4', type: 'choice', question: 'Ton vaisseau s\'approche d\'une planete geante aux tempetes enormes. Quelle est la plus grosse planete du systeme solaire ?', answer: 'Jupiter', options: ['Saturne', 'Jupiter', 'Neptune', 'Uranus'], xp: 10 },
       { id: 'scm1-1-5', type: 'choice', question: 'Tu regardes le Soleil avec tes lunettes de protection speciales. Le Soleil est en fait :', answer: 'une etoile', options: ['une planete', 'une etoile', 'un satellite', 'une comete'], xp: 10 },
+      { id: 'scm1-1-m1', type: 'matching', question: 'Relie chaque planete a sa caracteristique !', pairs: [{ left: 'Mercure', right: 'La plus proche du Soleil' }, { left: 'Jupiter', right: 'La plus grosse' }, { left: 'Saturne', right: 'Ses anneaux celebres' }, { left: 'Mars', right: 'La planete rouge' }], xp: 15 },
+      { id: 'scm1-1-o1', type: 'ordering', question: 'Range les planetes de la plus proche a la plus eloignee du Soleil !', items: ['Mercure', 'Venus', 'Terre', 'Mars'], correctOrder: [0, 1, 2, 3], xp: 15 },
     ],
   },
   {
@@ -98,6 +108,8 @@ export const scienceLevels = [
       { id: 'scm1-2-3', type: 'choice', question: 'C\'est l\'ete et tu profites du soleil jusqu\'a 21h ! En ete, les jours sont :', answer: 'plus longs que les nuits', options: ['plus courts que les nuits', 'plus longs que les nuits', 'egaux aux nuits', 'il n\'y a pas de nuit'], xp: 10 },
       { id: 'scm1-2-4', type: 'choice', question: 'Tu appelles ton correspondant en Australie. Ici c\'est l\'ete... mais la-bas, c\'est quelle saison ?', answer: 'l\'hiver', options: ['l\'ete aussi', 'l\'hiver', 'le printemps', 'l\'automne'], xp: 15 },
       { id: 'scm1-2-5', type: 'choice', question: 'Tu presentes ta maquette du systeme solaire. Le mouvement de la Terre autour du Soleil s\'appelle :', answer: 'la revolution', options: ['la rotation', 'la revolution', 'l\'orbite', 'l\'eclipse'], xp: 15 },
+      { id: 'scm1-2-mm1', type: 'memory', question: 'Retrouve les paires : saisons et leurs caracteristiques !', pairs: [{ front: 'Printemps', back: 'Les fleurs poussent' }, { front: 'Ete', back: 'Jours les plus longs' }, { front: 'Automne', back: 'Les feuilles tombent' }, { front: 'Hiver', back: 'Jours les plus courts' }], xp: 20 },
+      { id: 'scm1-2-fb1', type: 'fill-blank', question: 'Complete avec le bon mot !', sentence: 'La Terre met ___ pour faire le tour du Soleil.', blanks: ['un an'], wordBank: ['un jour', 'un mois', 'un an', 'une semaine'], xp: 15 },
     ],
   },
   {
@@ -111,6 +123,8 @@ export const scienceLevels = [
       { id: 'scm1-3-3', type: 'choice', question: 'Ton corps a besoin d\'envoyer les nutriments dans le sang. A quel endroit ca se passe ?', answer: 'l\'intestin grele', options: ['l\'estomac', 'l\'intestin grele', 'la bouche', 'les poumons'], xp: 15 },
       { id: 'scm1-3-4', type: 'choice', question: 'Tu fais une experience : tu souffles dans de l\'eau de chaux et elle se trouble ! C\'est le CO2 que tu rejettes. Mais en inspirant, tu absorbes quoi ?', answer: 'du dioxygene (O2)', options: ['du dioxyde de carbone', 'du dioxygene (O2)', 'de l\'azote', 'de l\'hydrogene'], xp: 10 },
       { id: 'scm1-3-5', type: 'choice', question: 'Tu observes une coupe de poumon au microscope. Les echanges gazeux se font au niveau de minuscules sacs appeles :', answer: 'alveoles pulmonaires', options: ['bronches', 'alveoles pulmonaires', 'muscles', 'cotes'], xp: 20 },
+      { id: 'scm1-3-m1', type: 'matching', question: 'Relie chaque organe a son role dans la digestion !', pairs: [{ left: 'Bouche', right: 'Mastication des aliments' }, { left: 'Estomac', right: 'Broyage chimique' }, { left: 'Intestin grele', right: 'Absorption des nutriments' }, { left: 'Poumons', right: 'Echanges gazeux (O2/CO2)' }], xp: 15 },
+      { id: 'scm1-3-o1', type: 'ordering', question: 'Remets le trajet des aliments dans l\'ordre !', items: ['La bouche mache les aliments', 'L\'oesophage les transporte', 'L\'estomac les broie', 'L\'intestin absorbe les nutriments'], correctOrder: [0, 1, 2, 3], xp: 15 },
     ],
   },
   {
@@ -124,6 +138,8 @@ export const scienceLevels = [
       { id: 'scm1-4-3', type: 'choice', question: 'Question piege au quiz des scientifiques ! Lequel de ces animaux est un mammifere ?', answer: 'La baleine', options: ['Le requin', 'La baleine', 'Le crocodile', 'Le pingouin'], xp: 15 },
       { id: 'scm1-4-4', type: 'choice', question: 'Tu observes une coccinelle dans le jardin du labo. Les insectes ont combien de pattes ?', answer: '6 pattes', options: ['4 pattes', '6 pattes', '8 pattes', '10 pattes'], xp: 10 },
       { id: 'scm1-4-5', type: 'choice', question: 'Tu trouves une araignee sur ton bureau. Pas de panique ! Les arachnides ont combien de pattes ?', answer: '8 pattes', options: ['6 pattes', '8 pattes', '10 pattes', '4 pattes'], xp: 15 },
+      { id: 'scm1-4-mm1', type: 'memory', question: 'Retrouve les paires : animaux et leur classification !', pairs: [{ front: 'Baleine', back: 'Mammifere' }, { front: 'Crocodile', back: 'Reptile' }, { front: 'Aigle', back: 'Oiseau' }, { front: 'Grenouille', back: 'Amphibien' }], xp: 20 },
+      { id: 'scm1-4-fb1', type: 'fill-blank', question: 'Complete avec le bon mot !', sentence: 'Les insectes ont ___ pattes.', blanks: ['6'], wordBank: ['4', '6', '8', '10'], xp: 15 },
     ],
   },
   {
@@ -137,6 +153,8 @@ export const scienceLevels = [
       { id: 'scm1-5-3', type: 'choice', question: 'La Lune brille dans la nuit, mais elle ne produit pas de lumiere ! Alors pourquoi brille-t-elle ?', answer: 'elle reflete la lumiere du Soleil', options: ['elle produit sa propre lumiere', 'elle reflete la lumiere du Soleil', 'elle est en feu', 'elle est electrique'], xp: 15 },
       { id: 'scm1-5-4', type: 'choice', question: 'EVENEMENT EXCEPTIONNEL ! Le ciel s\'assombrit en plein jour. C\'est une eclipse solaire ! Que se passe-t-il ?', answer: 'la Lune passe entre le Soleil et la Terre', options: ['la Terre cache le Soleil', 'la Lune passe entre le Soleil et la Terre', 'le Soleil s\'eteint', 'Mars cache le Soleil'], xp: 15 },
       { id: 'scm1-5-5', type: 'choice', question: 'Tu photographies la Lune pour ton album. Cette nuit, elle est ronde et magnifique ! La pleine Lune, c\'est quand :', answer: 'on voit la Lune entierement eclairee', options: ['la Lune disparait', 'on voit la Lune entierement eclairee', 'la Lune est a moitie visible', 'il y a une eclipse'], xp: 10 },
+      { id: 'scm1-5-m1', type: 'matching', question: 'Relie chaque phase de la Lune a sa description !', pairs: [{ left: 'Nouvelle Lune', right: 'La Lune est invisible' }, { left: 'Premier quartier', right: 'Moitie droite eclairee' }, { left: 'Pleine Lune', right: 'Toute la face eclairee' }, { left: 'Dernier quartier', right: 'Moitie gauche eclairee' }], xp: 15 },
+      { id: 'scm1-5-o1', type: 'ordering', question: 'Remets les phases de la Lune dans l\'ordre !', items: ['Nouvelle Lune', 'Premier quartier', 'Pleine Lune', 'Dernier quartier'], correctOrder: [0, 1, 2, 3], xp: 15 },
     ],
   },
 
@@ -152,6 +170,8 @@ export const scienceLevels = [
       { id: 'scm2-1-3', type: 'choice', question: 'Tu vois de grandes helices blanches tourner dans un champ. L\'energie eolienne utilise quoi ?', answer: 'le vent', options: ['le soleil', 'le vent', 'l\'eau', 'le gaz'], xp: 10 },
       { id: 'scm2-1-4', type: 'choice', question: 'Tu visites un musee de la Terre et tu vois du petrole dans un bocal. Le petrole est une energie :', answer: 'fossile (il met des millions d\'annees a se former)', options: ['renouvelable', 'fossile (il met des millions d\'annees a se former)', 'nucleaire', 'solaire'], xp: 10 },
       { id: 'scm2-1-5', type: 'choice', question: 'Tu prepares un debat sur l\'energie du futur. Quel est l\'inconvenient principal des energies fossiles ?', answer: 'la pollution et les gaz a effet de serre', options: ['elles sont trop abondantes', 'la pollution et les gaz a effet de serre', 'elles sont silencieuses', 'elles sont gratuites'], xp: 15 },
+      { id: 'scm2-1-m1', type: 'matching', question: 'Relie chaque type d\'energie a son exemple !', pairs: [{ left: 'Solaire', right: 'Panneaux photovoltaiques' }, { left: 'Eolienne', right: 'Grandes helices' }, { left: 'Fossile', right: 'Petrole et charbon' }, { left: 'Hydraulique', right: 'Barrage sur une riviere' }], xp: 15 },
+      { id: 'scm2-1-o1', type: 'ordering', question: 'De la plus polluante a la plus propre, classe ces energies !', items: ['Charbon (tres polluant)', 'Petrole (polluant)', 'Gaz naturel (moins polluant)', 'Solaire (tres propre)'], correctOrder: [0, 1, 2, 3], xp: 15 },
     ],
   },
   {
@@ -165,6 +185,8 @@ export const scienceLevels = [
       { id: 'scm2-2-3', type: 'choice', question: 'Tu regardes les prises dans ta maison. Quand la lampe du salon grille, la tele fonctionne toujours. Les appareils sont donc branches en :', answer: 'derivation (parallele)', options: ['serie', 'derivation (parallele)', 'les deux', 'aucun des deux'], xp: 15 },
       { id: 'scm2-2-4', type: 'choice', question: 'ATTENTION DANGER ! Ton prof te montre ce qui arrive quand le courant prend un raccourci. Un court-circuit se produit quand :', answer: 'le courant passe directement sans passer par les appareils', options: ['il n\'y a plus de pile', 'le courant passe directement sans passer par les appareils', 'le circuit est ouvert', 'l\'ampoule brille trop'], xp: 20 },
       { id: 'scm2-2-5', type: 'choice', question: 'Tu decouvres un petit composant qui fond quand le courant est trop fort, pour proteger le reste. C\'est un fusible ! A quoi sert-il ?', answer: 'proteger le circuit en cas de surtension', options: ['augmenter le courant', 'proteger le circuit en cas de surtension', 'allumer les ampoules', 'produire de l\'electricite'], xp: 15 },
+      { id: 'scm2-2-mm1', type: 'memory', question: 'Retrouve les paires : composants electriques et symboles !', pairs: [{ front: 'Pile', back: 'Source d\'energie' }, { front: 'Ampoule en serie', back: 'Si une grille, tout s\'eteint' }, { front: 'Ampoule en derivation', back: 'Les autres restent allumees' }, { front: 'Fusible', back: 'Protection contre les surtensions' }], xp: 20 },
+      { id: 'scm2-2-fb1', type: 'fill-blank', question: 'Complete avec le bon mot !', sentence: 'Dans un circuit en ___, si une ampoule grille, les autres continuent de fonctionner.', blanks: ['derivation'], wordBank: ['serie', 'derivation', 'parallele', 'opposition'], xp: 15 },
     ],
   },
   {
@@ -178,6 +200,8 @@ export const scienceLevels = [
       { id: 'scm2-3-3', type: 'choice', question: 'Tu ouvres une graine de haricot au labo pour voir ce qu\'il y a dedans. La graine contient :', answer: 'un embryon de plante et des reserves de nourriture', options: ['de l\'eau uniquement', 'un embryon de plante et des reserves de nourriture', 'du pollen', 'des racines'], xp: 15 },
       { id: 'scm2-3-4', type: 'choice', question: 'Ta grand-mere coupe une tige de geranium et la replante dans un nouveau pot. Le bouturage est une reproduction :', answer: 'vegetative (sans graine, a partir d\'un morceau de plante)', options: ['sexuee', 'vegetative (sans graine, a partir d\'un morceau de plante)', 'animale', 'chimique'], xp: 15 },
       { id: 'scm2-3-5', type: 'choice', question: 'Tu manges une pomme et tu trouves des pepins a l\'interieur. Les fruits servent a :', answer: 'proteger et disperser les graines', options: ['nourrir la plante', 'proteger et disperser les graines', 'attirer la pluie', 'produire du pollen'], xp: 10 },
+      { id: 'scm2-3-m1', type: 'matching', question: 'Relie chaque etape de la reproduction des plantes !', pairs: [{ left: 'Pollinisation', right: 'Le pollen va vers le pistil' }, { left: 'Fecondation', right: 'Union du pollen et de l\'ovule' }, { left: 'Graine', right: 'Contient l\'embryon' }, { left: 'Germination', right: 'La graine donne une plantule' }], xp: 15 },
+      { id: 'scm2-3-o1', type: 'ordering', question: 'Remets les etapes de la reproduction d\'une plante a fleurs dans l\'ordre !', items: ['La fleur produit du pollen', 'L\'abeille transporte le pollen', 'Le fruit se forme avec les graines', 'La graine germe et donne une nouvelle plante'], correctOrder: [0, 1, 2, 3], xp: 15 },
     ],
   },
   {
@@ -191,6 +215,8 @@ export const scienceLevels = [
       { id: 'scm2-4-3', type: 'choice', question: 'Tu visites un parc naturel avec ta classe. A quoi sert un parc naturel ?', answer: 'proteger les especes et les milieux naturels', options: ['construire des maisons', 'proteger les especes et les milieux naturels', 'faire du sport', 'produire de l\'electricite'], xp: 10 },
       { id: 'scm2-4-4', type: 'choice', question: 'Tu vois le logo d\'un panda sur une affiche. C\'est le symbole des especes en danger ! Une espece en voie de disparition est :', answer: 'une espece dont le nombre diminue et qui risque de disparaitre', options: ['une espece tres commune', 'une espece dont le nombre diminue et qui risque de disparaitre', 'une espece qui vit la nuit', 'une espece qui migre'], xp: 15 },
       { id: 'scm2-4-5', type: 'choice', question: 'Tu fais un expose sur les abeilles. Sans elles, plus de fruits ni de legumes ! Pourquoi sont-elles essentielles ?', answer: 'elles pollinisent un tiers de notre alimentation', options: ['elles font du miel uniquement', 'elles pollinisent un tiers de notre alimentation', 'elles mangent les insectes nuisibles', 'elles produisent de l\'oxygene'], xp: 15 },
+      { id: 'scm2-4-mm1', type: 'memory', question: 'Retrouve les paires : menaces et solutions pour la biodiversite !', pairs: [{ front: 'Deforestation', back: 'Planter des arbres' }, { front: 'Pollution plastique', back: 'Recycler et reduire' }, { front: 'Especes en danger', back: 'Parcs naturels proteges' }, { front: 'Rechauffement', back: 'Reduire les emissions de CO2' }], xp: 20 },
+      { id: 'scm2-4-fb1', type: 'fill-blank', question: 'Complete avec le bon mot !', sentence: 'La ___ est la variete de toutes les especes vivantes sur Terre.', blanks: ['biodiversite'], wordBank: ['biodiversite', 'geologie', 'meteorologie', 'technologie'], xp: 15 },
     ],
   },
   {
@@ -204,6 +230,8 @@ export const scienceLevels = [
       { id: 'scm2-5-3', type: 'choice', question: 'Tu regardes un documentaire choquant : une tortue a un sac plastique dans le ventre. Les dechets plastiques dans l\'ocean :', answer: 'menacent les animaux marins et polluent l\'eau', options: ['se decomposent rapidement', 'menacent les animaux marins et polluent l\'eau', 'nourrissent les poissons', 'disparaissent seuls'], xp: 15 },
       { id: 'scm2-5-4', type: 'choice', question: 'Tu crees une affiche "Gestes pour la planete" pour ta classe. Quel est un bon geste eco-citoyen ?', answer: 'eteindre la lumiere en sortant d\'une piece', options: ['laisser couler l\'eau', 'eteindre la lumiere en sortant d\'une piece', 'jeter les piles a la poubelle', 'prendre l\'avion pour aller a l\'ecole'], xp: 10 },
       { id: 'scm2-5-5', type: 'choice', question: 'Tu vois des images satellites : l\'Amazonie a perdu des milliers de km2 de foret. La deforestation contribue au rechauffement car :', answer: 'les arbres absorbent le CO2 ; moins d\'arbres = plus de CO2', options: ['les arbres produisent du CO2', 'les arbres absorbent le CO2 ; moins d\'arbres = plus de CO2', 'les arbres refroidissent la Terre', 'ca n\'a aucun lien'], xp: 20 },
+      { id: 'scm2-5-m1', type: 'matching', question: 'Relie chaque gaz a son role !', pairs: [{ left: 'CO2', right: 'Gaz a effet de serre' }, { left: 'O2', right: 'Necessaire a la respiration' }, { left: 'Methane', right: 'Gaz a effet de serre puissant' }, { left: 'Ozone', right: 'Protege des UV du Soleil' }], xp: 15 },
+      { id: 'scm2-5-o1', type: 'ordering', question: 'Du geste le plus simple au plus impactant, classe ces eco-gestes !', items: ['Eteindre la lumiere en sortant', 'Trier ses dechets', 'Utiliser les transports en commun', 'Installer des panneaux solaires'], correctOrder: [0, 1, 2, 3], xp: 15 },
     ],
   },
 
@@ -219,6 +247,8 @@ export const scienceLevels = [
       { id: 's6e-1-3', type: 'choice', question: 'Tu entres pour la premiere fois dans le labo de biologie. Un magnifique instrument t\'attend. Le microscope sert a :', answer: 'observer des choses trop petites pour l\'oeil nu', options: ['voir tres loin', 'observer des choses trop petites pour l\'oeil nu', 'chauffer des echantillons', 'mesurer la temperature'], xp: 10 },
       { id: 's6e-1-4', type: 'choice', question: 'Tu zoomes sur une cellule et tu vois une structure sombre au centre. Le noyau de la cellule contient :', answer: 'l\'ADN (les genes)', options: ['de l\'eau', 'l\'ADN (les genes)', 'du sang', 'de l\'air'], xp: 15 },
       { id: 's6e-1-5', type: 'choice', question: 'Tu prepares une lame pour observer du yaourt. Tu y trouves des millions de micro-organismes ! Les bacteries sont des :', answer: 'etres vivants unicellulaires', options: ['virus', 'etres vivants unicellulaires', 'cellules humaines', 'plantes microscopiques'], xp: 15 },
+      { id: 's6e-1-m1', type: 'matching', question: 'Relie chaque partie de la cellule a sa fonction !', pairs: [{ left: 'Noyau', right: 'Contient l\'ADN' }, { left: 'Membrane', right: 'Enveloppe protectrice' }, { left: 'Cytoplasme', right: 'Liquide interne' }, { left: 'Mitochondrie', right: 'Produit de l\'energie' }], xp: 15 },
+      { id: 's6e-1-o1', type: 'ordering', question: 'Du plus petit au plus grand, range ces elements du vivant !', items: ['Molecule d\'ADN', 'Cellule', 'Organe (coeur)', 'Organisme entier'], correctOrder: [0, 1, 2, 3], xp: 15 },
     ],
   },
   {
@@ -232,6 +262,8 @@ export const scienceLevels = [
       { id: 's6e-2-3', type: 'choice', question: 'Tu traces la trajectoire d\'une bille sur une table plate. Elle roule tout droit ! Un mouvement rectiligne est :', answer: 'un deplacement en ligne droite', options: ['un deplacement en cercle', 'un deplacement en ligne droite', 'un deplacement en zigzag', 'un mouvement immobile'], xp: 10 },
       { id: 's6e-2-4', type: 'choice', question: 'Tu poses ta bille sur la table et elle ne bouge pas. Un objet immobile a une vitesse de :', answer: '0 km/h', options: ['1 km/h', '0 km/h', '10 km/h', 'infinie'], xp: 10 },
       { id: 's6e-2-5', type: 'choice', question: 'Defi calcul ! Une voiture roule a 90 km/h. En 30 minutes (une demi-heure), quelle distance parcourt-elle ?', answer: '45 km', options: ['30 km', '45 km', '90 km', '60 km'], xp: 20 },
+      { id: 's6e-2-mm1', type: 'memory', question: 'Retrouve les paires : grandeurs physiques et unites !', pairs: [{ front: 'Vitesse', back: 'km/h ou m/s' }, { front: 'Distance', back: 'km ou m' }, { front: 'Temps', back: 'secondes ou heures' }, { front: 'Trajectoire', back: 'Forme du chemin parcouru' }], xp: 20 },
+      { id: 's6e-2-fb1', type: 'fill-blank', question: 'Complete avec le bon mot !', sentence: 'La vitesse se calcule avec la formule : vitesse = distance / ___.', blanks: ['temps'], wordBank: ['masse', 'temps', 'force', 'poids'], xp: 15 },
     ],
   },
   {
@@ -245,6 +277,8 @@ export const scienceLevels = [
       { id: 's6e-3-3', type: 'choice', question: 'Tu ressens une secousse et ton sismographe s\'affole ! Les seismes sont provoques par :', answer: 'le mouvement des plaques tectoniques', options: ['le vent', 'le mouvement des plaques tectoniques', 'la pluie', 'les marees'], xp: 15 },
       { id: 's6e-3-4', type: 'choice', question: 'Tu ramasses des echantillons de roches pour ta collection de geologue. Les 3 grands types de roches sont :', answer: 'magmatiques, sedimentaires, metamorphiques', options: ['dures, molles, liquides', 'magmatiques, sedimentaires, metamorphiques', 'grandes, petites, moyennes', 'noires, blanches, grises'], xp: 20 },
       { id: 's6e-3-5', type: 'choice', question: 'Tu trouves un caillou blanc avec des traces de coquillages fossiles. Le calcaire est une roche :', answer: 'sedimentaire', options: ['magmatique', 'sedimentaire', 'metamorphique', 'artificielle'], xp: 15 },
+      { id: 's6e-3-m1', type: 'matching', question: 'Relie chaque phenomene geologique a sa cause !', pairs: [{ left: 'Seisme', right: 'Mouvement des plaques tectoniques' }, { left: 'Eruption volcanique', right: 'Montee du magma' }, { left: 'Tsunami', right: 'Seisme sous-marin' }, { left: 'Formation de montagnes', right: 'Collision de plaques' }], xp: 15 },
+      { id: 's6e-3-o1', type: 'ordering', question: 'Remets les etapes d\'une eruption volcanique dans l\'ordre !', items: ['Le magma monte dans la cheminee', 'La pression augmente sous le volcan', 'La lave jaillit du cratere', 'La lave refroidit et forme de la roche'], correctOrder: [1, 0, 2, 3], xp: 15 },
     ],
   },
   {
@@ -258,6 +292,8 @@ export const scienceLevels = [
       { id: 's6e-4-3', type: 'choice', question: 'Tu decouvres que ton ordinateur ne comprend que deux chiffres ! Qu\'est-ce que le codage binaire ?', answer: 'Un systeme avec seulement des 0 et des 1', options: ['Un langage avec des lettres', 'Un systeme avec seulement des 0 et des 1', 'Un code secret a base de couleurs', 'Un langage parle par les robots'], xp: 20 },
       { id: 's6e-4-4', type: 'choice', question: 'Tu vois un eclair, puis tu comptes les secondes avant le tonnerre. La vitesse du son dans l\'air est d\'environ :', answer: '340 m/s', options: ['34 m/s', '340 m/s', '3 400 m/s', '300 000 km/s'], xp: 15 },
       { id: 's6e-4-5', type: 'choice', question: 'Record de vitesse dans l\'univers ! Rien ne va plus vite que la lumiere. Sa vitesse est d\'environ :', answer: '300 000 km/s', options: ['340 m/s', '1 000 km/s', '300 000 km/s', '1 million km/s'], xp: 15 },
+      { id: 's6e-4-mm1', type: 'memory', question: 'Retrouve les paires : types de signaux et exemples !', pairs: [{ front: 'Signal lumineux', back: 'Feu tricolore' }, { front: 'Signal sonore', back: 'Sonnerie d\'ecole' }, { front: 'Signal electrique', back: 'Code binaire (0 et 1)' }, { front: 'Signal chimique', back: 'Odeur de fumee' }], xp: 20 },
+      { id: 's6e-4-fb1', type: 'fill-blank', question: 'Complete avec le bon mot !', sentence: 'La lumiere se propage en ligne ___.', blanks: ['droite'], wordBank: ['courbe', 'droite', 'spirale', 'zigzag'], xp: 15 },
     ],
   },
   {
@@ -271,6 +307,8 @@ export const scienceLevels = [
       { id: 's6e-5-3', type: 'choice', question: 'Magie de la nature ! La plante transforme la lumiere en nourriture. La photosynthese produit :', answer: 'du glucose (sucre) et de l\'oxygene', options: ['du CO2 et de l\'eau', 'du glucose (sucre) et de l\'oxygene', 'de la chaleur', 'du petrole'], xp: 15 },
       { id: 's6e-5-4', type: 'choice', question: 'Contrairement aux plantes qui fabriquent leur nourriture, les animaux doivent chercher la leur. Les animaux se nourrissent de :', answer: 'matieres organiques (plantes ou autres animaux)', options: ['lumiere et eau', 'matieres organiques (plantes ou autres animaux)', 'CO2', 'mineraux du sol'], xp: 10 },
       { id: 's6e-5-5', type: 'choice', question: 'Tu crees une maquette d\'ecosysteme avec une mare, des plantes et des animaux. Un ecosysteme fonctionne grace a :', answer: 'la chaine alimentaire (producteurs → consommateurs → decomposeurs)', options: ['uniquement le soleil', 'la chaine alimentaire (producteurs → consommateurs → decomposeurs)', 'l\'eau de pluie uniquement', 'les humains'], xp: 20 },
+      { id: 's6e-5-m1', type: 'matching', question: 'Relie chaque processus de nutrition a son type d\'organisme !', pairs: [{ left: 'Photosynthese', right: 'Plantes vertes' }, { left: 'Herbivore', right: 'Mange des vegetaux' }, { left: 'Carnivore', right: 'Mange des animaux' }, { left: 'Decomposeur', right: 'Transforme la matiere morte' }], xp: 15 },
+      { id: 's6e-5-o1', type: 'ordering', question: 'Remets la chaine alimentaire d\'un ecosysteme aquatique dans l\'ordre !', items: ['Les algues font la photosynthese', 'Le zooplancton mange les algues', 'Le petit poisson mange le zooplancton', 'Le requin mange le poisson'], correctOrder: [0, 1, 2, 3], xp: 15 },
     ],
   },
 
@@ -286,6 +324,8 @@ export const scienceLevels = [
       { id: 's5e-1-3', type: 'choice', question: 'Tu verses de l\'huile dans de l\'eau et... les deux liquides se separent ! Eau + huile est un melange :', answer: 'heterogene (on voit les deux liquides)', options: ['homogene', 'heterogene (on voit les deux liquides)', 'gazeux', 'solide'], xp: 10 },
       { id: 's5e-1-4', type: 'choice', question: 'Oh non, du sable est tombe dans ton becher d\'eau ! Comment le separer ? Tu utilises :', answer: 'la filtration', options: ['l\'evaporation', 'la filtration', 'la condensation', 'le chauffage'], xp: 15 },
       { id: 's5e-1-5', type: 'choice', question: 'Defi du chimiste : tu as de l\'eau salee et tu veux recuperer le sel. Quelle technique utilises-tu ?', answer: 'l\'evaporation', options: ['la filtration', 'l\'evaporation', 'la decantation', 'le refroidissement'], xp: 15 },
+      { id: 's5e-1-m1', type: 'matching', question: 'Relie chaque type de melange a son exemple !', pairs: [{ left: 'Homogene', right: 'Eau sucree' }, { left: 'Heterogene', right: 'Eau + huile' }, { left: 'Filtration', right: 'Separer le sable de l\'eau' }, { left: 'Evaporation', right: 'Recuperer le sel de l\'eau salee' }], xp: 15 },
+      { id: 's5e-1-o1', type: 'ordering', question: 'Remets les etapes de purification de l\'eau dans l\'ordre !', items: ['L\'eau est puisee dans la riviere', 'Elle est filtree pour enlever les gros debris', 'On ajoute un produit pour tuer les bacteries', 'L\'eau potable arrive au robinet'], correctOrder: [0, 1, 2, 3], xp: 15 },
     ],
   },
   {
@@ -299,6 +339,8 @@ export const scienceLevels = [
       { id: 's5e-2-3', type: 'choice', question: 'Tu dois mesurer le courant qui traverse ton circuit. L\'intensite du courant se mesure en :', answer: 'amperes (A)', options: ['volts (V)', 'amperes (A)', 'watts (W)', 'joules (J)'], xp: 15 },
       { id: 's5e-2-4', type: 'choice', question: 'Tu branches un voltmetre pour mesurer la tension aux bornes d\'une ampoule. Un voltmetre se branche en :', answer: 'derivation (en parallele)', options: ['serie', 'derivation (en parallele)', 'n\'importe comment', 'sans fil'], xp: 15 },
       { id: 's5e-2-5', type: 'choice', question: 'Tu regardes l\'etiquette de ta pile plate. La tension aux bornes d\'une pile plate est de :', answer: '4,5 V', options: ['1,5 V', '4,5 V', '9 V', '220 V'], xp: 10 },
+      { id: 's5e-2-mm1', type: 'memory', question: 'Retrouve les paires : grandeurs electriques et unites !', pairs: [{ front: 'Tension', back: 'Volts (V)' }, { front: 'Intensite', back: 'Amperes (A)' }, { front: 'Resistance', back: 'Ohms (Ω)' }, { front: 'Puissance', back: 'Watts (W)' }], xp: 20 },
+      { id: 's5e-2-fb1', type: 'fill-blank', question: 'Complete avec le bon mot !', sentence: 'Un voltmetre se branche en ___ dans le circuit.', blanks: ['derivation'], wordBank: ['serie', 'derivation', 'boucle', 'triangle'], xp: 15 },
     ],
   },
   {
@@ -312,6 +354,8 @@ export const scienceLevels = [
       { id: 's5e-3-3', type: 'choice', question: 'Tu regardes a travers une vitre et tu vois dehors parfaitement. Un objet transparent :', answer: 'laisse passer la lumiere (ex: verre)', options: ['bloque toute la lumiere', 'laisse passer la lumiere (ex: verre)', 'absorbe la lumiere', 'reflete la lumiere'], xp: 10 },
       { id: 's5e-3-4', type: 'choice', question: 'Tu observes un arc-en-ciel apres la pluie. Toutes ces couleurs viennent de la lumiere du soleil ! La lumiere blanche est composee de :', answer: 'toutes les couleurs de l\'arc-en-ciel', options: ['une seule couleur', 'toutes les couleurs de l\'arc-en-ciel', 'seulement du blanc', 'du noir et du blanc'], xp: 15 },
       { id: 's5e-3-5', type: 'choice', question: 'Tu places un prisme en verre dans un rayon de soleil et un magnifique spectre de couleurs apparait ! Un prisme permet de :', answer: 'decomposer la lumiere blanche en couleurs', options: ['concentrer la lumiere', 'decomposer la lumiere blanche en couleurs', 'eteindre la lumiere', 'chauffer un objet'], xp: 15 },
+      { id: 's5e-3-m1', type: 'matching', question: 'Relie chaque propriete de la lumiere a sa definition !', pairs: [{ left: 'Reflexion', right: 'La lumiere rebondit sur un miroir' }, { left: 'Refraction', right: 'La lumiere change de direction dans l\'eau' }, { left: 'Absorption', right: 'L\'objet retient la lumiere' }, { left: 'Diffusion', right: 'La lumiere se repartit dans toutes les directions' }], xp: 15 },
+      { id: 's5e-3-o1', type: 'ordering', question: 'Remets les couleurs de l\'arc-en-ciel dans l\'ordre !', items: ['Rouge', 'Orange et Jaune', 'Vert', 'Bleu et Violet'], correctOrder: [0, 1, 2, 3], xp: 15 },
     ],
   },
   {
@@ -325,6 +369,8 @@ export const scienceLevels = [
       { id: 's5e-4-3', type: 'choice', question: 'Tu plonges en apnee et tu vois un poisson ouvrir et fermer ses ouies. Les poissons respirent grace a :', answer: 'leurs branchies (qui filtrent l\'oxygene de l\'eau)', options: ['leurs poumons', 'leurs branchies (qui filtrent l\'oxygene de l\'eau)', 'leur peau', 'leur bouche'], xp: 15 },
       { id: 's5e-4-4', type: 'choice', question: 'Ton prof pose une question piege : les plantes respirent-elles ? La reponse est :', answer: 'Oui, jour et nuit (en plus de la photosynthese le jour)', options: ['Non, jamais', 'Oui, jour et nuit (en plus de la photosynthese le jour)', 'Uniquement la nuit', 'Uniquement le jour'], xp: 15 },
       { id: 's5e-4-5', type: 'choice', question: 'Tu vois dans un documentaire que les coraux meurent a cause du rechauffement. Si un ecosysteme est desequilibre :', answer: 'des especes peuvent disparaitre et l\'ensemble est menace', options: ['rien ne change', 'des especes peuvent disparaitre et l\'ensemble est menace', 'de nouvelles especes apparaissent toujours', 'l\'ecosysteme se repare instantanement'], xp: 15 },
+      { id: 's5e-4-mm1', type: 'memory', question: 'Retrouve les paires : types de respiration et organismes !', pairs: [{ front: 'Poumons', back: 'Mammiferes' }, { front: 'Branchies', back: 'Poissons' }, { front: 'Trachees', back: 'Insectes' }, { front: 'Peau', back: 'Grenouille (en partie)' }], xp: 20 },
+      { id: 's5e-4-fb1', type: 'fill-blank', question: 'Complete avec le bon mot !', sentence: 'Les poissons respirent grace a leurs ___.', blanks: ['branchies'], wordBank: ['poumons', 'branchies', 'nageoires', 'ecailles'], xp: 15 },
     ],
   },
   {
@@ -338,6 +384,8 @@ export const scienceLevels = [
       { id: 's5e-5-3', type: 'choice', question: 'Tu es nutritionniste et tu composes le menu ideal pour la cantine. Une alimentation equilibree doit contenir :', answer: 'des proteines, glucides, lipides, vitamines et mineraux', options: ['uniquement des proteines', 'des proteines, glucides, lipides, vitamines et mineraux', 'uniquement des fruits', 'uniquement de la viande'], xp: 10 },
       { id: 's5e-5-4', type: 'choice', question: 'Tu te sens plein d\'energie apres ton cours de sport ! L\'activite physique reguliere permet de :', answer: 'renforcer les muscles, le coeur et le bien-etre', options: ['s\'epuiser', 'renforcer les muscles, le coeur et le bien-etre', 'grossir', 'dormir moins'], xp: 10 },
       { id: 's5e-5-5', type: 'choice', question: 'Tu as une angine et le medecin te prescrit un traitement. Les antibiotiques sont efficaces contre :', answer: 'les bacteries (pas les virus)', options: ['les virus', 'les bacteries (pas les virus)', 'tout type de maladie', 'les allergies'], xp: 20 },
+      { id: 's5e-5-m1', type: 'matching', question: 'Relie chaque element du systeme immunitaire a son role !', pairs: [{ left: 'Globules blancs', right: 'Detruisent les microbes' }, { left: 'Anticorps', right: 'Neutralisent les agents pathogenes' }, { left: 'Vaccin', right: 'Prepare le corps a se defendre' }, { left: 'Antibiotique', right: 'Tue les bacteries' }], xp: 15 },
+      { id: 's5e-5-o1', type: 'ordering', question: 'Remets les etapes de la reponse immunitaire dans l\'ordre !', items: ['Un microbe entre dans le corps', 'Les globules blancs detectent l\'intrus', 'Les anticorps sont produits', 'Le microbe est elimine'], correctOrder: [0, 1, 2, 3], xp: 15 },
     ],
   },
 ]
