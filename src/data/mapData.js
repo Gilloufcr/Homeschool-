@@ -463,6 +463,23 @@ export const geographyMapPoints = [
   },
 ]
 
+// ─── Regions metropolitaines de France ────────────────────────────────
+export const franceRegions = [
+  { name: 'Ile-de-France', center: [48.8566, 2.3522], capital: 'Paris' },
+  { name: 'Provence-Alpes-Cote d\'Azur', center: [43.9352, 6.0679], capital: 'Marseille' },
+  { name: 'Auvergne-Rhone-Alpes', center: [45.4473, 4.3854], capital: 'Lyon' },
+  { name: 'Occitanie', center: [43.5912, 1.4466], capital: 'Toulouse' },
+  { name: 'Nouvelle-Aquitaine', center: [45.1872, 0.1311], capital: 'Bordeaux' },
+  { name: 'Hauts-de-France', center: [49.8941, 2.2958], capital: 'Lille' },
+  { name: 'Grand Est', center: [48.5734, 7.7521], capital: 'Strasbourg' },
+  { name: 'Bretagne', center: [48.1173, -1.6778], capital: 'Rennes' },
+  { name: 'Pays de la Loire', center: [47.2184, -1.5536], capital: 'Nantes' },
+  { name: 'Normandie', center: [49.1829, -0.3707], capital: 'Rouen' },
+  { name: 'Bourgogne-Franche-Comte', center: [47.0223, 4.8313], capital: 'Dijon' },
+  { name: 'Centre-Val de Loire', center: [47.3941, 1.6940], capital: 'Orleans' },
+  { name: 'Corse', center: [42.0396, 9.0129], capital: 'Ajaccio' },
+]
+
 // ─── Periodes historiques pour le filtre ─────────────────────────────
 export const historicalPeriods = [
   { id: 'all', name: 'Toutes les periodes', color: '#666' },

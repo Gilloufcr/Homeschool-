@@ -166,6 +166,7 @@ function App() {
         progress={progress}
         onComplete={handleExerciseComplete}
         onBack={() => setCurrentPage('child-dashboard')}
+        onOpenMap={currentPage === 'geography' ? () => setCurrentPage('map') : undefined}
       />
     )
   }

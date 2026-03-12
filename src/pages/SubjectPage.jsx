@@ -1,12 +1,14 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import LevelMap from '../components/LevelMap'
 import LessonView from '../components/LessonView'
 import ExerciseCard from '../components/ExerciseCard'
 import XPBar from '../components/XPBar'
 import LanguageResources from '../components/LanguageResources'
 import VideoResources from '../components/VideoResources'
+import Timeline from '../components/Timeline'
+import { timelineData } from '../data/timelineData'
 
-const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack }) => {
+const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, onOpenMap }) => {
   const [selectedLevel, setSelectedLevel] = useState(null)
   const [showLesson, setShowLesson] = useState(false)
   const [currentExIdx, setCurrentExIdx] = useState(0)
@@ -15,6 +17,25 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
 
   const isMinecraft = profile.theme === 'minecraft'
   const font = "'Quicksand', sans-serif"
+
+  // Timeline data for history subject
+  const gradeKeyMap = { CE2: 'CE2', CM1: 'CM1', CM2: 'CM2', '6eme': '6eme', '5eme': '5eme' }
+  const timelineGrade = useMemo(() => {
+    if (subject !== 'history') return []
+    return timelineData[gradeKeyMap[profile.grade]] || []
+  }, [subject, profile.grade])
+
+  const completedLevelIds = useMemo(() => {
+    if (subject !== 'history') return []
+    return levels
+      .filter(lvl => lvl.exercises.every(ex => progress.completedExercises.includes(ex.id)))
+      .map(lvl => lvl.id)
+  }, [subject, levels, progress.completedExercises])
+
+  const handleTimelinePeriodSelect = (period, index) => {
+    const matchingLevel = levels.find(lvl => lvl.id === period.id)
+    if (matchingLevel) handleSelectLevel(matchingLevel)
+  }
   const a11y = profile.accessibility || {}
   const hasA11y = a11y.enabled && a11y.profiles?.length > 0
   const needsEncouragement = hasA11y && (a11y.profiles?.includes('dyslexia') || a11y.profiles?.includes('adhd'))
@@ -140,6 +161,16 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
                 Revoir la lecon
               </button>
             )}
+            {onOpenMap && (
+              <button style={{
+                ...backBtnStyle,
+                background: isMinecraft ? 'rgba(33,150,243,0.3)' : 'rgba(52,152,219,0.1)',
+                color: isMinecraft ? '#5DADE2' : '#2E86C1',
+                border: isMinecraft ? '1px solid rgba(33,150,243,0.3)' : 'none',
+              }} onClick={onOpenMap}>
+                🗺️ Carte interactive
+              </button>
+            )}
           </div>
 
           <XPBar xp={progress.xp} level={progress.level} theme={profile.theme} />
@@ -251,6 +282,36 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack })
         <div style={{ ...titleStyle, marginTop: '15px' }}>
           {subjectNames[subject]}
         </div>
+
+        {onOpenMap && (
+          <div style={{ textAlign: 'center', marginBottom: 'clamp(12px, 1.5vw, 20px)' }}>
+            <button style={{
+              padding: 'clamp(12px, 1.4vw, 18px) clamp(24px, 3vw, 40px)',
+              borderRadius: '16px',
+              border: isMinecraft ? '2px solid rgba(33,150,243,0.4)' : '2px solid rgba(52,152,219,0.25)',
+              background: isMinecraft ? 'rgba(33,150,243,0.15)' : 'rgba(52,152,219,0.08)',
+              backdropFilter: 'blur(8px)',
+              color: isMinecraft ? '#5DADE2' : '#2E86C1',
+              fontFamily: font,
+              fontSize: 'clamp(0.95rem, 1.15vw, 1.25rem)',
+              fontWeight: '700',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              boxShadow: isMinecraft ? '0 4px 16px rgba(33,150,243,0.15)' : '0 2px 12px rgba(52,152,219,0.1)',
+            }} onClick={onOpenMap}>
+              🗺️ Carte interactive
+            </button>
+          </div>
+        )}
+
+        {subject === 'history' && timelineGrade.length > 0 && (
+          <Timeline
+            grade={timelineGrade}
+            completedLevels={completedLevelIds}
+            theme={profile.theme}
+            onSelectPeriod={handleTimelinePeriodSelect}
+          />
+        )}
 
         <div className="level-map-wrapper">
           <LevelMap levels={levels} theme={profile.theme} playerLevel={progress.level}

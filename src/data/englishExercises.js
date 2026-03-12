@@ -18,6 +18,8 @@ export const englishLevels = [
       { id: 'ece2-1-5', type: 'choice', question: 'Your English pen pal Emma is introducing herself. Complete her sentence: "My name ___ Emma."', answer: 'is', options: ['is', 'am', 'are', 'has'], xp: 15 },
       { id: 'ece2-1-m1', type: 'matching', question: 'Match each English word with its French translation!', pairs: [{ left: 'cat', right: 'chat' }, { left: 'dog', right: 'chien' }, { left: 'house', right: 'maison' }, { left: 'school', right: 'ecole' }], xp: 15 },
       { id: 'ece2-1-mm1', type: 'memory', question: 'Find the matching English-French pairs!', pairs: [{ front: 'hello', back: 'bonjour' }, { front: 'goodbye', back: 'au revoir' }, { front: 'thank you', back: 'merci' }, { front: 'please', back: 's\'il te plait' }], xp: 20 },
+      { id: 'ece2-1-l1', type: 'listening', question: 'Ecoute et reponds aux questions', audioText: 'My name is Lucy. I am eight years old. I have a cat named Mimi. I like to play in the garden with my brother Tom.', audioLang: 'en-US', questions: [{ q: 'What is the girl\'s name?', answer: 'Lucy', options: ['Lucy', 'Mimi', 'Tom', 'Sara'] }, { q: 'What animal does she have?', answer: 'A cat', options: ['A dog', 'A cat', 'A bird', 'A fish'] }], xp: 20 },
+      { id: 'ece2-1-s1', type: 'speaking', question: 'Repete apres moi - les salutations', words: ['Hello', 'Good morning', 'Goodbye', 'Thank you', 'Please'], audioLang: 'en-US', xp: 15 },
     ],
   },
   {
