@@ -7,8 +7,9 @@ import OrderingGame from './games/OrderingGame'
 import FillBlankGame from './games/FillBlankGame'
 import ListeningGame from './games/ListeningGame'
 import SpeakingGame from './games/SpeakingGame'
+import ColoringGame from './games/ColoringGame'
 
-const GAME_TYPES = { matching: MatchingGame, memory: MemoryGame, ordering: OrderingGame, 'fill-blank': FillBlankGame, listening: ListeningGame, speaking: SpeakingGame }
+const GAME_TYPES = { matching: MatchingGame, memory: MemoryGame, ordering: OrderingGame, 'fill-blank': FillBlankGame, listening: ListeningGame, speaking: SpeakingGame, coloring: ColoringGame }
 
 // Highlight keywords in a question string
 function highlightText(text, isMinecraft) {

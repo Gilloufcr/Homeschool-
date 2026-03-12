@@ -18,6 +18,7 @@ export const geographyLevels = [
       { id: 'gce2-1-5', type: 'choice', question: 'Tu survoles ton quartier en drone et tu prends une photo. Le resultat ressemble beaucoup a un...', answer: 'un espace vu de dessus a grande echelle (quartier, ville)', options: ['le monde entier', 'un espace vu de dessus a grande echelle (quartier, ville)', 'un paysage en photo', 'une montagne'], xp: 15 },
       { id: 'gce2-1-m1', type: 'matching', question: 'Relie chaque pays a sa capitale !', pairs: [{ left: 'France', right: 'Paris' }, { left: 'Espagne', right: 'Madrid' }, { left: 'Italie', right: 'Rome' }, { left: 'Allemagne', right: 'Berlin' }], xp: 15 },
       { id: 'gce2-1-fb1', type: 'fill-blank', question: 'Complete avec le bon mot !', sentence: 'Sur une carte, le ___ est toujours en haut.', blanks: ['Nord'], wordBank: ['Nord', 'Sud', 'Est', 'Ouest'], xp: 15 },
+      { id: 'gce2-1-c1', type: 'coloring', question: 'Colorie la carte !', regions: [{ id: 'nord', name: 'Nord', path: 'M70,15 L110,15 L115,45 L65,45 Z', correctColor: 'blue', label: 'Le Nord en bleu' }, { id: 'ouest', name: 'Ouest', path: 'M20,45 L65,45 L60,85 L15,85 Z', correctColor: 'green', label: 'L\'Ouest en vert' }, { id: 'est', name: 'Est', path: 'M115,45 L155,45 L150,85 L110,85 Z', correctColor: 'orange', label: 'L\'Est en orange' }, { id: 'sud', name: 'Sud', path: 'M40,85 L130,85 L120,120 L50,120 Z', correctColor: 'red', label: 'Le Sud en rouge' }], palette: ['red', 'blue', 'green', 'yellow', 'orange', 'purple'], xp: 15 },
     ],
   },
   {

@@ -18,6 +18,7 @@ export const scienceLevels = [
       { id: 'sce2-1-5', type: 'choice', question: 'Tu plantes une graine dans un pot pour une experience. De quoi a-t-elle besoin pour germer ?', answer: 'eau et chaleur', options: ['lumiere et vent', 'eau et chaleur', 'froid et obscurite', 'terre et feu'], xp: 10 },
       { id: 'sce2-1-m1', type: 'matching', question: 'Relie chaque animal a son type d\'alimentation !', pairs: [{ left: 'Lion', right: 'Carnivore' }, { left: 'Vache', right: 'Herbivore' }, { left: 'Ours', right: 'Omnivore' }, { left: 'Lapin', right: 'Herbivore' }], xp: 15 },
       { id: 'sce2-1-o1', type: 'ordering', question: 'Remets les etapes du cycle de l\'eau dans l\'ordre !', items: ['Le soleil chauffe l\'eau', 'L\'eau s\'evapore', 'Les nuages se forment', 'La pluie tombe'], correctOrder: [0, 1, 2, 3], xp: 15 },
+      { id: 'sce2-1-c1', type: 'coloring', question: 'Colorie les parties de la plante !', regions: [{ id: 'racines', name: 'Racines', path: 'M75,130 L85,160 L70,170 L60,155 L65,140 Z', correctColor: 'brown', label: 'Les racines en marron' }, { id: 'tige', name: 'Tige', path: 'M78,60 L82,60 L84,130 L76,130 Z', correctColor: 'green', label: 'La tige en vert' }, { id: 'feuilles', name: 'Feuilles', path: 'M50,70 L76,80 L75,90 L45,85 Z M84,75 L110,65 L115,80 L85,85 Z', correctColor: 'green', label: 'Les feuilles en vert' }, { id: 'fleur', name: 'Fleur', path: 'M65,30 L80,20 L95,30 L90,45 L70,45 Z', correctColor: 'red', label: 'La fleur en rouge' }], palette: ['red', 'green', 'brown', 'yellow', 'blue', 'orange'], xp: 15 },
     ],
   },
   {

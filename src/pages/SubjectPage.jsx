@@ -6,7 +6,9 @@ import XPBar from '../components/XPBar'
 import LanguageResources from '../components/LanguageResources'
 import VideoResources from '../components/VideoResources'
 import Timeline from '../components/Timeline'
+import ExperimentGuide from '../components/ExperimentGuide'
 import { timelineData } from '../data/timelineData'
+import { experiments } from '../data/experimentData'
 
 const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, onOpenMap }) => {
   const [selectedLevel, setSelectedLevel] = useState(null)
@@ -14,6 +16,7 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, o
   const [currentExIdx, setCurrentExIdx] = useState(0)
   const [showEncouragement, setShowEncouragement] = useState(false)
   const [consecutiveCorrect, setConsecutiveCorrect] = useState(0)
+  const [showExperiment, setShowExperiment] = useState(false)
 
   const isMinecraft = profile.theme === 'minecraft'
   const font = "'Quicksand', sans-serif"
@@ -161,6 +164,16 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, o
                 Revoir la lecon
               </button>
             )}
+            {subject === 'science' && experiments[selectedLevel.id] && (
+              <button style={{
+                ...backBtnStyle,
+                background: isMinecraft ? 'rgba(243,156,18,0.3)' : 'rgba(243,156,18,0.1)',
+                color: isMinecraft ? '#FFD700' : '#E67E22',
+                border: isMinecraft ? '1px solid rgba(243,156,18,0.3)' : 'none',
+              }} onClick={() => setShowExperiment(true)}>
+                🧪 Experience
+              </button>
+            )}
             {onOpenMap && (
               <button style={{
                 ...backBtnStyle,
@@ -263,6 +276,15 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, o
           )}
 
           <VideoResources subject={subject} grade={selectedLevel.grade || profile.grade} theme={profile.theme} />
+
+          {showExperiment && experiments[selectedLevel.id] && (
+            <ExperimentGuide
+              experiment={experiments[selectedLevel.id]}
+              theme={profile.theme}
+              accessibility={profile.accessibility}
+              onClose={() => setShowExperiment(false)}
+            />
+          )}
         </div>
       </div>
     )
