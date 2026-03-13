@@ -103,6 +103,11 @@ function App() {
     if (!isCompleted(exerciseId)) {
       addXP(xp)
       completeExercise(exerciseId, subject)
+      // Increment daily goal counter
+      const childId = selectedChild?.id || 'default'
+      const todayKey = `homeschool_today_${childId}_${new Date().toDateString()}`
+      const current = parseInt(localStorage.getItem(todayKey) || '0')
+      localStorage.setItem(todayKey, String(current + 1))
     }
   }
 

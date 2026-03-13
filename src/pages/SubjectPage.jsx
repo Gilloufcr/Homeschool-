@@ -4,6 +4,7 @@ import LessonView from '../components/LessonView'
 import ExerciseCard from '../components/ExerciseCard'
 import ProgressBar from '../components/ProgressBar'
 import MedalDisplay from '../components/MedalDisplay'
+import VictoryAnimation from '../components/VictoryAnimation'
 import XPBar from '../components/XPBar'
 import LanguageResources from '../components/LanguageResources'
 import VideoResources from '../components/VideoResources'
@@ -22,6 +23,7 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onAddMeda
   const [showExperiment, setShowExperiment] = useState(false)
   const [correctCount, setCorrectCount] = useState(0)
   const [showMedal, setShowMedal] = useState(false)
+  const [showVictory, setShowVictory] = useState(false)
   const [streak, setStreak] = useState(0)
 
   const isMinecraft = profile.theme === 'minecraft'
@@ -86,7 +88,7 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onAddMeda
           const pct = Math.round((newCorrectCount / totalEx) * 100)
           const medalType = pct >= 90 ? 'gold' : pct >= 80 ? 'silver' : pct >= 60 ? 'bronze' : null
           if (medalType && onAddMedal) onAddMedal(selectedLevel.id, medalType)
-          setShowMedal(true)
+          setShowVictory(true)
         } else if (needsEncouragement && newConsecutive > 0 && newConsecutive % 3 === 0) {
           setShowEncouragement(true)
         } else {
@@ -171,6 +173,18 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onAddMeda
             onStartExercises={() => setShowLesson(false)} />
         </div>
       </div>
+    )
+  }
+
+  // Victory animation - plays before showing medal
+  if (selectedLevel && showVictory) {
+    const reduceAnim = a11y.enabled && a11y.reduceAnimations
+    return (
+      <VictoryAnimation
+        theme={profile.theme}
+        reduceAnimations={reduceAnim}
+        onComplete={() => { setShowVictory(false); setShowMedal(true) }}
+      />
     )
   }
 

@@ -3,9 +3,12 @@ import XPBar from '../components/XPBar'
 import BadgeDisplay from '../components/BadgeDisplay'
 import UKFlag from '../components/UKFlag'
 import StreakBanner from '../components/StreakBanner'
+import DailyGoals from '../components/DailyGoals'
 
 const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, onLogout }) => {
   const [showStreak, setShowStreak] = useState(true)
+  const todayKey = `homeschool_today_${profile.id}_${new Date().toDateString()}`
+  const [todayCount] = useState(() => parseInt(localStorage.getItem(todayKey) || '0'))
   const isMinecraft = profile.theme === 'minecraft'
   const font = "'Quicksand', sans-serif"
 
@@ -197,6 +200,13 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
             theme={profile.theme}
           />
         )}
+
+        <div style={{ marginBottom: 'clamp(12px, 1.5vw, 20px)' }}>
+          <DailyGoals
+            theme={profile.theme}
+            todayCount={todayCount}
+          />
+        </div>
 
         <XPBar xp={progress.xp} level={progress.level} theme={profile.theme} />
 
