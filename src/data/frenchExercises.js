@@ -96,6 +96,7 @@ export const frenchLevels = [
       { id: 'fcm1-1-5', type: 'choice', question: 'Tu es un chef cuisinier celebre ! Je ___ un plat special ce soir. (verbe faire, au present)', answer: 'fais', options: ['fais', 'fait', 'fai', 'faisais'], xp: 10 },
       { id: 'fcm1-1-fb1', type: 'fill-blank', question: 'Conjugue le verbe entre parentheses au present !', sentence: 'Nous ___ (partir) en voyage demain matin.', blanks: ['partons'], wordBank: ['partons', 'partent', 'partes', 'partions'], xp: 15 },
       { id: 'fcm1-1-m1', type: 'matching', question: 'Relie chaque pronom a la bonne conjugaison du verbe "aller" au present !', pairs: [{ left: 'Je', right: 'vais' }, { left: 'Nous', right: 'allons' }, { left: 'Ils', right: 'vont' }, { left: 'Tu', right: 'vas' }], xp: 15 },
+      { id: 'fcm1-1-t1', type: 'timed', question: 'Conjugaison express - Present !', challenges: [{ q: 'Je ___ (pouvoir)', answer: 'peux', options: ['peux', 'peut', 'pouvons', 'pouvez'] }, { q: 'Tu ___ (venir)', answer: 'viens', options: ['viens', 'vient', 'venons', 'venez'] }, { q: 'Il ___ (savoir)', answer: 'sait', options: ['sais', 'sait', 'savons', 'savent'] }, { q: 'Nous ___ (dire)', answer: 'disons', options: ['disent', 'disons', 'dites', 'dis'] }, { q: 'Elles ___ (prendre)', answer: 'prennent', options: ['prennent', 'prenons', 'prend', 'prenent'] }], timeLimit: 50, xp: 25 },
     ],
   },
   {
@@ -173,6 +174,7 @@ export const frenchLevels = [
       { id: 'fcm2-1-5', type: 'choice', question: 'Les aventuriers partirent en expedition. Au passe simple : Ils ___ (aller) dans la jungle.', answer: 'allerent', options: ['allaient', 'allerent', 'sont alles', 'iront'], xp: 20 },
       { id: 'fcm2-1-fb1', type: 'fill-blank', question: 'Conjugue au passe simple !', sentence: 'Le chevalier ___ (prendre) son epee et ___ (partir) au combat.', blanks: ['prit', 'partit'], wordBank: ['prit', 'partit', 'prenait', 'partait'], xp: 15 },
       { id: 'fcm2-1-m1', type: 'matching', question: 'Relie chaque verbe a sa forme au passe simple (3e personne) !', pairs: [{ left: 'manger', right: 'il mangea' }, { left: 'finir', right: 'il finit' }, { left: 'prendre', right: 'il prit' }, { left: 'voir', right: 'il vit' }], xp: 15 },
+      { id: 'fcm2-1-t1', type: 'timed', question: 'Passe simple express !', challenges: [{ q: 'Il ___ (aller)', answer: 'alla', options: ['alla', 'allait', 'ira', 'va'] }, { q: 'Elle ___ (dire)', answer: 'dit', options: ['dit', 'disait', 'dira', 'disa'] }, { q: 'Ils ___ (faire)', answer: 'firent', options: ['firent', 'faisaient', 'feront', 'font'] }, { q: 'Je ___ (venir)', answer: 'vins', options: ['vins', 'venais', 'viendrai', 'viens'] }, { q: 'Nous ___ (pouvoir)', answer: 'pumes', options: ['pumes', 'pouvions', 'pourrons', 'pouvons'] }], timeLimit: 50, xp: 25 },
     ],
   },
   {
@@ -250,6 +252,7 @@ export const frenchLevels = [
       { id: 'f6e-1-5', type: 'choice', question: 'Le heros annonce : "Il mange" le gateau magique. Le mot "Il" est quoi ?', answer: 'un pronom personnel', options: ['un nom', 'un determinant', 'un pronom personnel', 'un adverbe'], xp: 10 },
       { id: 'f6e-1-fb1', type: 'fill-blank', question: 'Complete avec la bonne classe grammaticale !', sentence: 'Dans "Le grand chat noir dort paisiblement", le mot "paisiblement" est un ___.', blanks: ['adverbe'], wordBank: ['adverbe', 'adjectif', 'nom', 'verbe'], xp: 15 },
       { id: 'f6e-1-m1', type: 'matching', question: 'Relie chaque mot a sa classe grammaticale !', pairs: [{ left: 'rapidement', right: 'adverbe' }, { left: 'magnifique', right: 'adjectif' }, { left: 'dans', right: 'preposition' }, { left: 'le', right: 'determinant' }], xp: 15 },
+      { id: 'f6e-1-t1', type: 'timed', question: 'Classes grammaticales express !', challenges: [{ q: '"beau" est...', answer: 'un adjectif', options: ['un nom', 'un adjectif', 'un adverbe', 'un verbe'] }, { q: '"lentement" est...', answer: 'un adverbe', options: ['un adjectif', 'un adverbe', 'un nom', 'un verbe'] }, { q: '"sous" est...', answer: 'une preposition', options: ['un adverbe', 'une conjonction', 'une preposition', 'un pronom'] }, { q: '"il" est...', answer: 'un pronom', options: ['un nom', 'un determinant', 'un pronom', 'un adverbe'] }, { q: '"des" est...', answer: 'un determinant', options: ['un pronom', 'un determinant', 'une preposition', 'un adverbe'] }], timeLimit: 45, xp: 25 },
     ],
   },
   {
@@ -327,6 +330,7 @@ export const frenchLevels = [
       { id: 'f5e-1-5', type: 'choice', question: 'Dans l\'arbre des phrases, la proposition principale est la branche maitresse. Elle se reconnait comment ?', answer: 'peut exister seule et dont depend la subordonnee', options: ['est introduite par "que"', 'peut exister seule et dont depend la subordonnee', 'est toujours en debut de phrase', 'contient un adverbe'], xp: 15 },
       { id: 'f5e-1-fb1', type: 'fill-blank', question: 'Complete avec le bon pronom relatif !', sentence: 'Le livre ___ je t\'ai parle est passionnant.', blanks: ['dont'], wordBank: ['dont', 'que', 'qui', 'ou'], xp: 15 },
       { id: 'f5e-1-m1', type: 'matching', question: 'Relie chaque pronom relatif a sa fonction dans la subordonnee !', pairs: [{ left: 'qui', right: 'sujet' }, { left: 'que', right: 'COD' }, { left: 'dont', right: 'complement du nom / COI' }, { left: 'ou', right: 'complement de lieu ou temps' }], xp: 15 },
+      { id: 'f5e-1-t1', type: 'timed', question: 'Grammaire express - Propositions !', challenges: [{ q: '"qui" introduit une...', answer: 'relative', options: ['relative', 'conjonctive', 'principale', 'interrogative'] }, { q: '"parce que" introduit une...', answer: 'conjonctive', options: ['relative', 'conjonctive', 'principale', 'interrogative'] }, { q: 'La proposition principale...', answer: 'peut exister seule', options: ['est introduite par "que"', 'peut exister seule', 'est toujours a la fin', 'est facultative'] }, { q: '"dont" remplace un complement introduit par...', answer: 'de', options: ['a', 'de', 'pour', 'avec'] }, { q: '"ou" indique...', answer: 'le lieu ou le temps', options: ['la cause', 'le but', 'le lieu ou le temps', 'la maniere'] }], timeLimit: 50, xp: 25 },
     ],
   },
   {

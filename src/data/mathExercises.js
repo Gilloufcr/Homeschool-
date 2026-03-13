@@ -168,6 +168,7 @@ export const mathLevels = [
       { id: 'mcm2-1-5', type: 'calculate', question: 'Tu cours un 100 metres en 7,847 secondes. Arrondis ton temps au dixieme de seconde.', answer: '7,8', options: ['7,8', '7,9', '7,85', '8,0'], xp: 20 },
       { id: 'mcm2-1-m1', type: 'matching', question: 'Relie chaque nombre decimal a sa fraction equivalente !', pairs: [{ left: '0,5', right: '1/2' }, { left: '0,25', right: '1/4' }, { left: '0,75', right: '3/4' }, { left: '0,1', right: '1/10' }], xp: 15 },
       { id: 'mcm2-1-mm1', type: 'memory', question: 'Retrouve les paires : decimaux et fractions !', pairs: [{ front: '0,2', back: '1/5' }, { front: '0,5', back: '1/2' }, { front: '0,125', back: '1/8' }, { front: '0,75', back: '3/4' }], xp: 20 },
+      { id: 'mcm2-1-t1', type: 'timed', question: 'Calcul rapide - Decimaux !', challenges: [{ q: '1,5 + 2,5', answer: '4', options: ['3,5', '4', '4,5', '3'] }, { q: '10 - 3,7', answer: '6,3', options: ['6,3', '7,3', '6,7', '7,7'] }, { q: '0,5 x 6', answer: '3', options: ['2,5', '3', '3,5', '2'] }, { q: '4,8 + 1,2', answer: '6', options: ['5,6', '6', '5,8', '6,2'] }, { q: '7,5 - 2,5', answer: '5', options: ['4,5', '5', '5,5', '4'] }], timeLimit: 45, xp: 25 },
     ],
   },
   {
@@ -240,6 +241,7 @@ export const mathLevels = [
       { id: 'm6e-1-5', type: 'choice', question: 'Tu cultives 2/5 de ton jardin en tomates et tu utilises 3/4 de cette zone pour des tomates cerises. Quelle fraction du jardin total est en tomates cerises ?', answer: '3/10', options: ['3/10', '5/9', '6/9', '5/20'], xp: 20 },
       { id: 'm6e-1-m1', type: 'matching', question: 'Relie chaque operation sur les fractions a son resultat !', pairs: [{ left: '1/3 + 1/6', right: '1/2' }, { left: '3/4 - 1/4', right: '1/2' }, { left: '2/5 + 1/5', right: '3/5' }, { left: '5/6 - 1/3', right: '1/2' }], xp: 15 },
       { id: 'm6e-1-mm1', type: 'memory', question: 'Retrouve les paires de fractions simplifiees !', pairs: [{ front: '4/8', back: '1/2' }, { front: '6/9', back: '2/3' }, { front: '10/15', back: '2/3' }, { front: '3/12', back: '1/4' }], xp: 20 },
+      { id: 'm6e-1-t1', type: 'timed', question: 'Calcul rapide - Fractions !', challenges: [{ q: '1/2 + 1/2', answer: '1', options: ['1/2', '1', '2', '1/4'] }, { q: '3/4 - 1/4', answer: '1/2', options: ['1/4', '1/2', '2/4', '3/4'] }, { q: '1/3 + 1/3', answer: '2/3', options: ['1/3', '2/3', '1/6', '2/6'] }, { q: '2/5 + 3/5', answer: '1', options: ['5/5', '1', '5/10', '2/5'] }, { q: '7/8 - 3/8', answer: '1/2', options: ['4/8', '1/2', '3/8', '4/16'] }], timeLimit: 50, xp: 25 },
     ],
   },
   {
@@ -312,6 +314,7 @@ export const mathLevels = [
       { id: 'm5e-1-5', type: 'calculate', question: 'Au sommet d\'une montagne, il fait -8°C. Le soleil fait monter la temperature de 12°C. Quelle est la nouvelle temperature ?', answer: 4, options: [4, -20, 20, -4], xp: 15 },
       { id: 'm5e-1-m1', type: 'matching', question: 'Relie chaque operation avec nombres relatifs a son resultat !', pairs: [{ left: '(-3) + (+7)', right: '+4' }, { left: '(+5) + (-8)', right: '-3' }, { left: '(-6) - (-2)', right: '-4' }, { left: '(+3) - (+9)', right: '-6' }], xp: 15 },
       { id: 'm5e-1-mm1', type: 'memory', question: 'Trouve les paires de calculs qui donnent le meme resultat !', pairs: [{ front: '(-2) + (-3)', back: '-5' }, { front: '(+4) + (-4)', back: '0' }, { front: '(-7) + (+10)', back: '+3' }, { front: '(+6) - (+8)', back: '-2' }], xp: 20 },
+      { id: 'm5e-1-t1', type: 'timed', question: 'Calcul rapide - Nombres relatifs !', challenges: [{ q: '(-3) + (+5)', answer: '2', options: ['-2', '2', '8', '-8'] }, { q: '(+7) + (-10)', answer: '-3', options: ['-3', '3', '-17', '17'] }, { q: '(-4) - (-6)', answer: '2', options: ['-10', '-2', '2', '10'] }, { q: '(+9) + (-9)', answer: '0', options: ['0', '18', '-18', '9'] }, { q: '(-5) + (-3)', answer: '-8', options: ['-8', '8', '-2', '2'] }], timeLimit: 45, xp: 25 },
     ],
   },
   {
