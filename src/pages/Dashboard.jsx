@@ -4,12 +4,32 @@ import BadgeDisplay from '../components/BadgeDisplay'
 import UKFlag from '../components/UKFlag'
 import StreakBanner from '../components/StreakBanner'
 import DailyGoals from '../components/DailyGoals'
+import WeeklyRecap, { isWeeklyRecapDismissed } from '../components/WeeklyRecap'
+import Leaderboard from '../components/Leaderboard'
 
-const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, onLogout }) => {
+const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, onLogout, family }) => {
   const [showStreak, setShowStreak] = useState(true)
   const todayKey = `homeschool_today_${profile.id}_${new Date().toDateString()}`
   const [todayCount] = useState(() => parseInt(localStorage.getItem(todayKey) || '0'))
+  const childId = profile.name?.toLowerCase() || 'default'
+  const [showWeeklyRecap, setShowWeeklyRecap] = useState(() => !isWeeklyRecapDismissed(childId))
   const isMinecraft = profile.theme === 'minecraft'
+
+  // Build siblings list and progress map for leaderboard
+  const siblings = family?.children || []
+  const progressMap = {}
+  siblings.forEach(child => {
+    if (child.id === profile.id) {
+      progressMap[child.id] = progress
+    } else {
+      try {
+        const saved = localStorage.getItem(`homeschool_progress_${child.id}`)
+        progressMap[child.id] = saved ? JSON.parse(saved) : { xp: 0, level: 1, completedExercises: [], streak: 0, medals: {} }
+      } catch {
+        progressMap[child.id] = { xp: 0, level: 1, completedExercises: [], streak: 0, medals: {} }
+      }
+    }
+  })
   const font = "'Quicksand', sans-serif"
 
   const subjects = [
@@ -207,6 +227,28 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
             todayCount={todayCount}
           />
         </div>
+
+        {siblings.length > 0 && (
+          <Leaderboard
+            children={siblings}
+            progressMap={progressMap}
+            currentChildId={profile.id}
+            theme={profile.theme}
+          />
+        )}
+
+        {showWeeklyRecap && (
+          <WeeklyRecap
+            progress={progress}
+            theme={profile.theme}
+            childName={profile.name}
+            onDismiss={() => {
+              const cid = profile.name?.toLowerCase() || 'default'
+              localStorage.setItem(`homeschool_weekrecap_dismiss_${cid}_${new Date().toDateString()}`, '1')
+              setShowWeeklyRecap(false)
+            }}
+          />
+        )}
 
         <XPBar xp={progress.xp} level={progress.level} theme={profile.theme} />
 

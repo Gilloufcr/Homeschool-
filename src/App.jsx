@@ -1,6 +1,7 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
 import AuthPage from './components/AuthPage'
 import Dashboard from './pages/Dashboard'
+import LevelUpOverlay from './components/LevelUpOverlay'
 
 const ParentDashboard = lazy(() => import('./pages/ParentDashboard'))
 const SubjectPage = lazy(() => import('./pages/SubjectPage'))
@@ -45,9 +46,20 @@ function App() {
     return localStorage.getItem('homeschool_show_badges') === 'true'
   })
 
+  const [showLevelUp, setShowLevelUp] = useState(false)
+  const [newLevel, setNewLevel] = useState(1)
+
   const { progress, addXP, completeExercise, updateStreak, addMedal, isCompleted } = useProgress(
     selectedChild?.id || 'default'
   )
+
+  // Detect level-up from progress hook
+  useEffect(() => {
+    if (progress._leveledUp) {
+      setNewLevel(progress.level)
+      setShowLevelUp(true)
+    }
+  }, [progress.level])
 
   // Load custom lessons when authenticated
   useEffect(() => {
@@ -129,6 +141,15 @@ function App() {
     </div>
   )
 
+  const levelUpOverlay = showLevelUp && selectedChild ? (
+    <LevelUpOverlay
+      level={newLevel}
+      theme={selectedChild.theme || 'default'}
+      reduceAnimations={selectedChild.accessibility?.reduceAnimations || false}
+      onDismiss={() => setShowLevelUp(false)}
+    />
+  ) : null
+
   // Settings page
   if (currentPage === 'settings') {
     return (
@@ -162,14 +183,17 @@ function App() {
   // Interactive map for child
   if (currentPage === 'map') {
     return (
-      <Suspense fallback={suspenseFallback}>
-        <InteractiveMap
-          profile={selectedChild}
-          progress={progress}
-          onComplete={handleExerciseComplete}
-          onBack={() => setCurrentPage('child-dashboard')}
-        />
-      </Suspense>
+      <>
+        {levelUpOverlay}
+        <Suspense fallback={suspenseFallback}>
+          <InteractiveMap
+            profile={selectedChild}
+            progress={progress}
+            onComplete={handleExerciseComplete}
+            onBack={() => setCurrentPage('child-dashboard')}
+          />
+        </Suspense>
+      </>
     )
   }
 
@@ -177,31 +201,38 @@ function App() {
   const subjects = ['math', 'french', 'history', 'geography', 'science', 'english', 'emc']
   if (subjects.includes(currentPage)) {
     return (
-      <Suspense fallback={suspenseFallback}>
-        <SubjectPage
-          profile={selectedChild}
-          subject={currentPage}
-          levels={getLevelsForSubject(currentPage)}
-          progress={progress}
-          onComplete={handleExerciseComplete}
-          onAddMedal={addMedal}
-          onBack={() => setCurrentPage('child-dashboard')}
-          onOpenMap={currentPage === 'geography' ? () => setCurrentPage('map') : undefined}
-        />
-      </Suspense>
+      <>
+        {levelUpOverlay}
+        <Suspense fallback={suspenseFallback}>
+          <SubjectPage
+            profile={selectedChild}
+            subject={currentPage}
+            levels={getLevelsForSubject(currentPage)}
+            progress={progress}
+            onComplete={handleExerciseComplete}
+            onAddMedal={addMedal}
+            onBack={() => setCurrentPage('child-dashboard')}
+            onOpenMap={currentPage === 'geography' ? () => setCurrentPage('map') : undefined}
+          />
+        </Suspense>
+      </>
     )
   }
 
   // Child dashboard (not lazy, loads fast)
   return (
-    <Dashboard
-      profile={selectedChild}
-      progress={progress}
-      showBadges={showBadges}
-      onToggleBadges={() => setShowBadges(!showBadges)}
-      onNavigate={setCurrentPage}
-      onLogout={handleBackToParent}
-    />
+    <>
+      {levelUpOverlay}
+      <Dashboard
+        profile={selectedChild}
+        progress={progress}
+        showBadges={showBadges}
+        onToggleBadges={() => setShowBadges(!showBadges)}
+        onNavigate={setCurrentPage}
+        onLogout={handleBackToParent}
+        family={family}
+      />
+    </>
   )
 }
 
