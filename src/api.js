@@ -156,6 +156,17 @@ export const getProgressSummary = async (childId, filters = {}) => {
   return request(`/api/progress/${childId}/summary${qs ? '?' + qs : ''}`)
 }
 
+export const getProgressState = async (childId) => {
+  return request(`/api/progress/${childId}/state`)
+}
+
+export const saveProgressState = async (childId, state) => {
+  return request(`/api/progress/${childId}/state`, {
+    method: 'PUT',
+    body: JSON.stringify(state),
+  })
+}
+
 // ─── AI Generation (server only) ──────────────────────────────────
 export const generateExercises = async (params) => {
   return request('/api/generate', {

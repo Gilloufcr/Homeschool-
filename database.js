@@ -88,6 +88,21 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_shared_subject ON shared_exercises(subject);
   CREATE INDEX IF NOT EXISTS idx_shared_grade ON shared_exercises(grade);
   CREATE INDEX IF NOT EXISTS idx_shared_topic ON shared_exercises(topic);
+
+  CREATE TABLE IF NOT EXISTS progress_state (
+    child_id TEXT NOT NULL,
+    family_id TEXT NOT NULL,
+    xp INTEGER DEFAULT 0,
+    level INTEGER DEFAULT 1,
+    completed_exercises TEXT DEFAULT '[]',
+    medals TEXT DEFAULT '{}',
+    streak INTEGER DEFAULT 0,
+    last_played TEXT,
+    badges TEXT DEFAULT '[]',
+    updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+    PRIMARY KEY (child_id, family_id),
+    FOREIGN KEY (family_id) REFERENCES families(id) ON DELETE CASCADE
+  );
 `)
 
 // Init shared stats if missing
@@ -124,6 +139,15 @@ const stmts = {
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`),
   getProgress: db.prepare('SELECT * FROM progress WHERE family_id_hash = ? AND child_id = ? ORDER BY timestamp ASC'),
   getProgressFiltered: db.prepare('SELECT * FROM progress WHERE family_id_hash = ? AND child_id = ? AND (? IS NULL OR subject = ?) AND (? IS NULL OR timestamp >= ?) AND (? IS NULL OR timestamp <= ?) ORDER BY timestamp ASC'),
+
+  // Progress state (persistent)
+  getProgressState: db.prepare('SELECT * FROM progress_state WHERE child_id = ? AND family_id = ?'),
+  upsertProgressState: db.prepare(`INSERT INTO progress_state (child_id, family_id, xp, level, completed_exercises, medals, streak, last_played, badges, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(child_id, family_id) DO UPDATE SET
+      xp = excluded.xp, level = excluded.level, completed_exercises = excluded.completed_exercises,
+      medals = excluded.medals, streak = excluded.streak, last_played = excluded.last_played,
+      badges = excluded.badges, updated_at = excluded.updated_at`),
 
   // Shared exercises
   getAllShared: db.prepare('SELECT * FROM shared_exercises ORDER BY created_at DESC'),

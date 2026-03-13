@@ -361,6 +361,39 @@ app.get('/api/progress/:childId/summary', requireAuth, (req, res) => {
   })
 })
 
+// ─── Persistent progress state ────────────────────────────────────
+app.get('/api/progress/:childId/state', requireAuth, (req, res) => {
+  const row = stmts.getProgressState.get(req.params.childId, req.familyId)
+  if (!row) {
+    return res.json({
+      xp: 0, level: 1, completedExercises: [], medals: {}, streak: 0, lastPlayed: null, badges: []
+    })
+  }
+  res.json({
+    xp: row.xp,
+    level: row.level,
+    completedExercises: JSON.parse(row.completed_exercises || '[]'),
+    medals: JSON.parse(row.medals || '{}'),
+    streak: row.streak,
+    lastPlayed: row.last_played,
+    badges: JSON.parse(row.badges || '[]'),
+  })
+})
+
+app.put('/api/progress/:childId/state', requireAuth, (req, res) => {
+  const { xp, level, completedExercises, medals, streak, lastPlayed, badges } = req.body
+  stmts.upsertProgressState.run(
+    req.params.childId, req.familyId,
+    xp || 0, level || 1,
+    JSON.stringify(completedExercises || []),
+    JSON.stringify(medals || {}),
+    streak || 0, lastPlayed || null,
+    JSON.stringify(badges || []),
+    new Date().toISOString()
+  )
+  res.json({ ok: true })
+})
+
 // ─── Custom lessons management (family-scoped) ──────────────────────
 app.get('/api/lessons', requireAuth, (req, res) => {
   const lessons = stmts.getLessons.all(req.familyId)

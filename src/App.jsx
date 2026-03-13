@@ -44,7 +44,7 @@ function App() {
     return localStorage.getItem('homeschool_show_badges') === 'true'
   })
 
-  const { progress, addXP, completeExercise, updateStreak, isCompleted } = useProgress(
+  const { progress, addXP, completeExercise, updateStreak, addMedal, isCompleted } = useProgress(
     selectedChild?.id || 'default'
   )
 
@@ -165,6 +165,7 @@ function App() {
         levels={getLevelsForSubject(currentPage)}
         progress={progress}
         onComplete={handleExerciseComplete}
+        onAddMedal={addMedal}
         onBack={() => setCurrentPage('child-dashboard')}
         onOpenMap={currentPage === 'geography' ? () => setCurrentPage('map') : undefined}
       />

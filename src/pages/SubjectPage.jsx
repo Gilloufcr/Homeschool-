@@ -13,7 +13,7 @@ import { timelineData } from '../data/timelineData'
 import { experiments } from '../data/experimentData'
 import { playCorrect, playLevelComplete } from '../utils/sounds'
 
-const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, onOpenMap }) => {
+const SubjectPage = ({ profile, subject, levels, progress, onComplete, onAddMedal, onBack, onOpenMap }) => {
   const [selectedLevel, setSelectedLevel] = useState(null)
   const [showLesson, setShowLesson] = useState(false)
   const [currentExIdx, setCurrentExIdx] = useState(0)
@@ -80,8 +80,12 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, o
       if (selectedLevel) {
         const isLastExercise = currentExIdx >= selectedLevel.exercises.length - 1
         if (isLastExercise) {
-          // All exercises done -> show medal
+          // All exercises done -> show medal + persist
           playLevelComplete()
+          const totalEx = selectedLevel.exercises.length
+          const pct = Math.round((newCorrectCount / totalEx) * 100)
+          const medalType = pct >= 90 ? 'gold' : pct >= 80 ? 'silver' : pct >= 60 ? 'bronze' : null
+          if (medalType && onAddMedal) onAddMedal(selectedLevel.id, medalType)
           setShowMedal(true)
         } else if (needsEncouragement && newConsecutive > 0 && newConsecutive % 3 === 0) {
           setShowEncouragement(true)
@@ -404,7 +408,7 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, o
 
         <div className="level-map-wrapper">
           <LevelMap levels={levels} theme={profile.theme} playerLevel={progress.level}
-            completedExercises={progress.completedExercises} onSelectLevel={handleSelectLevel} />
+            completedExercises={progress.completedExercises} medals={progress.medals || {}} onSelectLevel={handleSelectLevel} />
         </div>
       </div>
     </div>

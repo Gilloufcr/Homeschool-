@@ -365,7 +365,7 @@ const FairyLandscape = ({ height }) => (
 // LEVEL MAP
 // ═══════════════════════════════════════════════════════════════
 
-const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLevel }) => {
+const LevelMap = ({ levels, theme, playerLevel, completedExercises, medals = {}, onSelectLevel }) => {
   const isMinecraft = theme === 'minecraft'
   const [bouncing, setBouncing] = useState(true)
   const [wingFrame, setWingFrame] = useState(true)
@@ -690,6 +690,16 @@ const LevelMap = ({ levels, theme, playerLevel, completedExercises, onSelectLeve
                   ? (isMinecraft ? 'Termine !' : 'Termine !')
                   : `${status.completed}/${status.total}`}
             </div>
+
+            {/* Medal badge */}
+            {medals[level.id] && (
+              <div style={{
+                marginTop: '2px',
+                fontSize: 'clamp(0.9rem, 1.2vw, 1.4rem)',
+              }}>
+                {medals[level.id] === 'gold' ? '🥇' : medals[level.id] === 'silver' ? '🥈' : '🥉'}
+              </div>
+            )}
           </div>
         )
       })}
