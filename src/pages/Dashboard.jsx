@@ -1,8 +1,11 @@
+import { useState } from 'react'
 import XPBar from '../components/XPBar'
 import BadgeDisplay from '../components/BadgeDisplay'
 import UKFlag from '../components/UKFlag'
+import StreakBanner from '../components/StreakBanner'
 
 const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, onLogout }) => {
+  const [showStreak, setShowStreak] = useState(true)
   const isMinecraft = profile.theme === 'minecraft'
   const font = "'Quicksand', sans-serif"
 
@@ -186,6 +189,14 @@ const Dashboard = ({ profile, progress, showBadges, onToggleBadges, onNavigate, 
             </button>
           </div>
         </div>
+
+        {showStreak && (
+          <StreakBanner
+            streak={progress.streak}
+            lastPlayed={progress.lastPlayed}
+            theme={profile.theme}
+          />
+        )}
 
         <XPBar xp={progress.xp} level={progress.level} theme={profile.theme} />
 

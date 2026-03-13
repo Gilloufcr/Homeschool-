@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import AuthPage from './components/AuthPage'
-import ParentDashboard from './pages/ParentDashboard'
 import Dashboard from './pages/Dashboard'
-import SubjectPage from './pages/SubjectPage'
-import InteractiveMap from './pages/InteractiveMap'
-import SettingsPage from './pages/SettingsPage'
+
+const ParentDashboard = lazy(() => import('./pages/ParentDashboard'))
+const SubjectPage = lazy(() => import('./pages/SubjectPage'))
+const InteractiveMap = lazy(() => import('./pages/InteractiveMap'))
+const SettingsPage = lazy(() => import('./pages/SettingsPage'))
 import { mathLevels } from './data/mathExercises'
 import { frenchLevels } from './data/frenchExercises'
 import { historyLevels } from './data/historyExercises'
@@ -112,46 +113,58 @@ function App() {
     return [...builtin, ...custom]
   }
 
-  // Not authenticated -> show auth page
+  // Not authenticated -> show auth page (no lazy needed)
   if (!authenticated) {
     return <AuthPage onAuth={handleAuth} />
   }
 
+  const suspenseFallback = (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', fontFamily: "'Quicksand', sans-serif", fontSize: '1.2rem', color: '#9B59B6' }}>
+      Chargement...
+    </div>
+  )
+
   // Settings page
   if (currentPage === 'settings') {
     return (
-      <SettingsPage
-        family={family}
-        onBack={() => setCurrentPage('parent-dashboard')}
-        onLogout={handleLogout}
-        onFamilyUpdate={(updated) => setFamily(prev => ({ ...prev, ...updated }))}
-      />
+      <Suspense fallback={suspenseFallback}>
+        <SettingsPage
+          family={family}
+          onBack={() => setCurrentPage('parent-dashboard')}
+          onLogout={handleLogout}
+          onFamilyUpdate={(updated) => setFamily(prev => ({ ...prev, ...updated }))}
+        />
+      </Suspense>
     )
   }
 
   // Parent dashboard (children cards + navigation)
   if (!selectedChild || currentPage === 'parent-dashboard') {
     return (
-      <ParentDashboard
-        family={family}
-        onSelectChild={handleSelectChild}
-        onNavigate={setCurrentPage}
-        onLogout={handleLogout}
-        onLessonsUpdate={loadCustomLessons}
-        customLessons={customLessons}
-      />
+      <Suspense fallback={suspenseFallback}>
+        <ParentDashboard
+          family={family}
+          onSelectChild={handleSelectChild}
+          onNavigate={setCurrentPage}
+          onLogout={handleLogout}
+          onLessonsUpdate={loadCustomLessons}
+          customLessons={customLessons}
+        />
+      </Suspense>
     )
   }
 
   // Interactive map for child
   if (currentPage === 'map') {
     return (
-      <InteractiveMap
-        profile={selectedChild}
-        progress={progress}
-        onComplete={handleExerciseComplete}
-        onBack={() => setCurrentPage('child-dashboard')}
-      />
+      <Suspense fallback={suspenseFallback}>
+        <InteractiveMap
+          profile={selectedChild}
+          progress={progress}
+          onComplete={handleExerciseComplete}
+          onBack={() => setCurrentPage('child-dashboard')}
+        />
+      </Suspense>
     )
   }
 
@@ -159,20 +172,22 @@ function App() {
   const subjects = ['math', 'french', 'history', 'geography', 'science', 'english', 'emc']
   if (subjects.includes(currentPage)) {
     return (
-      <SubjectPage
-        profile={selectedChild}
-        subject={currentPage}
-        levels={getLevelsForSubject(currentPage)}
-        progress={progress}
-        onComplete={handleExerciseComplete}
-        onAddMedal={addMedal}
-        onBack={() => setCurrentPage('child-dashboard')}
-        onOpenMap={currentPage === 'geography' ? () => setCurrentPage('map') : undefined}
-      />
+      <Suspense fallback={suspenseFallback}>
+        <SubjectPage
+          profile={selectedChild}
+          subject={currentPage}
+          levels={getLevelsForSubject(currentPage)}
+          progress={progress}
+          onComplete={handleExerciseComplete}
+          onAddMedal={addMedal}
+          onBack={() => setCurrentPage('child-dashboard')}
+          onOpenMap={currentPage === 'geography' ? () => setCurrentPage('map') : undefined}
+        />
+      </Suspense>
     )
   }
 
-  // Child dashboard
+  // Child dashboard (not lazy, loads fast)
   return (
     <Dashboard
       profile={selectedChild}

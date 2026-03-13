@@ -6,6 +6,9 @@ import {
   getLessons,
   deleteLesson,
   addLesson,
+  getProgressSummary,
+  getProgress,
+  getProgressState,
 } from '../api'
 import AIGenerator from '../components/AIGenerator'
 import ReportsPage from '../components/ReportsPage'
@@ -27,6 +30,10 @@ export default function ParentDashboard({
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [editingTND, setEditingTND] = useState(null)
+  const [childStats, setChildStats] = useState({})
+  const [childRecent, setChildRecent] = useState({})
+  const [selectedStatsChild, setSelectedStatsChild] = useState(null)
+  const [statsLoading, setStatsLoading] = useState(false)
 
   useEffect(() => {
     loadData()
@@ -41,10 +48,38 @@ export default function ParentDashboard({
       const [c, l] = await Promise.all([getChildren(), getLessons()])
       setChildren(c)
       setLessons(l)
+      if (c.length > 0) loadAllChildStats(c)
     } catch (e) {
       setError('Impossible de charger les donnees.')
     }
     setLoading(false)
+  }
+
+  const loadAllChildStats = async (childrenList) => {
+    setStatsLoading(true)
+    try {
+      const statsMap = {}
+      const recentMap = {}
+      await Promise.all(childrenList.map(async (child) => {
+        const [summary, progressData, state] = await Promise.all([
+          getProgressSummary(child.id).catch(() => ({ total: 0, correct: 0, subjects: {}, byDate: {} })),
+          getProgress(child.id).catch(() => ({ exercises: [] })),
+          getProgressState(child.id).catch(() => ({ streak: 0, xp: 0, level: 1 })),
+        ])
+        statsMap[child.id] = { ...summary, streak: state.streak || 0, xp: state.xp || 0, level: state.level || 1 }
+        recentMap[child.id] = (progressData.exercises || [])
+          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+          .slice(0, 10)
+      }))
+      setChildStats(statsMap)
+      setChildRecent(recentMap)
+      if (!selectedStatsChild && childrenList.length > 0) {
+        setSelectedStatsChild(childrenList[0].id)
+      }
+    } catch (e) {
+      // Stats loading is non-critical
+    }
+    setStatsLoading(false)
   }
 
   const handleAddChild = async () => {
@@ -100,11 +135,34 @@ export default function ParentDashboard({
     geography: { bg: 'rgba(155,89,182,0.15)', color: '#9B59B6' },
     science: { bg: 'rgba(241,196,15,0.15)', color: '#F1C40F' },
     english: { bg: 'rgba(231,76,60,0.15)', color: '#E74C3C' },
+    art: { bg: 'rgba(255,152,0,0.15)', color: '#FF9800' },
   }
 
   const subjectLabels = {
     math: 'Maths', french: 'Francais', history: 'Histoire',
     geography: 'Geographie', science: 'Sciences', english: 'Anglais',
+    art: 'Arts',
+  }
+
+  const subjectIcons = {
+    math: '\u{1F4D0}', french: '\u{1F4D6}', history: '\u{1F3DB}',
+    geography: '\u{1F30D}', science: '\u{1F52C}', english: '\u{1F1EC}\u{1F1E7}',
+    art: '\u{1F3A8}',
+  }
+
+  const formatDuration = (seconds) => {
+    if (!seconds || seconds < 60) return '< 1 min'
+    const h = Math.floor(seconds / 3600)
+    const m = Math.floor((seconds % 3600) / 60)
+    if (h > 0) return `${h}h ${m}min`
+    return `${m} min`
+  }
+
+  const formatRelativeDate = (iso) => {
+    if (!iso) return ''
+    const d = new Date(iso)
+    return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }) +
+      ' ' + d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
   }
 
   const s = {
@@ -416,7 +474,7 @@ export default function ParentDashboard({
           ))}
         </div>
 
-        {/* ─── Home tab: Children cards to launch exercises ─── */}
+        {/* ─── Home tab: Children cards + stats dashboard ─── */}
         {tab === 'home' && (
           <div>
             {children.length === 0 ? (
@@ -430,37 +488,258 @@ export default function ParentDashboard({
                 </div>
               </div>
             ) : (
-              <div style={s.childrenGrid}>
-                {children.map((child) => (
-                  <div
-                    key={child.id}
-                    style={s.childCard(child.theme)}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)'
-                      e.currentTarget.style.boxShadow = child.theme === 'minecraft'
-                        ? '0 10px 30px rgba(76,175,80,0.3)'
-                        : '0 10px 30px rgba(255,105,180,0.2)'
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.transform = 'none'
-                      e.currentTarget.style.boxShadow = 'none'
-                    }}
-                  >
-                    <span style={s.childAvatar}>{child.avatar}</span>
-                    <div style={s.childName}>{child.name}</div>
-                    <div style={s.childMeta}>
-                      {child.theme === 'minecraft' ? 'Minecraft' : 'Feerie'}
-                      {child.grade && ` • ${child.grade}`}
+              <>
+                {/* ── Per-child stats cards ── */}
+                <div style={s.childrenGrid}>
+                  {children.map((child) => {
+                    const stats = childStats[child.id] || {}
+                    const successRate = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0
+                    const totalDuration = Object.values(stats.subjects || {}).reduce((acc, sub) => acc + (sub.totalDuration || 0), 0)
+                    const isSelected = selectedStatsChild === child.id
+                    const themeColor = child.theme === 'minecraft' ? '#4CAF50' : '#FF69B4'
+
+                    return (
+                      <div
+                        key={child.id}
+                        style={{
+                          ...s.childCard(child.theme),
+                          outline: isSelected ? `2px solid ${themeColor}` : 'none',
+                          outlineOffset: '2px',
+                        }}
+                        onClick={() => setSelectedStatsChild(child.id)}
+                        onMouseOver={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-5px) scale(1.02)'
+                          e.currentTarget.style.boxShadow = child.theme === 'minecraft'
+                            ? '0 10px 30px rgba(76,175,80,0.3)'
+                            : '0 10px 30px rgba(255,105,180,0.2)'
+                        }}
+                        onMouseOut={(e) => {
+                          e.currentTarget.style.transform = 'none'
+                          e.currentTarget.style.boxShadow = 'none'
+                        }}
+                      >
+                        <span style={s.childAvatar}>{child.avatar}</span>
+                        <div style={s.childName}>{child.name}</div>
+                        <div style={s.childMeta}>
+                          {child.theme === 'minecraft' ? 'Minecraft' : 'Feerie'}
+                          {child.grade && ` \u2022 ${child.grade}`}
+                        </div>
+
+                        {/* Stats summary row */}
+                        <div style={{
+                          display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px',
+                          marginTop: '14px', textAlign: 'center',
+                        }}>
+                          <div style={{
+                            padding: '8px 4px', borderRadius: '10px',
+                            background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
+                          }}>
+                            <div style={{ fontFamily: "'Quicksand', sans-serif", fontSize: 'clamp(1rem, 2.5vw, 1.4rem)', fontWeight: '700', color: themeColor }}>
+                              {stats.total || 0}
+                            </div>
+                            <div style={{ fontFamily: "'Quicksand', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)' }}>
+                              Exercices
+                            </div>
+                          </div>
+                          <div style={{
+                            padding: '8px 4px', borderRadius: '10px',
+                            background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
+                          }}>
+                            <div style={{ fontFamily: "'Quicksand', sans-serif", fontSize: 'clamp(1rem, 2.5vw, 1.4rem)', fontWeight: '700', color: successRate >= 70 ? '#2ECC71' : successRate >= 40 ? '#F1C40F' : '#E74C3C' }}>
+                              {successRate}%
+                            </div>
+                            <div style={{ fontFamily: "'Quicksand', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)' }}>
+                              Reussite
+                            </div>
+                          </div>
+                          <div style={{
+                            padding: '8px 4px', borderRadius: '10px',
+                            background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
+                          }}>
+                            <div style={{ fontFamily: "'Quicksand', sans-serif", fontSize: 'clamp(1rem, 2.5vw, 1.4rem)', fontWeight: '700', color: themeColor }}>
+                              {stats.streak || 0}
+                            </div>
+                            <div style={{ fontFamily: "'Quicksand', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)' }}>
+                              Serie
+                            </div>
+                          </div>
+                          <div style={{
+                            padding: '8px 4px', borderRadius: '10px',
+                            background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
+                          }}>
+                            <div style={{ fontFamily: "'Quicksand', sans-serif", fontSize: 'clamp(0.75rem, 2vw, 1rem)', fontWeight: '700', color: themeColor }}>
+                              {formatDuration(totalDuration)}
+                            </div>
+                            <div style={{ fontFamily: "'Quicksand', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)' }}>
+                              Temps
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Mini subject bar chart */}
+                        {stats.subjects && Object.keys(stats.subjects).length > 0 && (
+                          <div style={{ marginTop: '12px' }}>
+                            {Object.entries(stats.subjects).map(([subj, data]) => {
+                              const maxTotal = Math.max(...Object.values(stats.subjects).map(sub => sub.total))
+                              const pct = maxTotal > 0 ? (data.total / maxTotal) * 100 : 0
+                              const sc = subjectColors[subj] || subjectColors.math
+                              return (
+                                <div key={subj} style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px' }}>
+                                  <div style={{ fontFamily: "'Quicksand', sans-serif", fontSize: '0.6rem', color: 'rgba(255,255,255,0.5)', width: '18px', textAlign: 'center' }}>
+                                    {subjectIcons[subj] || '\u{1F4DA}'}
+                                  </div>
+                                  <div style={{ flex: 1, height: '6px', borderRadius: '3px', background: 'rgba(255,255,255,0.08)', overflow: 'hidden' }}>
+                                    <div style={{ width: `${pct}%`, height: '100%', borderRadius: '3px', background: sc.color, transition: 'width 0.5s ease' }} />
+                                  </div>
+                                  <div style={{ fontFamily: "'Quicksand', sans-serif", fontSize: '0.55rem', color: 'rgba(255,255,255,0.4)', width: '20px', textAlign: 'right' }}>
+                                    {data.total}
+                                  </div>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        )}
+
+                        <button
+                          style={{ ...s.childPlayBtn, marginTop: '14px' }}
+                          onClick={(e) => { e.stopPropagation(); onSelectChild(child); }}
+                        >
+                          Commencer
+                        </button>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {/* ── Subject breakdown for selected child ── */}
+                {selectedStatsChild && childStats[selectedStatsChild] && (
+                  <div style={{
+                    padding: '24px', borderRadius: '20px',
+                    background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+                    backdropFilter: 'blur(10px)', marginBottom: '20px',
+                  }}>
+                    <div style={{
+                      fontFamily: "'Quicksand', sans-serif", fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
+                      fontWeight: '700', color: 'white', marginBottom: '18px',
+                    }}>
+                      Progression par matiere — {children.find(c => c.id === selectedStatsChild)?.name || ''}
                     </div>
-                    <button
-                      style={s.childPlayBtn}
-                      onClick={() => onSelectChild(child)}
-                    >
-                      Commencer
-                    </button>
+
+                    {(() => {
+                      const stats = childStats[selectedStatsChild]
+                      const allSubjects = ['math', 'french', 'history', 'geography', 'science', 'english', 'art']
+                      const maxExercises = Math.max(1, ...allSubjects.map(subj => (stats.subjects?.[subj]?.total || 0)))
+
+                      return allSubjects.map((subj) => {
+                        const data = stats.subjects?.[subj] || { total: 0, correct: 0, totalDuration: 0 }
+                        const sc = subjectColors[subj] || subjectColors.math
+                        const pct = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0
+                        const barWidth = maxExercises > 0 ? (data.total / maxExercises) * 100 : 0
+
+                        return (
+                          <div key={subj} style={{ marginBottom: '14px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <span style={{ fontSize: '1rem' }}>{subjectIcons[subj] || '\u{1F4DA}'}</span>
+                                <span style={{ fontFamily: "'Quicksand', sans-serif", fontSize: '0.85rem', fontWeight: '600', color: sc.color }}>
+                                  {subjectLabels[subj] || subj}
+                                </span>
+                              </div>
+                              <div style={{ fontFamily: "'Quicksand', sans-serif", fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)' }}>
+                                {data.correct}/{data.total} — {pct}%
+                              </div>
+                            </div>
+                            <div style={{
+                              height: '10px', borderRadius: '5px',
+                              background: 'rgba(255,255,255,0.08)', overflow: 'hidden',
+                            }}>
+                              <div style={{
+                                height: '100%', borderRadius: '5px',
+                                background: `linear-gradient(90deg, ${sc.color}, ${sc.color}aa)`,
+                                width: `${barWidth}%`,
+                                transition: 'width 0.6s ease',
+                              }} />
+                            </div>
+                          </div>
+                        )
+                      })
+                    })()}
                   </div>
-                ))}
-              </div>
+                )}
+
+                {/* ── Recent activity for selected child ── */}
+                {selectedStatsChild && childRecent[selectedStatsChild]?.length > 0 && (
+                  <div style={{
+                    padding: '24px', borderRadius: '20px',
+                    background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+                    backdropFilter: 'blur(10px)', marginBottom: '20px',
+                  }}>
+                    <div style={{
+                      fontFamily: "'Quicksand', sans-serif", fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
+                      fontWeight: '700', color: 'white', marginBottom: '16px',
+                    }}>
+                      Activite recente
+                    </div>
+
+                    {childRecent[selectedStatsChild].map((ex, i) => {
+                      const sc = subjectColors[ex.subject] || subjectColors.math
+                      return (
+                        <div key={i} style={{
+                          display: 'flex', alignItems: 'center', gap: '12px',
+                          padding: '10px 14px', borderRadius: '12px',
+                          background: i % 2 === 0 ? 'rgba(255,255,255,0.03)' : 'transparent',
+                          marginBottom: '2px',
+                        }}>
+                          <div style={{
+                            width: '28px', height: '28px', borderRadius: '8px',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            background: ex.isCorrect ? 'rgba(46,204,113,0.15)' : 'rgba(231,76,60,0.15)',
+                            fontSize: '0.85rem', flexShrink: 0,
+                          }}>
+                            {ex.isCorrect ? '\u2713' : '\u2717'}
+                          </div>
+                          <div style={{
+                            width: '22px', textAlign: 'center', fontSize: '0.85rem', flexShrink: 0,
+                          }}>
+                            {subjectIcons[ex.subject] || '\u{1F4DA}'}
+                          </div>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{
+                              fontFamily: "'Quicksand', sans-serif", fontSize: '0.8rem', fontWeight: '600',
+                              color: 'white', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                            }}>
+                              {ex.question || ex.levelName || subjectLabels[ex.subject] || ex.subject}
+                            </div>
+                            <div style={{
+                              fontFamily: "'Quicksand', sans-serif", fontSize: '0.65rem',
+                              color: 'rgba(255,255,255,0.4)',
+                            }}>
+                              {subjectLabels[ex.subject] || ex.subject}{ex.grade ? ` \u2022 ${ex.grade}` : ''}
+                            </div>
+                          </div>
+                          <div style={{
+                            fontFamily: "'Quicksand', sans-serif", fontSize: '0.65rem',
+                            color: 'rgba(255,255,255,0.35)', textAlign: 'right', flexShrink: 0,
+                          }}>
+                            {formatRelativeDate(ex.timestamp)}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+
+                {/* Loading indicator for stats */}
+                {statsLoading && (
+                  <div style={{
+                    textAlign: 'center', padding: '20px',
+                    fontFamily: "'Quicksand', sans-serif", fontSize: '0.85rem',
+                    color: 'rgba(255,255,255,0.4)',
+                  }}>
+                    Chargement des statistiques...
+                  </div>
+                )}
+              </>
             )}
           </div>
         )}
