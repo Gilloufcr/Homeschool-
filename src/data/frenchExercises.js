@@ -18,6 +18,7 @@ export const frenchLevels = [
       { id: 'fce2-1-5', type: 'choice', question: 'C\'est la fete chez les lutins ! Tu ___ un gateau geant pour ton anniversaire. Quel verbe ?', answer: 'prepares', options: ['prepare', 'prepares', 'preparent', 'preparez'], xp: 15 },
       { id: 'fce2-1-fb1', type: 'fill-blank', question: 'Complete la phrase avec le bon mot !', sentence: 'Le verbe s\'accorde toujours avec le ___.', blanks: ['sujet'], wordBank: ['sujet', 'complement', 'adjectif', 'adverbe'], xp: 15 },
       { id: 'fce2-1-m1', type: 'matching', question: 'Relie chaque mot a son synonyme !', pairs: [{ left: 'content', right: 'heureux' }, { left: 'rapide', right: 'vite' }, { left: 'joli', right: 'beau' }, { left: 'triste', right: 'malheureux' }], xp: 15 },
+      { id: 'fce2-1-t1', type: 'timed', question: 'Conjugaison rapide !', challenges: [{ q: 'Je ___ (manger) au present', answer: 'mange', options: ['mange', 'manges', 'mangent', 'mangez'] }, { q: 'Tu ___ (finir) au present', answer: 'finis', options: ['fini', 'finis', 'finit', 'finissez'] }, { q: 'Il ___ (etre) content', answer: 'est', options: ['es', 'est', 'ai', 'a'] }, { q: 'Nous ___ (avoir) faim', answer: 'avons', options: ['avons', 'avez', 'ont', 'as'] }, { q: 'Ils ___ (aller) au parc', answer: 'vont', options: ['va', 'vont', 'allons', 'allez'] }], timeLimit: 50, xp: 25 },
     ],
   },
   {

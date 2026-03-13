@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import confetti from 'canvas-confetti'
 import { recordExercise } from '../api'
+import { playCorrect, playWrong } from '../utils/sounds'
 import MatchingGame from './games/MatchingGame'
 import MemoryGame from './games/MemoryGame'
 import OrderingGame from './games/OrderingGame'
@@ -8,8 +9,9 @@ import FillBlankGame from './games/FillBlankGame'
 import ListeningGame from './games/ListeningGame'
 import SpeakingGame from './games/SpeakingGame'
 import ColoringGame from './games/ColoringGame'
+import TimedChallenge from './games/TimedChallenge'
 
-const GAME_TYPES = { matching: MatchingGame, memory: MemoryGame, ordering: OrderingGame, 'fill-blank': FillBlankGame, listening: ListeningGame, speaking: SpeakingGame, coloring: ColoringGame }
+const GAME_TYPES = { matching: MatchingGame, memory: MemoryGame, ordering: OrderingGame, 'fill-blank': FillBlankGame, listening: ListeningGame, speaking: SpeakingGame, coloring: ColoringGame, timed: TimedChallenge }
 
 // Highlight keywords in a question string
 function highlightText(text, isMinecraft) {
@@ -117,9 +119,16 @@ export default function ExerciseCard({
             : ['#FF69B4', '#9B59B6', '#5DADE2', '#FFD700'],
         })
       }
+      if (!(hasA11y && a11y.reduceAnimations)) {
+        playCorrect()
+      }
       setTimeout(() => {
         onComplete(exercise.id, exercise.xp)
       }, 1200)
+    } else {
+      if (!(hasA11y && a11y.reduceAnimations)) {
+        playWrong()
+      }
     }
   }, [showResult, exercise, onComplete, isMinecraft, childId, childGrade, subject, levelName, hasA11y, a11y])
 

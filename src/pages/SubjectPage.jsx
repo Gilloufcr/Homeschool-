@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import LevelMap from '../components/LevelMap'
 import LessonView from '../components/LessonView'
 import ExerciseCard from '../components/ExerciseCard'
+import MedalDisplay from '../components/MedalDisplay'
 import XPBar from '../components/XPBar'
 import LanguageResources from '../components/LanguageResources'
 import VideoResources from '../components/VideoResources'
@@ -9,6 +10,7 @@ import Timeline from '../components/Timeline'
 import ExperimentGuide from '../components/ExperimentGuide'
 import { timelineData } from '../data/timelineData'
 import { experiments } from '../data/experimentData'
+import { playCorrect, playLevelComplete } from '../utils/sounds'
 
 const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, onOpenMap }) => {
   const [selectedLevel, setSelectedLevel] = useState(null)
@@ -17,6 +19,8 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, o
   const [showEncouragement, setShowEncouragement] = useState(false)
   const [consecutiveCorrect, setConsecutiveCorrect] = useState(0)
   const [showExperiment, setShowExperiment] = useState(false)
+  const [correctCount, setCorrectCount] = useState(0)
+  const [showMedal, setShowMedal] = useState(false)
 
   const isMinecraft = profile.theme === 'minecraft'
   const font = "'Quicksand', sans-serif"
@@ -48,17 +52,34 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, o
     setCurrentExIdx(0)
     setShowLesson(!!level.lesson)
     setConsecutiveCorrect(0)
+    setCorrectCount(0)
+    setShowMedal(false)
   }
 
   const handleExerciseComplete = (exerciseId, xp) => {
     onComplete(exerciseId, xp, subject)
-    const newCount = consecutiveCorrect + 1
-    setConsecutiveCorrect(newCount)
+    const newConsecutive = consecutiveCorrect + 1
+    setConsecutiveCorrect(newConsecutive)
+
+    // Track correct answers for medal
+    const newCorrectCount = correctCount + 1
+    setCorrectCount(newCorrectCount)
+
+    // Play correct sound (for game components that don't play it themselves)
+    const a11yCheck = profile.accessibility || {}
+    const reduceAnim = a11yCheck.enabled && a11yCheck.reduceAnimations
+    if (!reduceAnim) {
+      playCorrect()
+    }
 
     setTimeout(() => {
-      if (selectedLevel && currentExIdx < selectedLevel.exercises.length - 1) {
-        // Show encouragement break every 3 exercises for TND profiles
-        if (needsEncouragement && newCount > 0 && newCount % 3 === 0) {
+      if (selectedLevel) {
+        const isLastExercise = currentExIdx >= selectedLevel.exercises.length - 1
+        if (isLastExercise) {
+          // All exercises done -> show medal
+          playLevelComplete()
+          setShowMedal(true)
+        } else if (needsEncouragement && newConsecutive > 0 && newConsecutive % 3 === 0) {
           setShowEncouragement(true)
         } else {
           setCurrentExIdx(prev => prev + 1)
@@ -136,6 +157,31 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, o
           <LessonView lesson={selectedLevel.lesson} theme={profile.theme}
             accessibility={profile.accessibility}
             onStartExercises={() => setShowLesson(false)} />
+        </div>
+      </div>
+    )
+  }
+
+  // Medal view - shown when all exercises in a level are completed
+  if (selectedLevel && showMedal) {
+    const levelName = isMinecraft ? selectedLevel.nameMinecraft : selectedLevel.nameLalilo
+    return (
+      <div style={pageStyle}>
+        <div style={bgStyle} />
+        <div className="exercise-area" style={{ position: 'relative', zIndex: 1 }}>
+          <XPBar xp={progress.xp} level={progress.level} theme={profile.theme} />
+          <div style={{ ...titleStyle, marginTop: '15px' }}>{levelName}</div>
+          <MedalDisplay
+            score={correctCount}
+            total={selectedLevel.exercises.length}
+            theme={profile.theme}
+            onContinue={() => {
+              setSelectedLevel(null)
+              setShowMedal(false)
+              setCurrentExIdx(0)
+              setCorrectCount(0)
+            }}
+          />
         </div>
       </div>
     )

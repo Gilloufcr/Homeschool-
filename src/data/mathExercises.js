@@ -18,6 +18,7 @@ export const mathLevels = [
       { id: 'mce2-1-5', type: 'calculate', question: 'Tu as 3 405 pieces d\'or dans ton coffre. Tu sais que c\'est 3 000 + ___ + 5. Combien manque-t-il au milieu ?', answer: 400, options: [40, 400, 4000, 45], xp: 15 },
       { id: 'mce2-1-m1', type: 'matching', question: 'Relie chaque operation a son resultat !', pairs: [{ left: '5 + 3', right: '8' }, { left: '10 - 4', right: '6' }, { left: '3 x 3', right: '9' }, { left: '12 / 2', right: '6' }], xp: 15 },
       { id: 'mce2-1-mm1', type: 'memory', question: 'Retrouve les paires de calculs et resultats !', pairs: [{ front: '7 + 5', back: '12' }, { front: '4 x 3', back: '12' }, { front: '20 - 8', back: '12' }, { front: '9 + 6', back: '15' }], xp: 20 },
+      { id: 'mce2-1-t1', type: 'timed', question: 'Calcul mental - Reponds vite !', challenges: [{ q: '5 + 3', answer: '8', options: ['7', '8', '9', '6'] }, { q: '12 - 4', answer: '8', options: ['6', '7', '8', '9'] }, { q: '3 x 4', answer: '12', options: ['10', '12', '14', '9'] }, { q: '20 / 5', answer: '4', options: ['3', '4', '5', '6'] }, { q: '15 + 7', answer: '22', options: ['21', '22', '23', '20'] }], timeLimit: 45, xp: 25 },
     ],
   },
   {
@@ -94,6 +95,7 @@ export const mathLevels = [
       { id: 'mcm1-1-5', type: 'choice', question: 'Trois vaisseaux spatiaux ont parcouru 678 900 km, 679 000 km et 670 999 km. Range ces distances du plus petit au plus grand.', answer: '670 999 - 678 900 - 679 000', options: ['670 999 - 678 900 - 679 000', '678 900 - 670 999 - 679 000', '679 000 - 678 900 - 670 999', '670 999 - 679 000 - 678 900'], xp: 15 },
       { id: 'mcm1-1-m1', type: 'matching', question: 'Relie chaque nombre a son ecriture en lettres !', pairs: [{ left: '150 000', right: 'cent cinquante mille' }, { left: '305 000', right: 'trois cent cinq mille' }, { left: '999 999', right: 'neuf cent quatre-vingt-dix-neuf mille neuf cent quatre-vingt-dix-neuf' }, { left: '400 200', right: 'quatre cent mille deux cents' }], xp: 15 },
       { id: 'mcm1-1-mm1', type: 'memory', question: 'Retrouve les paires de nombres et leur decomposition !', pairs: [{ front: '45 000', back: '4 x 10 000 + 5 x 1 000' }, { front: '123 000', back: '1 x 100 000 + 2 x 10 000 + 3 x 1 000' }, { front: '500 500', back: '5 x 100 000 + 5 x 100' }, { front: '70 070', back: '7 x 10 000 + 7 x 10' }], xp: 20 },
+      { id: 'mcm1-1-t1', type: 'timed', question: 'Calcul rapide - Grands nombres !', challenges: [{ q: '250 + 750', answer: '1000', options: ['900', '1000', '1100', '950'] }, { q: '1200 - 300', answer: '900', options: ['800', '900', '1000', '700'] }, { q: '25 x 4', answer: '100', options: ['75', '100', '125', '80'] }, { q: '600 / 3', answer: '200', options: ['150', '200', '300', '100'] }, { q: '450 + 550', answer: '1000', options: ['900', '950', '1000', '1050'] }], timeLimit: 40, xp: 25 },
     ],
   },
   {
