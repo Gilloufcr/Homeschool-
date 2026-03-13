@@ -41,7 +41,7 @@ function loadDyslexicFont() {
 
 export default function ExerciseCard({
   exercise, theme, onComplete, isCompleted,
-  accessibility, childId, childGrade, subject, levelName
+  accessibility, childId, childGrade, subject, levelName, onWrong
 }) {
   const [selectedAnswer, setSelectedAnswer] = useState(null)
   const [showResult, setShowResult] = useState(false)
@@ -129,6 +129,7 @@ export default function ExerciseCard({
       if (!(hasA11y && a11y.reduceAnimations)) {
         playWrong()
       }
+      if (onWrong) onWrong()
     }
   }, [showResult, exercise, onComplete, isMinecraft, childId, childGrade, subject, levelName, hasA11y, a11y])
 
@@ -327,7 +328,18 @@ export default function ExerciseCard({
               }
             }}
           >
-            {isMinecraft ? `[${idx + 1}] ` : ''}{String(option)}
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', gap: '10px', width: '100%',
+            }}>
+              <span style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                width: '28px', height: '28px', borderRadius: isMinecraft ? '4px' : '50%',
+                background: isMinecraft ? 'rgba(255,215,0,0.2)' : 'rgba(155,89,182,0.1)',
+                color: isMinecraft ? '#FFD700' : '#9B59B6',
+                fontSize: '0.8em', fontWeight: '800', flexShrink: 0,
+              }}>{idx + 1}</span>
+              <span>{String(option)}</span>
+            </span>
           </button>
         ))}
       </div>
@@ -352,7 +364,15 @@ export default function ExerciseCard({
           lineHeight,
         }}>
           {isCorrect
-            ? (isMinecraft ? '+' + exercise.xp + ' XP ! GG !' : 'Bravo ! +' + exercise.xp + ' XP')
+            ? (<>
+                <span>{isMinecraft ? 'GG !' : 'Bravo !'}</span>
+                <span style={{
+                  display: 'inline-block',
+                  marginLeft: '8px',
+                  color: isMinecraft ? '#FFD700' : '#E67E22',
+                  animation: (hasA11y && a11y.reduceAnimations) ? 'none' : 'bounceIn 0.5s ease-out',
+                }}>+{exercise.xp} XP</span>
+              </>)
             : (isMinecraft ? 'RATE... REESSAYE !' : 'Oups ! Essaie encore !')
           }
           {showResult && isCorrect && exercise.explanation && (

@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import LevelMap from '../components/LevelMap'
 import LessonView from '../components/LessonView'
 import ExerciseCard from '../components/ExerciseCard'
+import ProgressBar from '../components/ProgressBar'
 import MedalDisplay from '../components/MedalDisplay'
 import XPBar from '../components/XPBar'
 import LanguageResources from '../components/LanguageResources'
@@ -21,6 +22,7 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, o
   const [showExperiment, setShowExperiment] = useState(false)
   const [correctCount, setCorrectCount] = useState(0)
   const [showMedal, setShowMedal] = useState(false)
+  const [streak, setStreak] = useState(0)
 
   const isMinecraft = profile.theme === 'minecraft'
   const font = "'Quicksand', sans-serif"
@@ -64,6 +66,8 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, o
     // Track correct answers for medal
     const newCorrectCount = correctCount + 1
     setCorrectCount(newCorrectCount)
+    const newStreak = streak + 1
+    setStreak(newStreak)
 
     // Play correct sound (for game components that don't play it themselves)
     const a11yCheck = profile.accessibility || {}
@@ -86,6 +90,10 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, o
         }
       }
     }, 1500)
+  }
+
+  const handleExerciseWrong = () => {
+    setStreak(0)
   }
 
   const pageStyle = {
@@ -235,6 +243,15 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, o
           <XPBar xp={progress.xp} level={progress.level} theme={profile.theme} />
           <div style={{ ...titleStyle, marginTop: '15px' }}>{levelName}</div>
 
+          {/* Progress bar */}
+          <ProgressBar
+            current={selectedLevel.exercises.filter(ex => progress.completedExercises.includes(ex.id)).length}
+            total={selectedLevel.exercises.length}
+            theme={profile.theme}
+            streak={streak}
+            reduceAnimations={hasA11y && a11y.reduceAnimations}
+          />
+
           {/* Exercise nav dots */}
           <div style={{
             display: 'flex', justifyContent: 'center',
@@ -306,9 +323,13 @@ const SubjectPage = ({ profile, subject, levels, progress, onComplete, onBack, o
             </div>
           )}
 
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div key={`ex-${exercise.id}`} style={{
+            display: 'flex', justifyContent: 'center',
+            animation: (hasA11y && a11y.reduceAnimations) ? 'none' : 'slideIn 0.3s ease-out',
+          }}>
             <ExerciseCard key={exercise.id} exercise={exercise} theme={profile.theme}
               onComplete={handleExerciseComplete}
+              onWrong={handleExerciseWrong}
               isCompleted={progress.completedExercises.includes(exercise.id)}
               accessibility={profile.accessibility}
               childId={profile.id}
