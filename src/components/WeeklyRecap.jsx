@@ -76,7 +76,8 @@ export default function WeeklyRecap({ progress, theme, childName, onDismiss }) {
   const bestStreak = data.bestStreak || progress?.streak || 0
   const days = data.days || [0, 0, 0, 0, 0, 0, 0]
   const daysPlayed = days.filter(d => d > 0).length
-  const medals = progress?.medals || 0
+  const medalsObj = progress?.medals || {}
+  const medals = typeof medalsObj === 'object' ? Object.keys(medalsObj).length : 0
   const grade = getGrade(weekExercises)
 
   const cardStyle = {
